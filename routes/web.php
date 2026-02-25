@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-
-Route::get('/', function () { return view('admin.dashboard'); });
+Route::get('/', function () { return view('user.home'); });
+Route::get('/dashboard', function () { return view('admin.dashboard'); });
 Route::get('/profil', function () { return view('admin.profil'); });
 Route::get('/layanan', function () { return view('admin.layanan'); });
 Route::get('/proyek', function () { return view('admin.proyek'); });
@@ -14,8 +14,8 @@ Route::get('/keamanan', function () { return view('admin.security'); });
 
 
 
-// Rute untuk USER (Landing Page)
-Route::name('user.')->prefix('user')->group(function () {
+// Rute untuk USER (Landing Page) - Tanpa Prefix
+Route::name('user.')->group(function () {
     Route::get('/home', function () {
         return view('user.home');
     })->name('home'); 
@@ -26,8 +26,38 @@ Route::name('user.')->prefix('user')->group(function () {
 });
 
 
-
 // Rute untuk halaman login
 Route::get('/login', function () {
-    return view('login'); // Ini akan memanggil resources/views/login.blade.php
+    return view('user.login'); 
 })->name('login');
+
+// Rute untuk halaman register
+Route::get('/register', function () {
+    return view('user.register'); 
+})->name('register');
+
+// Rute untuk halaman verification
+Route::get('/verification', function () {
+    return view('user.verification'); 
+})->name('verification');
+
+//Rute untuk Halaman Verifikasi email berhasil
+Route::get('/verification-success', function () {
+    return view('user.verification-success'); 
+})->name('verification-success');
+
+//Rute untuk Halaman Reset Password
+Route::get('/reset-password', function () {
+    return view('user.reset-password'); 
+})->name('reset-password');
+
+//Rute untuk Halaman Reset Password Email
+Route::get('/reset-password-email', function () {
+    return view('user.reset-password-email'); 
+})->name('reset-password-email');
+
+//rute untuk halaman verifikasi password berhasil
+Route::get('/verification-password-success', function () {
+    return view('user.verification-password-success'); 
+})->name('verification-password-success');
+
