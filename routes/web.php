@@ -1,12 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProjectController;
 
 Route::get('/', function () { return view('user.home'); });
 Route::get('/dashboard', function () { return view('admin.dashboard'); });
 Route::get('/profil', function () { return view('admin.profil'); });
 Route::get('/layanan', function () { return view('admin.layanan'); });
-Route::get('/proyek', function () { return view('admin.proyek'); });
+
+// Proyek Admin
+Route::get('/proyek', [ProjectController::class, 'index'])->name('proyek.index');
+Route::post('/proyek', [ProjectController::class, 'store'])->name('proyek.store');
+Route::put('/proyek/{id}', [ProjectController::class, 'update'])->name('proyek.update');
+Route::delete('/proyek/{id}', [ProjectController::class, 'destroy'])->name('proyek.destroy');
+
 Route::get('/users', function () { return view('admin.users'); });
 Route::get('/pesan', function () { return view('admin.pesan'); });
 Route::get('/laporan-pembayaran', function () { return view('admin.laporanpembayaran'); });
