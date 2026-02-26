@@ -30,6 +30,18 @@ Route::name('user.')->group(function () {
     Route::get('/about', function () {
         return view('user.about');
     })->name('about'); 
+
+    Route::get('/service', function () {
+        return view('user.service');
+    })->name('service');
+
+    Route::get('/project', function () {
+        return view('user.project');
+    })->name('project');
+
+    Route::get('/contact', function () {
+        return view('user.contact-person');
+    })->name('contact');
 });
 
 
@@ -67,4 +79,6 @@ Route::get('/reset-password-email', function () {
 Route::get('/verification-password-success', function () {
     return view('user.verification-password-success'); 
 })->name('verification-password-success');
+
+
 
