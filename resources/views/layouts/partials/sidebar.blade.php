@@ -6,7 +6,7 @@
                 
                 <!-- 1. Dashboard -->
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">
+                    <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/dashboard') }}">
                         <i class="bi bi-speedometer2"></i>
                         <span>Dashboard</span>
                     </a>

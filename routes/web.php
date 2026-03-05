@@ -2,11 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ServiceController;
 
 Route::get('/', function () { return view('user.home'); });
 Route::get('/dashboard', function () { return view('admin.dashboard'); });
 Route::get('/profil', function () { return view('admin.profil'); });
-Route::get('/layanan', function () { return view('admin.layanan'); });
+
+Route::get('/layanan', [ServiceController::class, 'index'])->name('layanan.index');
+Route::post('/layanan', [ServiceController::class, 'store'])->name('layanan.store');
+Route::put('/layanan/{id}', [ServiceController::class, 'update'])->name('layanan.update');
+Route::delete('/layanan/{id}', [ServiceController::class, 'destroy'])->name('layanan.destroy');
 
 // Proyek Admin
 Route::get('/proyek', [ProjectController::class, 'index'])->name('proyek.index');

@@ -24,7 +24,8 @@
                 { id: 1, name: 'Tangguh Admin', email: 'admin@jayra.com', role: 'Admin', status: 'Online' },
                 { id: 2, name: 'Ahmad User', email: 'ahmad@gmail.com', role: 'User', status: 'Offline' },
                 { id: 3, name: 'Siti Klien', email: 'siti@perusahaan.com', role: 'User', status: 'Online' },
-                { id: 4, name: 'Rendi Staff', email: 'rendi@jayra.com', role: 'Admin', status: 'Online' }
+                { id: 4, name: 'Rendi Staff', email: 'rendi@jayra.com', role: 'Admin', status: 'Online' },
+                 { id: 5, name: 'Rendo Staff', email: 'rendo@jayra.com', role: 'Admin', status: 'Online' }
             ] 
         }">
             <div class="row g-4">
