@@ -33,7 +33,20 @@
     </style>
 
 <div class="container-fluid p-4 p-lg-4">
-                    
+  <!-- Notifikasi Modern -->
+    @if(session('success'))
+    <div x-data="{ show: true }" 
+        x-init="setTimeout(() => show = false, 5000)" 
+        x-show="show" 
+        x-transition.duration.1000ms
+        id="success-alert" 
+        class="alert alert-success border-0 shadow-sm mb-4 alert-dismissible fade show" 
+        role="alert">
+        
+        <i class="bi bi-check-circle me-2"></i> {{ session('success') }}
+            <button type="button" class="btn-close" @click="show = false" aria-label="Close"></button>
+        </div>
+    @endif                  
                     <!-- Page Header -->
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <div>

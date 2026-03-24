@@ -54,8 +54,8 @@
                                     data-bs-toggle="tooltip"
                                     data-bs-placement="bottom"
                                     title="Toggle theme">
-                                <i class="bi bi-sun-fill" x-show="currentTheme === 'light'"></i>
-                                <i class="bi bi-moon-fill" x-show="currentTheme === 'dark'"></i>
+                                <i class="bi bi-sun-fill" x-show="currentTheme === 'light'" x-cloak></i>
+                                <i class="bi bi-moon-fill" x-show="currentTheme === 'dark'" x-cloak></i>
                             </button>
                         </div>
 
