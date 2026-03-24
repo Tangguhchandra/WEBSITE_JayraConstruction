@@ -4,224 +4,242 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verifikasi Email - Jayra Construction</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background-color: #F8F9FB;
-        }
-        
-        .bg-marble {
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-        }
-
-        /* Custom Animations */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.9); }
-            70% { transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes pulseSoft {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(21, 49, 91, 0.4); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(21, 49, 91, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(21, 49, 91, 0); }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* Animation Classes */
-        .animate-fade-up { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-pop-in { animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .pulse-soft:focus { animation: pulseSoft 0.8s ease-out; }
-        
-        /* Staggered Delays */
-        .delay-100 { animation-delay: 100ms; opacity: 0; }
-        .delay-200 { animation-delay: 200ms; opacity: 0; }
-        .delay-300 { animation-delay: 300ms; opacity: 0; }
-        .delay-400 { animation-delay: 400ms; opacity: 0; }
-        .delay-500 { animation-delay: 500ms; opacity: 0; }
-        
-        /* Interactive Enhancements */
-        .btn-hover-effect {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-hover-effect:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 25px -5px rgba(21, 49, 91, 0.3);
-        }
-        .btn-hover-effect:active {
-            transform: translateY(1px);
-        }
-
-        .input-effect {
-            transition: all 0.2s ease-out;
-        }
-        .input-effect:focus {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px -5px rgba(21, 49, 91, 0.2);
-        }
-    </style>
-    <!-- Fallback if Vite is not running -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        navy: '#15315B',
-                        yellowcard: '#EFC123',
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
                     },
-                    boxShadow: {
-                        'card': '0 15px 40px -10px rgba(0,0,0,0.1)',
+                    colors: {
+                        primary: '#10375C',
+                        primaryDark: '#0b2742',
+                        accent: '#F3C623',
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
                     }
                 }
             }
         }
     </script>
-</head>
-<body class="flex items-center justify-center min-h-screen relative overflow-hidden bg-[#F4F5F8]">
-    
-    <!-- Pattern Background mimicking Marbled texture -->
-    <div class="absolute inset-0 w-full h-full z-0 opacity-40 bg-marble mix-blend-multiply pointer-events-none"></div>
 
-    <!-- Soft radial gradients for texture depth (Animated Float) -->
-    <div class="absolute w-[800px] h-[800px] bg-white opacity-40 rounded-full blur-3xl -top-40 -left-40 z-0 animate-float"></div>
-    <div class="absolute w-[600px] h-[600px] bg-white opacity-40 rounded-full blur-3xl -bottom-20 -right-20 z-0 animate-float" style="animation-delay: -3s;"></div>
-
-    <div class="w-full max-w-[950px] px-5 z-10 flex flex-col items-center">
-        <!-- Text Header -->
-        <h1 class="text-[38px] sm:text-[44px] font-[800] text-navy mb-1 tracking-tight text-center drop-shadow-sm leading-tight mt-[-20px] animate-fade-up">Verifikasi Email</h1>
-        <p class="text-[17px] sm:text-[19px] text-navy font-semibold mb-12 text-center opacity-90 animate-fade-up delay-100">Masukan Kode Email Anda</p>
+    <style>
+        body { 
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 32px 32px;
+            -webkit-font-smoothing: antialiased;
+        }
+        .opacity-0-initial { opacity: 0; }
         
-        <!-- Yellow Card Box -->
-        <!-- Wide yellow rectangle, generous padding -->
-        <div class="bg-[#F6C624] w-full rounded-[1.2rem] shadow-card py-16 px-6 sm:px-12 flex flex-col items-center relative overflow-hidden animate-fade-up delay-200 group">
-            
-            <!-- Subtle shimmer overlay -->
-            <div class="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 -z-0 pointer-events-none"></div>
+        /* Menghilangkan panah spinner pada input number OTP */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=text] {
+            -moz-appearance: textfield;
+            caret-color: #10375C; /* Warna kursor menyesuaikan primary color */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-hidden">
 
-            <h2 class="text-[1.3rem] font-[800] text-navy text-center mb-12 tracking-wide z-10 animate-fade-up delay-300">Kode Email</h2>
-            
-            <form action="#" method="POST" class="w-full flex flex-col items-center z-10">
-                <!-- Inputs Container (5 Boxes) -->
-                <div class="flex items-center justify-center gap-4 sm:gap-7 mb-16 px-2 w-full max-w-[600px]">
-                    <div class="animate-pop-in delay-300 flex-1 max-w-[90px]">
-                        <input type="text" maxlength="1" id="code-1" class="w-full aspect-square rounded-[18px] bg-[#F6F7FB] text-center text-[28px] sm:text-[34px] font-bold text-navy outline-none border-[2.5px] border-navy focus:bg-white input-effect pulse-soft shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]" autofocus>
-                    </div>
-                    <div class="animate-pop-in delay-400 flex-1 max-w-[90px]">
-                        <input type="text" maxlength="1" id="code-2" class="w-full aspect-square rounded-[18px] bg-[#F6F7FB] text-center text-[28px] sm:text-[34px] font-bold text-navy outline-none border-[2.5px] border-transparent focus:bg-white input-effect pulse-soft shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
-                    </div>
-                    <div class="animate-pop-in flex-1 max-w-[90px]" style="animation-delay: 500ms; opacity: 0;">
-                        <input type="text" maxlength="1" id="code-3" class="w-full aspect-square rounded-[18px] bg-[#F6F7FB] text-center text-[28px] sm:text-[34px] font-bold text-navy outline-none border-[2.5px] border-transparent focus:bg-white input-effect pulse-soft shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
-                    </div>
-                    <div class="animate-pop-in flex-1 max-w-[90px]" style="animation-delay: 600ms; opacity: 0;">
-                        <input type="text" maxlength="1" id="code-4" class="w-full aspect-square rounded-[18px] bg-[#F6F7FB] text-center text-[28px] sm:text-[34px] font-bold text-navy outline-none border-[2.5px] border-transparent focus:bg-white input-effect pulse-soft shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
-                    </div>
-                    <div class="animate-pop-in flex-1 max-w-[90px]" style="animation-delay: 700ms; opacity: 0;">
-                        <input type="text" maxlength="1" id="code-5" class="w-full aspect-square rounded-[18px] bg-[#F6F7FB] text-center text-[28px] sm:text-[34px] font-bold text-navy outline-none border-[2.5px] border-transparent focus:bg-white input-effect pulse-soft shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
-                    </div>
-                </div>
-                
-                <!-- Verify Button -->
-                <a href="{{ route('verification-success') }}" class="w-full max-w-[280px] inline-block text-center py-[14.5px] bg-navy text-white rounded-[12px] font-[700] text-[15.5px] btn-hover-effect mb-8 animate-fade-up" style="animation-delay: 800ms; opacity: 0;">
-                    Verify Now
-                </a>
-                
-                <!-- Resend Text -->
-                <!-- "Tidak Menerima Code? Kirim Ulang Kode" -->
-                <p class="text-[14px] text-navy font-[600] text-center mt-2 animate-fade-up" style="animation-delay: 900ms; opacity: 0;">
-                    Tidak Menerima Code? <a href="#" class="font-[800] underline hover:text-opacity-70 transition-colors cursor-pointer decoration-2 underline-offset-2">Kirim Ulang Kode</a>
-                </p>
-            </form>
-            
+    <div class="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-primary/5 blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-accent/10 blur-[120px] pointer-events-none"></div>
+
+    <div class="text-center mb-8 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.1s;">
+        <div class="flex justify-center mb-6">
+            <img src="{{ asset('assets/images/logo_website.svg') }}" alt="Jayra Logo" class="h-14 w-auto drop-shadow-sm transition-transform hover:scale-105">
         </div>
+        <h1 class="font-display text-4xl sm:text-5xl font-extrabold text-primary tracking-tight mb-3">Verifikasi Email</h1>
+        <p class="text-slate-500 font-medium text-sm sm:text-base max-w-md mx-auto">Masukan 5 digit kode keamanan yang telah kami kirimkan ke email Anda.</p>
     </div>
 
-    <!-- Script to handle OTP Input behavior seamlessly -->
-    <script>
-        const inputs = document.querySelectorAll('input[type="text"]');
+    <main class="w-full max-w-[540px] bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(16,55,92,0.12)] p-8 sm:p-12 relative z-10 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.2s;">
         
-        inputs.forEach((input, index) => {
-            // Enhanced visual class management
-            const activateInput = (el) => {
-                el.classList.remove('border-transparent', 'bg-[#F6F7FB]');
-                el.classList.add('border-navy', 'bg-white');
-            };
+        <div class="w-full mx-auto" x-data="otpLogic()">
             
-            const deactivateInput = (el) => {
-                el.classList.add('border-transparent', 'bg-[#F6F7FB]');
-                el.classList.remove('border-navy', 'bg-white');
-            };
-
-            // Focus style management
-            input.addEventListener('focus', () => activateInput(input));
-            
-            input.addEventListener('blur', () => {
-                if(!input.value) deactivateInput(input);
-            });
-
-            // Auto-advance logic
-            input.addEventListener('input', (e) => {
-                // Remove non-numeric chars if desired
-                // e.target.value = e.target.value.replace(/[^0-9]/g, '');
-
-                if (e.target.value.length === 1) {
-                    activateInput(input);
-                    if (index < inputs.length - 1) {
-                        inputs[index + 1].focus();
-                    }
-                }
-            });
-
-            // Backspace handling
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace') {
-                    if (input.value === '' && index > 0) {
-                        deactivateInput(inputs[index - 1]);
-                        inputs[index - 1].value = ''; // clears the previous input
-                        inputs[index - 1].focus();
-                    } else if (input.value !== '') {
-                        // User cleared current field
-                        input.value = '';
-                    }
-                }
-            });
-            
-            // Allow paste of exactly 5 digits
-            input.addEventListener('paste', (e) => {
-                e.preventDefault();
-                const pastedData = e.clipboardData.getData('text').trim();
-                const codeTokens = pastedData.substring(0, 5).split('');
+            <form action="#" method="POST" class="flex flex-col items-center">
+                @csrf
                 
-                if (codeTokens.length > 0) {
-                    inputs.forEach((inp, i) => {
-                        if (codeTokens[i]) {
-                            inp.value = codeTokens[i];
-                            activateInput(inp);
+                <h2 class="text-[13px] font-bold text-primary uppercase tracking-widest mb-6 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.3s;">
+                    Kode Email
+                </h2>
+
+                <div class="flex gap-2 sm:gap-4 justify-center mb-10 w-full opacity-0-initial animate-fade-in-up" style="animation-delay: 0.4s;">
+                    <template x-for="(_, index) in 5" :key="index">
+                        <input type="text" 
+                               :id="`otp-input-${index}`"
+                               maxlength="1" 
+                               inputmode="numeric"
+                               pattern="[0-9]*"
+                               autocomplete="one-time-code"
+                               x-model="otp[index]"
+                               @input="handleInput(index, $event)"
+                               @keydown="handleKeydown(index, $event)"
+                               @paste="handlePaste($event)"
+                               @focus="$event.target.select()" 
+                               class="w-14 h-16 sm:w-16 sm:h-20 text-center font-display text-3xl sm:text-4xl font-bold text-primary bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none shadow-inner"
+                               placeholder="·">
+                    </template>
+                </div>
+
+                <div class="w-full opacity-0-initial animate-fade-in-up" style="animation-delay: 0.5s;">
+                    <button type="submit" 
+                            class="w-full bg-primary text-white py-4 rounded-xl font-bold text-[15px] tracking-wide transition-all duration-300 hover:bg-primaryDark hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/30 flex items-center justify-center gap-3 group">
+                        Verify Now
+                        <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </button>
+                </div>
+
+                <div class="mt-8 text-center text-sm opacity-0-initial animate-fade-in-up" style="animation-delay: 0.6s;">
+                    <p class="text-slate-500 font-medium">
+                        Tidak Menerima Code? 
+                        
+                        <button type="button" 
+                                x-show="canResend" 
+                                @click="resendCode()"
+                                x-transition:enter="transition ease-out duration-300" 
+                                x-transition:enter-start="opacity-0 scale-95" 
+                                x-transition:enter-end="opacity-100 scale-100"
+                                class="font-bold text-primary hover:text-accent hover:underline underline-offset-4 decoration-2 transition-colors ml-1 focus:outline-none">
+                            Kirim Ulang Kode
+                        </button>
+
+                        <span x-show="!canResend" class="font-bold text-slate-400 ml-1">
+                            Tunggu <span x-text="timer" class="text-primary w-5 inline-block text-left"></span>s
+                        </span>
+                    </p>
+                </div>
+            </form>
+
+        </div>
+    </main>
+
+    <footer class="mt-10 text-center opacity-0-initial animate-fade-in-up" style="animation-delay: 0.7s;">
+        <p class="text-[11px] font-medium text-slate-400 tracking-widest uppercase">
+            &copy; 2026 Jayra Construction
+        </p>
+    </footer>
+
+    <script>
+        function otpLogic() {
+            return {
+                otp: ['', '', '', '', ''],
+                timer: 60,
+                canResend: false,
+                interval: null,
+                
+                init() {
+                    this.startTimer();
+                    // Fokus ke input pertama saat halaman termuat
+                    setTimeout(() => {
+                        this.focusInput(0);
+                    }, 800);
+                },
+
+                // Fungsi helper untuk memindahkan fokus dengan aman
+                focusInput(index) {
+                    const el = document.getElementById(`otp-input-${index}`);
+                    if (el) {
+                        el.focus();
+                        // Memberikan sedikit delay agar teks langsung ter-blok (auto-select)
+                        setTimeout(() => el.select(), 10);
+                    }
+                },
+
+                startTimer() {
+                    this.timer = 60;
+                    this.canResend = false;
+                    clearInterval(this.interval);
+                    
+                    this.interval = setInterval(() => {
+                        if (this.timer > 0) {
+                            this.timer--;
                         } else {
-                            inp.value = '';
-                            deactivateInput(inp);
+                            this.canResend = true;
+                            clearInterval(this.interval);
                         }
-                    });
-                    const focusIndex = Math.min(codeTokens.length, inputs.length - 1);
-                    inputs[focusIndex].focus();
+                    }, 1000);
+                },
+
+                resendCode() {
+                    console.log('Mengirim ulang kode...');
+                    this.startTimer();
+                    this.otp = ['', '', '', '', '']; // Kosongkan form
+                    this.focusInput(0); // Kembali ke awal
+                },
+
+                handleInput(index, event) {
+                    // Mencegah karakter non-angka
+                    const val = event.target.value.replace(/[^0-9]/g, '');
+                    this.otp[index] = val;
+                    
+                    // Pindah fokus ke kotak berikutnya jika kotak saat ini sudah terisi angka
+                    if (val && index < 4) {
+                        this.focusInput(index + 1);
+                    }
+                },
+
+                handleKeydown(index, event) {
+                    // LOGIKA 1: Smart Backspace
+                    if (event.key === 'Backspace') {
+                        // Jika kotak saat ini kosong dan bukan kotak pertama
+                        if (!this.otp[index] && index > 0) {
+                            event.preventDefault(); // Mencegah perilaku default browser
+                            this.otp[index - 1] = ''; // Kosongkan kotak sebelumnya
+                            this.focusInput(index - 1); // Pindahkan kursor ke kotak sebelumnya
+                        }
+                    } 
+                    // LOGIKA 2: Navigasi Keyboard Arrow Kiri
+                    else if (event.key === 'ArrowLeft' && index > 0) {
+                        event.preventDefault();
+                        this.focusInput(index - 1);
+                    } 
+                    // LOGIKA 3: Navigasi Keyboard Arrow Kanan
+                    else if (event.key === 'ArrowRight' && index < 4) {
+                        event.preventDefault();
+                        this.focusInput(index + 1);
+                    }
+                },
+
+                handlePaste(event) {
+                    event.preventDefault();
+                    // Ambil teks yang dipaste, buang huruf, sisakan hanya angka
+                    let paste = (event.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+                    
+                    if (paste.length > 0) {
+                        // Memasukkan angka satu per satu ke dalam array (maksimal 5 kotak)
+                        const pasteArray = paste.slice(0, 5).split('');
+                        pasteArray.forEach((char, i) => {
+                            if (i < 5) this.otp[i] = char;
+                        });
+                        
+                        // Otomatis fokus ke kotak terakhir yang terisi, atau kotak terakhir (ke-5)
+                        const focusIndex = Math.min(pasteArray.length, 4);
+                        this.focusInput(focusIndex);
+                    }
                 }
-            });
-        });
+            }
+        }
     </script>
 </body>
 </html>

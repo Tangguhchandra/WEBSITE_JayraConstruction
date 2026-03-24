@@ -3,176 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Jayra Construction</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <title>Registrasi - Jayra Construction</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <style>
-        body { font-family: 'Poppins', sans-serif; }
-        
-        /* Custom Animations */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* Animation Classes */
-        .animate-fade-up { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-scale-in { animation: scaleIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        
-        /* Staggered Delays */
-        .delay-100 { animation-delay: 100ms; opacity: 0; }
-        .delay-200 { animation-delay: 200ms; opacity: 0; }
-        .delay-300 { animation-delay: 300ms; opacity: 0; }
-        .delay-400 { animation-delay: 400ms; opacity: 0; }
-        .delay-500 { animation-delay: 500ms; opacity: 0; }
-        
-        /* Input & Button Transition Enhancements */
-        .input-focus-effect {
-            transition: all 0.3s ease;
-        }
-        .input-focus-effect:focus {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(21, 49, 91, 0.1);
-        }
-        
-        .btn-hover-effect {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-hover-effect:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px -5px rgba(21, 49, 91, 0.3);
-        }
-        .btn-hover-effect:active {
-            transform: translateY(1px);
-        }
-    </style>
-    <!-- Fallback if Vite is not running -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
                     colors: {
-                        navy: '#15315B',
-                        yellowcard: '#FFCD22',
+                        primary: '#10375C',
+                        primaryDark: '#0b2742',
+                        accent: '#F3C623',
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'image-pan': 'imagePan 30s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        imagePan: {
+                            '0%': { transform: 'scale(1.05) translate(0, 0)' },
+                            '100%': { transform: 'scale(1.1) translate(-1%, -1%)' },
+                        }
                     }
                 }
             }
         }
     </script>
+
+    <style>
+        body { 
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 32px 32px;
+            -webkit-font-smoothing: antialiased;
+        }
+        .opacity-0-initial { opacity: 0; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
 </head>
-<body class="bg-[#f7f8fa] flex items-center justify-center min-h-screen p-4 sm:p-8 relative overflow-hidden" style="background-image: url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h100v100H0z\' fill=\'%23f7f8fa\'/%3E%3C/svg%3E'); background-size: cover;">
+<body class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
     
-    <!-- Background Accents (Animated) from login pattern -->
-    <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-navy opacity-[0.03] rounded-full blur-[100px] animate-float"></div>
-    <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#FFCD22] opacity-[0.05] rounded-full blur-[100px] animate-float" style="animation-delay: -3s;"></div>
-
-    <div class="max-w-[950px] w-full flex flex-col items-center justify-center relative z-10">
+    <main class="max-w-[1200px] w-full bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(16,55,92,0.15)] flex flex-col lg:flex-row overflow-hidden min-h-[650px] opacity-0-initial animate-fade-in-up">
         
-        <h1 class="text-3xl sm:text-4xl lg:text-[42px] font-[800] text-navy mb-3 tracking-tight text-center animate-fade-up">Registrasi Akun Jayra Construction</h1>
-        <p class="text-[19px] text-navy font-semibold mb-8 text-center animate-fade-up delay-100">Silakan Mengisi Data Diri</p>
-        
-        <div class="bg-yellowcard w-full rounded-[1.5rem] p-8 sm:p-12 lg:p-[50px] shadow-[0_25px_50px_-12px_rgba(255,205,34,0.3)] relative animate-fade-up delay-200 group">
-            <!-- Subtle card shimmer effect on hover -->
-            <div class="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 -z-10 rounded-[1.5rem] pointer-events-none"></div>
-
-            <h2 class="text-[1.6rem] font-bold text-navy text-center mb-8">Registrasi Akun</h2>
+        <section class="hidden lg:flex w-[40%] relative bg-primary overflow-hidden group">
+            <div class="absolute inset-0 bg-cover bg-center opacity-70 mix-blend-overlay animate-image-pan" 
+                 style="background-image: url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2071&auto=format&fit=crop');">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/60 to-transparent"></div>
             
-            <form action="#" method="POST">
-                <!-- 2-Column Grid for Inputs -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-7">
-                    
-                    <!-- Row 1 -->
-                    <div class="animate-fade-up delay-300 relative">
-                        <label for="name" class="block text-[14px] font-semibold text-navy mb-2.5 transition-colors">Nama Lengkap</label>
-                        <input type="text" id="name" name="name" placeholder="Masukan Nama Lengkap Anda" class="w-full px-5 py-[14px] rounded-xl border-2 border-transparent bg-[#F4F5F7] placeholder-[#a0aabf] text-[13.5px] focus:border-navy focus:bg-white focus:ring-4 focus:ring-navy/10 outline-none text-navy font-medium input-focus-effect">
-                    </div>
-                    <div class="animate-fade-up delay-300 relative">
-                        <label for="email" class="block text-[14px] font-semibold text-navy mb-2.5 transition-colors">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Masukan Email Anda" class="w-full px-5 py-[14px] rounded-xl border-2 border-transparent bg-[#F4F5F7] placeholder-[#a0aabf] text-[13.5px] focus:border-navy focus:bg-white focus:ring-4 focus:ring-navy/10 outline-none text-navy font-medium input-focus-effect">
-                    </div>
-                    
-                    <!-- Row 2 -->
-                    <div class="animate-fade-up delay-400 relative">
-                        <label for="username" class="block text-[14px] font-semibold text-navy mb-2.5 transition-colors">Username</label>
-                        <input type="text" id="username" name="username" placeholder="Masukan Username Anda" class="w-full px-5 py-[14px] rounded-xl border-2 border-transparent bg-[#F4F5F7] placeholder-[#a0aabf] text-[13.5px] focus:border-navy focus:bg-white focus:ring-4 focus:ring-navy/10 outline-none text-navy font-medium input-focus-effect">
-                    </div>
-                    <div class="animate-fade-up delay-400 relative">
-                        <label for="phone" class="block text-[14px] font-semibold text-navy mb-2.5 transition-colors">No. Handphone</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Masukan Nomor Handphone" class="w-full px-5 py-[14px] rounded-xl border-2 border-transparent bg-[#F4F5F7] placeholder-[#a0aabf] text-[13.5px] focus:border-navy focus:bg-white focus:ring-4 focus:ring-navy/10 outline-none text-navy font-medium input-focus-effect">
-                    </div>
-                    
-                    <!-- Row 3 (Passwords with Show/Hide feature) -->
-                    <div class="animate-fade-up delay-500 relative" x-data="{ show: false }">
-                        <label for="password" class="block text-[14px] font-semibold text-navy mb-2.5 transition-colors">Password</label>
-                        <div class="relative">
-                            <input :type="show ? 'text' : 'password'" id="password" name="password" placeholder="Masukan Password Anda" class="w-full pl-5 pr-12 py-[14px] rounded-xl border-2 border-transparent bg-[#F4F5F7] placeholder-[#a0aabf] text-[13.5px] focus:border-navy focus:bg-white focus:ring-4 focus:ring-navy/10 outline-none text-navy font-medium input-focus-effect transition-all">
-                            <button type="button" @click="show = !show" class="absolute inset-y-0 right-4 flex items-center text-[#a0aabf] hover:text-navy transition-colors focus:outline-none cursor-pointer">
-                                <!-- Design-matched Eye Icon (Visible) -->
-                                <svg x-show="show" style="display: none;" class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 5C7.305 5 3.328 8.167 1.5 12C3.328 15.833 7.305 19 12 19C16.695 19 20.672 15.833 22.5 12C20.672 8.167 16.695 5 12 5ZM12 16.5C9.519 16.5 7.5 14.481 7.5 12C7.5 9.519 9.519 7.5 12 7.5C14.481 7.5 16.5 9.519 16.5 12C16.5 14.481 14.481 16.5 12 16.5ZM12 9.5C10.621 9.5 9.5 10.621 9.5 12C9.5 13.379 10.621 14.5 12 14.5C13.379 14.5 14.5 13.379 14.5 12C14.5 10.621 13.379 9.5 12 9.5Z" fill="currentColor"/>
-                                    <!-- A strikethrough line to indicate 'hidden' mode is disabled (eye is open) -->
-                                </svg>
-                                <!-- Design-matched Eye Icon with Strike (Hidden) -->
-                                <svg x-show="!show" class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 5C7.305 5 3.328 8.167 1.5 12C3.328 15.833 7.305 19 12 19C16.695 19 20.672 15.833 22.5 12C20.672 8.167 16.695 5 12 5ZM12 16.5C9.519 16.5 7.5 14.481 7.5 12C7.5 9.519 9.519 7.5 12 7.5C14.481 7.5 16.5 9.519 16.5 12C16.5 14.481 14.481 16.5 12 16.5ZM12 9.5C10.621 9.5 9.5 10.621 9.5 12C9.5 13.379 10.621 14.5 12 14.5C13.379 14.5 14.5 13.379 14.5 12C14.5 10.621 13.379 9.5 12 9.5Z" fill="currentColor"/>
-                                    <!-- Strike line -->
-                                    <path d="M4 4L20 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="animate-fade-up delay-500 relative" x-data="{ show: false }">
-                        <label for="password_confirmation" class="block text-[14px] font-semibold text-navy mb-2.5 transition-colors">Konfirmasi Password</label>
-                        <div class="relative">
-                            <input :type="show ? 'text' : 'password'" id="password_confirmation" name="password_confirmation" placeholder="Konfirmasi Password Anda" class="w-full pl-5 pr-12 py-[14px] rounded-xl border-2 border-transparent bg-[#F4F5F7] placeholder-[#a0aabf] text-[13.5px] focus:border-navy focus:bg-white focus:ring-4 focus:ring-navy/10 outline-none text-navy font-medium input-focus-effect transition-all">
-                            <button type="button" @click="show = !show" class="absolute inset-y-0 right-4 flex items-center text-[#a0aabf] hover:text-navy transition-colors focus:outline-none cursor-pointer">
-                                <!-- Design-matched Eye Icon (Visible) -->
-                                <svg x-show="show" style="display: none;" class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 5C7.305 5 3.328 8.167 1.5 12C3.328 15.833 7.305 19 12 19C16.695 19 20.672 15.833 22.5 12C20.672 8.167 16.695 5 12 5ZM12 16.5C9.519 16.5 7.5 14.481 7.5 12C7.5 9.519 9.519 7.5 12 7.5C14.481 7.5 16.5 9.519 16.5 12C16.5 14.481 14.481 16.5 12 16.5ZM12 9.5C10.621 9.5 9.5 10.621 9.5 12C9.5 13.379 10.621 14.5 12 14.5C13.379 14.5 14.5 13.379 14.5 12C14.5 10.621 13.379 9.5 12 9.5Z" fill="currentColor"/>
-                                </svg>
-                                <!-- Design-matched Eye Icon with Strike (Hidden) -->
-                                <svg x-show="!show" class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 5C7.305 5 3.328 8.167 1.5 12C3.328 15.833 7.305 19 12 19C16.695 19 20.672 15.833 22.5 12C20.672 8.167 16.695 5 12 5ZM12 16.5C9.519 16.5 7.5 14.481 7.5 12C7.5 9.519 9.519 7.5 12 7.5C14.481 7.5 16.5 9.519 16.5 12C16.5 14.481 14.481 16.5 12 16.5ZM12 9.5C10.621 9.5 9.5 10.621 9.5 12C9.5 13.379 10.621 14.5 12 14.5C13.379 14.5 14.5 13.379 14.5 12C14.5 10.621 13.379 9.5 12 9.5Z" fill="currentColor"/>
-                                    <!-- Strike line -->
-                                    <path d="M4 4L20 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="relative z-10 p-12 flex flex-col justify-end w-full h-full text-white">
+                <div class="w-12 h-1 bg-accent mb-6 rounded-full transition-all duration-500 group-hover:w-20"></div>
+                <h2 class="font-display text-4xl font-bold mb-4 leading-tight tracking-tight">
+                    Mulai Perjalanan <br>
+                    <span class="text-accent">Proyek Anda.</span>
+                </h2>
+                <p class="text-white/80 font-light text-sm max-w-sm leading-relaxed mb-6">
+                    Akses portal Jayra Construction untuk memantau kemajuan, anggaran, dan komunikasi tim secara real-time.
+                </p>
+            </div>
+        </section>
+
+        <section class="w-full lg:w-[60%] flex flex-col justify-center relative p-8 sm:p-12 xl:p-14">
+            
+            <div class="w-full max-w-[650px] mx-auto">
                 
-                <!-- Buttons Area -->
-                <div class="mt-14 flex flex-col-reverse sm:flex-row items-center justify-between gap-4 pb-2 animate-fade-up delay-500">
-                    <a href="{{ route('login') }}" class="w-full sm:w-auto min-w-[140px] py-[13.5px] px-10 bg-[#F2F4F7] text-navy border-[2px] border-navy rounded-[14px] font-bold text-[15px] hover:bg-white hover:text-navy hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-center flex items-center justify-center">
-                        Back
-                    </a>
-                    <a href="{{ route('verification') }}" class="w-full sm:w-auto min-w-[200px] py-[14px] px-8 bg-navy text-white rounded-[14px] font-bold text-[15px] btn-hover-effect text-center shadow-lg shadow-navy/20">
-                        Email Verification
-                    </a>
-                </div>
-            </form>
-            
-        </div>
-    </div>
+                <header class="mb-8 text-center lg:text-left opacity-0-initial animate-fade-in-up" style="animation-delay: 0.1s;">
+                    <h1 class="font-display text-2xl sm:text-3xl font-bold text-primary tracking-tight mb-2">Registrasi Akun Jayra Construction</h1>
+                    <p class="text-slate-500 text-sm font-medium">Silakan Mengisi Data Diri</p>
+                </header>
+
+                <form action="#" method="POST" class="space-y-5" 
+                      x-data="{ 
+                          showPass: false, 
+                          showConfPass: false,
+                          password: '',
+                          
+                          // Logika Penilaian Password (Max Score 4)
+                          get strengthScore() {
+                              let score = 0;
+                              if (this.password.length >= 8) score++; // Minimal 8 Karakter
+                              if (/[A-Z]/.test(this.password) && /[a-z]/.test(this.password)) score++; // Ada Huruf Besar & Kecil
+                              if (/[0-9]/.test(this.password)) score++; // Ada Angka
+                              if (/[^A-Za-z0-9]/.test(this.password)) score++; // Ada Simbol Spesial
+                              return score;
+                          },
+                          
+                          // Label Indikator
+                          get strengthLabel() {
+                              if (this.password.length === 0) return '';
+                              if (this.strengthScore <= 1) return 'Lemah';
+                              if (this.strengthScore === 2 || this.strengthScore === 3) return 'Sedang';
+                              return 'Sangat Kuat';
+                          },
+                          
+                          // Warna Bar Indikator
+                          get strengthColor() {
+                              if (this.strengthScore <= 1) return 'bg-red-500';
+                              if (this.strengthScore === 2 || this.strengthScore === 3) return 'bg-yellow-500';
+                              return 'bg-green-500';
+                          }
+                      }">
+                    @csrf
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+                        
+                        <div class="space-y-1.5 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.2s;">
+                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Nama Lengkap</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                </div>
+                                <input type="text" name="name" required 
+                                       class="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-primary text-sm font-medium focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
+                                       placeholder="John Doe">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.3s;">
+                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Email</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                </div>
+                                <input type="email" name="email" required 
+                                       class="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-primary text-sm font-medium focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
+                                       placeholder="mail@contoh.com">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.4s;">
+                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Username</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                                </div>
+                                <input type="text" name="username" required 
+                                       class="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-primary text-sm font-medium focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
+                                       placeholder="johndoe123">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.5s;">
+                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">No. Handphone</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                </div>
+                                <input type="tel" name="phone" required 
+                                       class="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-primary text-sm font-medium focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
+                                       placeholder="0812xxxxxx">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.6s;">
+                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Password</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                                </div>
+                                <input :type="showPass ? 'text' : 'password'" name="password" required x-model="password"
+                                       class="w-full pl-12 pr-11 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-primary text-sm font-medium focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
+                                       placeholder="••••••••">
+                                <button type="button" @click="showPass = !showPass" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-primary transition-colors focus:outline-none">
+                                    <svg x-show="!showPass" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                    <svg x-show="showPass" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.882 9.881L4.59 4.59m9.542 9.542l5.87 5.87M21 12a10.05 10.05 0 00-1.226-4.91m-7.954-4.69A9.992 9.992 0 0012 5c4.478 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
+                                </button>
+                            </div>
+                            <div x-show="password.length > 0" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="pt-1">
+                                <div class="flex h-1.5 w-full bg-slate-200 rounded-full overflow-hidden">
+                                    <div class="h-full transition-all duration-500 ease-out" 
+                                         :class="strengthColor" 
+                                         :style="`width: ${(strengthScore / 4) * 100}%`"></div>
+                                </div>
+                                <div class="flex justify-between items-center mt-1.5">
+                                    <p class="text-[10px] text-slate-500 font-medium">Keamanan: <span class="font-bold transition-colors" :class="{'text-red-500': strengthScore <= 1, 'text-yellow-500': strengthScore === 2 || strengthScore === 3, 'text-green-500': strengthScore === 4}" x-text="strengthLabel"></span></p>
+                                    <p class="text-[10px] text-slate-400" x-show="strengthScore < 4">Gunakan angka & simbol</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.7s;">
+                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Konfirmasi Password</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                </div>
+                                <input :type="showConfPass ? 'text' : 'password'" name="password_confirmation" required 
+                                       class="w-full pl-12 pr-11 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-primary text-sm font-medium focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
+                                       placeholder="••••••••">
+                                <button type="button" @click="showConfPass = !showConfPass" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-primary transition-colors focus:outline-none">
+                                    <svg x-show="!showConfPass" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                    <svg x-show="showConfPass" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.882 9.881L4.59 4.59m9.542 9.542l5.87 5.87M21 12a10.05 10.05 0 00-1.226-4.91m-7.954-4.69A9.992 9.992 0 0012 5c4.478 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="flex flex-col-reverse sm:flex-row justify-between gap-4 pt-6 mt-4 border-t border-slate-100 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.8s;">
+                        <a href="{{ url('login') }}" 
+                           class="w-full sm:w-[150px] flex items-center justify-center px-6 py-3.5 rounded-xl border-2 border-slate-200 text-slate-600 font-semibold text-sm transition-all duration-300 hover:border-primary hover:text-primary hover:bg-slate-50 group">
+                            <svg class="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                            Back
+                        </a>
+                        
+                        <button type="submit" 
+                                class="w-full sm:w-auto sm:flex-1 bg-primary text-white py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:bg-primaryDark hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30 flex items-center justify-center gap-2">
+                            Email Verification
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+    </main>
+
 </body>
 </html>
