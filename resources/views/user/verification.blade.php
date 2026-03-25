@@ -77,9 +77,17 @@
         
         <div class="w-full mx-auto" x-data="otpLogic()">
             
-            <form action="#" method="POST" class="flex flex-col items-center">
+            @if ($errors->any())
+                <div class="bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm font-medium mb-6 text-center">
+                    {{ $errors->first() }}
+                </div>
+            @endif
+
+            <form action="{{ route('verification.post') }}" method="POST" class="flex flex-col items-center">
                 @csrf
                 
+                <input type="hidden" name="otp_code" :value="otp.join('')">
+
                 <h2 class="text-[13px] font-bold text-primary uppercase tracking-widest mb-6 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.3s;">
                     Kode Email
                 </h2>
@@ -136,7 +144,7 @@
 
     <footer class="mt-10 text-center opacity-0-initial animate-fade-in-up" style="animation-delay: 0.7s;">
         <p class="text-[11px] font-medium text-slate-400 tracking-widest uppercase">
-            &copy; 2026 Jayra Construction
+            &copy; {{ date('Y') }} Jayra Construction
         </p>
     </footer>
 

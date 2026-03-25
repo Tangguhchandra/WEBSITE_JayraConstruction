@@ -97,7 +97,7 @@
             
             <div class="w-full max-w-[420px] mx-auto">
                 
-                <header class="mb-10 text-center lg:text-left opacity-0-initial animate-fade-in-up" style="animation-delay: 0.1s;">
+                <header class="mb-8 text-center lg:text-left opacity-0-initial animate-fade-in-up" style="animation-delay: 0.1s;">
                     <div class="flex justify-center lg:justify-start mb-6">
                         <img src="{{ asset('assets/images/logo_website.svg') }}" alt="Jayra Logo" class="h-10 sm:h-12 w-auto transition-transform duration-300 hover:scale-105">
                     </div>
@@ -106,7 +106,14 @@
                     <p class="text-slate-500 text-sm mt-2 font-light">Masukkan kredensial Anda untuk mengakses portal.</p>
                 </header>
 
-                <form action="#" method="POST" class="space-y-6" x-data="{ showPass: false }">
+                @if ($errors->any())
+                    <div class="bg-red-50/80 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm font-medium mb-6 flex items-center gap-3 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.15s;">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>{{ $errors->first() }}</span>
+                    </div>
+                @endif
+
+                <form action="{{ route('login.post') }}" method="POST" class="space-y-6" x-data="{ showPass: false }">
                     @csrf
                     
                     <div class="space-y-2 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.2s;">
@@ -115,9 +122,9 @@
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors duration-300">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/></svg>
                             </div>
-                            <input type="text" name="email" required 
+                            <input type="text" name="email" value="{{ old('email') }}" required 
                                    class="w-full pl-12 pr-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 text-primary text-sm font-medium focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-300 outline-none"
-                                   placeholder="mail@contoh.com">
+                                   placeholder="mail@contoh.com atau username">
                         </div>
                     </div>
 
@@ -141,7 +148,7 @@
 
                     <div class="flex items-center justify-between pt-1 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.4s;">
                         <label class="flex items-center gap-2 cursor-pointer group">
-                            <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer transition-all">
+                            <input type="checkbox" name="remember" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer transition-all">
                             <span class="text-[13px] font-medium text-slate-500 group-hover:text-primary transition-colors">Ingat Saya</span>
                         </label>
                         <a href="{{ route('reset-password') }}" class="text-[13px] font-semibold text-primary hover:text-accent transition-colors">Lupa Password?</a>
@@ -153,7 +160,7 @@
                             Masuk
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                         </button>
-                        <a href="{{ url('register') }}" 
+                        <a href="{{ route('register') }}" 
                            class="w-full sm:w-auto px-8 py-3.5 rounded-xl border-2 border-slate-200 text-slate-600 font-semibold text-sm text-center transition-all duration-300 hover:border-primary hover:text-primary hover:bg-slate-50">
                             Daftar
                         </a>
@@ -162,7 +169,7 @@
 
                 <footer class="mt-12 text-center lg:text-left opacity-0-initial animate-fade-in-up" style="animation-delay: 0.6s;">
                     <p class="text-[11px] font-medium text-slate-400 tracking-widest uppercase">
-                        &copy; 2026 Jayra Construction • V.2.1
+                        &copy; {{ date('Y') }} Jayra Construction • V.2.1
                     </p>
                 </footer>
                 

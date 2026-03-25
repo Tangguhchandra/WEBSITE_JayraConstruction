@@ -11,16 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // INI BAGIAN YANG KITA UBAH (Tabel Users)
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('username')->unique(); // Tambahan
+            $table->string('phone')->nullable();  // Tambahan
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'user'])->default('user'); // Tambahan
+            $table->string('otp', 5)->nullable(); // Tambahan
+            $table->timestamp('otp_expires_at')->nullable(); // Tambahan
             $table->rememberToken();
             $table->timestamps();
         });
 
+        // BAGIAN BAWAH INI BIARKAN SAJA (Bawaan Laravel)
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');

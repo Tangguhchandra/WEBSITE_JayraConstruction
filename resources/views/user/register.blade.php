@@ -90,7 +90,18 @@
                     <p class="text-slate-500 text-sm font-medium">Silakan Mengisi Data Diri</p>
                 </header>
 
-                <form action="#" method="POST" class="space-y-5" 
+                @if ($errors->any())
+                    <div class="bg-red-50/80 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm font-medium mb-6 flex items-start gap-3 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.15s;">
+                        <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div class="flex flex-col">
+                            @foreach ($errors->all() as $error)
+                                <span>{{ $error }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                <form action="{{ route('register.post') }}" method="POST" class="space-y-5" 
                       x-data="{ 
                           showPass: false, 
                           showConfPass: false,
@@ -131,7 +142,7 @@
                                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                                 </div>
-                                <input type="text" name="name" required 
+                                <input type="text" name="name" value="{{ old('name') }}" required 
                                        class="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-primary text-sm font-medium focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
                                        placeholder="John Doe">
                             </div>
@@ -143,7 +154,7 @@
                                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                                 </div>
-                                <input type="email" name="email" required 
+                                <input type="email" name="email" value="{{ old('email') }}" required 
                                        class="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-primary text-sm font-medium focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
                                        placeholder="mail@contoh.com">
                             </div>
@@ -155,7 +166,7 @@
                                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
                                 </div>
-                                <input type="text" name="username" required 
+                                <input type="text" name="username" value="{{ old('username') }}" required 
                                        class="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-primary text-sm font-medium focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
                                        placeholder="johndoe123">
                             </div>
@@ -167,7 +178,7 @@
                                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
                                 </div>
-                                <input type="tel" name="phone" required 
+                                <input type="tel" name="phone" value="{{ old('phone') }}" required 
                                        class="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-primary text-sm font-medium focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
                                        placeholder="0812xxxxxx">
                             </div>
