@@ -8,49 +8,62 @@
 <section class="relative pt-36 pb-20 lg:pt-44 lg:pb-28 overflow-hidden bg-pattern">
     <div class="absolute top-20 left-[-10%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
-        
-        <div class="reveal">
-            <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent/10 border border-accent/20 mb-6 shadow-sm">
-                <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-                <span class="text-xs font-bold text-primary uppercase tracking-widest">Our Portfolio</span>
-            </div>
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+
+        {{-- ================= BREADCRUMB ================= --}}
+        <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-10 reveal">
+            <a href="{{ route('user.home') }}" class="hover:text-primary transition-colors flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                Home
+            </a>
+            <svg class="w-3.5 h-3.5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="text-primary font-semibold">Project</span>
+        </nav>
+
+        <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
             
-            <h1 class="font-display text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-primary leading-tight mb-6 tracking-tight">
-                Karya <span class="text-accent">Nyata,</span><br>
-                Kualitas <span class="text-accent">Teruji.</span>
-            </h1>
-            
-            <p class="text-slate-500 font-light text-lg leading-relaxed max-w-lg mb-10">
-                Pencapaian dedikasi dan profesionalisme kami. Lihat lebih dekat deretan mahakarya infrastruktur dan arsitektur yang telah sukses kami selesaikan dengan standar tertinggi.
-            </p>
+            <div class="reveal">
+                <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent/10 border border-accent/20 mb-6 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                    <span class="text-xs font-bold text-primary uppercase tracking-widest">Our Portfolio</span>
+                </div>
+                
+                <h1 class="font-display text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-primary leading-tight mb-6 tracking-tight">
+                    Karya <span class="text-accent">Nyata,</span><br>
+                    Kualitas <span class="text-accent">Teruji.</span>
+                </h1>
+                
+                <p class="text-slate-500 font-light text-lg leading-relaxed max-w-lg mb-10">
+                    Pencapaian dedikasi dan profesionalisme kami. Lihat lebih dekat deretan mahakarya infrastruktur dan arsitektur yang telah sukses kami selesaikan dengan standar tertinggi.
+                </p>
 
-            <div class="flex gap-4">
-                <a href="#portfolio" class="px-8 py-3.5 bg-white border border-slate-200 text-primary font-bold text-[14px] rounded-xl hover:border-primary hover:bg-slate-50 transition-all duration-300">
-                    Our Portfolio
-                </a>
-                <a href="{{ route('user.about') }}" class="px-8 py-3.5 bg-primary text-white font-bold text-[14px] rounded-xl shadow-lg hover:bg-primaryDark hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 flex items-center gap-2">
-                    More Information
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                </a>
+                <div class="flex gap-4">
+                    <a href="#portfolio" class="px-8 py-3.5 bg-white border border-slate-200 text-primary font-bold text-[14px] rounded-xl hover:border-primary hover:bg-slate-50 transition-all duration-300">
+                        Our Portfolio
+                    </a>
+                    <a href="{{ route('user.about') }}" class="px-8 py-3.5 bg-primary text-white font-bold text-[14px] rounded-xl shadow-lg hover:bg-primaryDark hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 flex items-center gap-2">
+                        More Information
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </a>
+                </div>
             </div>
+
+            <div class="reveal delay-200 grid grid-cols-2 gap-4 h-[400px] lg:h-[500px]">
+                <div class="col-span-2 rounded-[2rem] overflow-hidden shadow-lg border-4 border-white group cursor-pointer relative bg-slate-100">
+                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2071&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300"></div>
+                </div>
+                <div class="rounded-[2rem] overflow-hidden shadow-lg border-4 border-white group cursor-pointer relative bg-slate-100">
+                    <img src="https://images.unsplash.com/photo-1541888086425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300"></div>
+                </div>
+                <div class="rounded-[2rem] overflow-hidden shadow-lg border-4 border-white group cursor-pointer relative bg-slate-100">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300"></div>
+                </div>
+            </div>
+
         </div>
-
-        <div class="reveal delay-200 grid grid-cols-2 gap-4 h-[400px] lg:h-[500px]">
-            <div class="col-span-2 rounded-[2rem] overflow-hidden shadow-lg border-4 border-white group cursor-pointer relative bg-slate-100">
-                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2071&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300"></div>
-            </div>
-            <div class="rounded-[2rem] overflow-hidden shadow-lg border-4 border-white group cursor-pointer relative bg-slate-100">
-                <img src="https://images.unsplash.com/photo-1541888086425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300"></div>
-            </div>
-            <div class="rounded-[2rem] overflow-hidden shadow-lg border-4 border-white group cursor-pointer relative bg-slate-100">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300"></div>
-            </div>
-        </div>
-
     </div>
 </section>
 
@@ -86,23 +99,27 @@
             
             @php
             $projects = [
-                ['image' => 'photo-1600596542815-ffad4c1539a9', 'title' => 'Renovasi Rumah Pribadi', 'client' => 'Bpk. Ahmad (Banyumas)', 'date' => '20 Jan 2026'],
-                ['image' => 'photo-1486406146926-c627a92ad1ab', 'title' => 'Pembangunan Ruko 3 Lantai', 'client' => 'Ibu Rina (Purwokerto)', 'date' => '15 Feb 2026'],
-                ['image' => 'photo-1600585154340-be6161a56a0c', 'title' => 'Interior Kamar Utama', 'client' => 'Bpk. Budi (Cilacap)', 'date' => '02 Mar 2026'],
-                ['image' => 'photo-1503387762-592deb58ef4e', 'title' => 'Desain Fasad Minimalis', 'client' => 'Ibu Dina (Purbalingga)', 'date' => '10 Mar 2026'],
-                ['image' => 'photo-1434082033009-b81d41d32e1c', 'title' => 'Renovasi Kantor Startup', 'client' => 'CV. Maju Jaya (Banyumas)', 'date' => '18 Mar 2026'],
-                ['image' => 'photo-1541888086425-d81bb19240f5', 'title' => 'Pembangunan Rumah Type 45', 'client' => 'Bpk. Joko (Sokaraja)', 'date' => '22 Mar 2026'],
+                ['image' => 'photo-1600596542815-ffad4c1539a9', 'title' => 'Renovasi Rumah Pribadi', 'client' => 'Bpk. Ahmad (Banyumas)', 'date' => '20 Jan 2026', 'category' => 'renovation'],
+                ['image' => 'photo-1486406146926-c627a92ad1ab', 'title' => 'Pembangunan Ruko 3 Lantai', 'client' => 'Ibu Rina (Purwokerto)', 'date' => '15 Feb 2026', 'category' => 'commercial'],
+                ['image' => 'photo-1600585154340-be6161a56a0c', 'title' => 'Interior Kamar Utama', 'client' => 'Bpk. Budi (Cilacap)', 'date' => '02 Mar 2026', 'category' => 'interior'],
+                ['image' => 'photo-1503387762-592deb58ef4e', 'title' => 'Desain Fasad Minimalis', 'client' => 'Ibu Dina (Purbalingga)', 'date' => '10 Mar 2026', 'category' => 'residential'],
+                ['image' => 'photo-1434082033009-b81d41d32e1c', 'title' => 'Renovasi Kantor Startup', 'client' => 'CV. Maju Jaya (Banyumas)', 'date' => '18 Mar 2026', 'category' => 'commercial'],
+                ['image' => 'photo-1541888086425-d81bb19240f5', 'title' => 'Pembangunan Rumah Type 45', 'client' => 'Bpk. Joko (Sokaraja)', 'date' => '22 Mar 2026', 'category' => 'residential'],
             ];
             @endphp
 
             @foreach($projects as $index => $project)
-            <div class="bg-white rounded-[2rem] p-4 shadow-[0_10px_30px_-10px_rgba(16,55,92,0.05)] hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group reveal {{ $index % 3 === 1 ? 'delay-100' : ($index % 3 === 2 ? 'delay-200' : '') }} cursor-pointer">
+            <a href="{{ route('user.detail-project') }}" class="bg-white rounded-[2rem] p-4 shadow-[0_10px_30px_-10px_rgba(16,55,92,0.05)] hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group reveal {{ $index % 3 === 1 ? 'delay-100' : ($index % 3 === 2 ? 'delay-200' : '') }} block">
                 <div class="relative w-full aspect-[4/3] rounded-[1.5rem] overflow-hidden mb-5 bg-slate-100">
-                    <img src="https://images.unsplash.com/{{ $project['image'] }}?q=80&w=2075&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="https://images.unsplash.com/{{ $project['image'] }}?q=80&w=2075&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
                     <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/40 transition-colors duration-300 flex items-center justify-center">
                         <div class="w-12 h-12 rounded-full bg-accent text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 shadow-lg">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                         </div>
+                    </div>
+                    {{-- Category badge --}}
+                    <div class="absolute top-3 left-3">
+                        <span class="px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[10px] font-bold text-primary uppercase tracking-wider shadow-sm">{{ $project['category'] }}</span>
                     </div>
                 </div>
                 
@@ -123,30 +140,37 @@
                         </div>
                     </div>
 
-                    <a href="#" class="inline-flex items-center gap-2 text-xs font-bold text-primary group-hover:text-accent transition-colors">
-                        Lihat Detail <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                    </a>
+                    <span class="inline-flex items-center gap-2 text-xs font-bold text-primary group-hover:text-accent transition-colors">
+                        Lihat Detail <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </span>
                 </div>
-            </div>
+            </a>
             @endforeach
 
         </div>
 
+        {{-- ================= PAGINATION ================= --}}
         <div class="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 border-t border-slate-100 reveal delay-300">
-            <a href="#" class="px-6 py-3 border-2 border-slate-200 text-primary font-bold text-[13px] rounded-xl hover:border-primary hover:bg-slate-50 transition-all duration-300">
-                Show More
+            
+            {{-- Prev --}}
+            <a href="#" class="inline-flex items-center gap-2 px-6 py-3 border-2 border-slate-200 text-primary font-bold text-[13px] rounded-xl hover:border-primary hover:bg-slate-50 transition-all duration-300">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                Sebelumnya
             </a>
 
+            {{-- Page Numbers --}}
             <div class="flex justify-center items-center gap-2">
-                <a href="#" class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs bg-primary text-white shadow-md">1</a>
-                <a href="#" class="w-8 h-8 rounded-lg flex items-center justify-center font-semibold text-xs text-slate-500 hover:bg-slate-100 transition-colors">2</a>
-                <a href="#" class="w-8 h-8 rounded-lg flex items-center justify-center font-semibold text-xs text-slate-500 hover:bg-slate-100 transition-colors">3</a>
-                <a href="#" class="w-8 h-8 rounded-lg flex items-center justify-center font-semibold text-xs text-slate-500 hover:bg-slate-100 transition-colors">4</a>
-                <span class="w-8 h-8 flex items-center justify-center text-slate-400">...</span>
+                <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs bg-primary text-white shadow-md">1</a>
+                <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center font-semibold text-xs text-slate-500 hover:bg-slate-100 border border-slate-200 transition-colors">2</a>
+                <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center font-semibold text-xs text-slate-500 hover:bg-slate-100 border border-slate-200 transition-colors">3</a>
+                <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center font-semibold text-xs text-slate-500 hover:bg-slate-100 border border-slate-200 transition-colors">4</a>
+                <span class="w-9 h-9 flex items-center justify-center text-slate-400 font-bold">...</span>
             </div>
 
-            <a href="#" class="px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl shadow-md hover:bg-primaryDark transition-all duration-300">
-                Next page
+            {{-- Next --}}
+            <a href="#" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl shadow-md hover:bg-primaryDark hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300">
+                Selanjutnya
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </a>
         </div>
 
@@ -154,7 +178,7 @@
 </section>
 
 {{-- ================= SECTION 3: MAPS & CONTACT CTA ================= --}}
-{{-- Mengikuti design language: bg-primary dark, rounded-t, pattern overlay, glow blobs --}}
+{{-- Dark primary theme — konsisten dengan design language project.blade.php --}}
 <section class="bg-primary py-24 relative overflow-hidden rounded-t-[3rem] sm:rounded-t-[4rem]">
     <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 mix-blend-overlay pointer-events-none"></div>
     <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[100px] pointer-events-none"></div>
@@ -213,7 +237,7 @@
                 </div>
             </div>
 
-            {{-- Contact Form Card (white card inside dark section — sama dengan home.blade.php) --}}
+            {{-- Contact Form --}}
             <div class="bg-white rounded-[2rem] p-8 sm:p-10 shadow-2xl border border-white/20 relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-accent to-primary rounded-t-[2rem]"></div>
 

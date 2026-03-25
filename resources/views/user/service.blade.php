@@ -80,8 +80,9 @@
                             <span class="text-xs text-slate-400 font-medium block leading-none mb-1">{{ $service['label'] }}</span>
                             {{ $service['price'] }}
                         </span>
-                        <a href="{{ route('user.contact') }}" class="bg-primary text-white px-6 py-3 rounded-xl text-[13px] font-bold shadow-md hover:bg-primaryDark hover:-translate-y-1 transition-all duration-300 whitespace-nowrap text-center">
+                        <a href="{{ route('user.detail-service') }}" class="bg-primary text-white px-6 py-3 rounded-xl text-[13px] font-bold shadow-md hover:bg-primaryDark hover:-translate-y-1 transition-all duration-300 whitespace-nowrap text-center flex items-center gap-2">
                             Lihat Detail
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </div>
                 </div>

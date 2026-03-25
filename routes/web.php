@@ -44,9 +44,33 @@ Route::name('user.')->group(function () {
         return view('user.project');
     })->name('project');
 
+    Route::get('/project/detail', function () {
+        return view('user.detail-project');
+    })->name('detail-project');
+
+    Route::get('/service/detail', function () {
+        return view('user.detail-service');
+    })->name('detail-service');
+
     Route::get('/contact', function () {
         return view('user.contact-person');
     })->name('contact');
+
+    Route::get('/profil', function () {
+        return view('user.profil');
+    })->name('profil');
+
+    Route::get('/pembayaran', function () {
+        return view('user.pembayaran');
+    })->name('pembayaran');
+
+    Route::get('/detail-pembayaran', function () {
+        return view('user.detail-pembayaran');
+    })->name('detail-pembayaran');
+
+    Route::get('/notifikasi-pembayaran', function () {
+        return view('user.notifikasi-pembayaran');
+    })->name('notifikasi-pembayaran');
 });
 
 
