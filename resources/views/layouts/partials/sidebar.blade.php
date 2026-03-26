@@ -230,7 +230,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link-custom {{ request()->is('profil') ? 'active' : '' }}" href="{{ url('/profil') }}">
+                    <a class="nav-link-custom {{ request()->is('profiladmin') ? 'active' : '' }}" href="{{ url('/profiladmin') }}">
                         <div class="icon-wrap"><i class="bi bi-building"></i></div>
                         <span>Profil Perusahaan</span>
                     </a>

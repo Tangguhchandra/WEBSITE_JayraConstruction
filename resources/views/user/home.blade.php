@@ -139,7 +139,7 @@
                 </div>
                 <h3 class="font-display text-xl font-bold text-primary mb-4">{{ $svc['title'] }}</h3>
                 <p class="text-slate-500 text-sm leading-relaxed mb-8">{{ $svc['desc'] }}</p>
-                <a href="{{ route('user.service') }}" class="text-sm font-semibold text-primary group-hover:text-accent flex items-center gap-2 transition-colors">
+                <a href="{{ route('user.detail-service') }}" class="text-sm font-semibold text-primary group-hover:text-accent flex items-center gap-2 transition-colors">
                     Info Detail <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
             </div>
@@ -164,31 +164,31 @@
 
         <div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-auto md:h-[600px] reveal delay-200">
             
-            <div class="md:col-span-2 md:row-span-2 rounded-[2rem] overflow-hidden group relative cursor-pointer">
+            <a href="{{ route('user.project') }}" class="md:col-span-2 md:row-span-2 rounded-[2rem] overflow-hidden group relative cursor-pointer block">
                 <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Luxury Villa">
                 <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div class="absolute bottom-0 left-0 p-8 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                     <span class="text-accent font-bold text-xs uppercase tracking-widest mb-2 block">Residential</span>
                     <h3 class="text-white font-display text-2xl font-bold">Modern Luxury Villa</h3>
                 </div>
-            </div>
+            </a>
 
-            <div class="md:col-span-2 md:row-span-1 rounded-[2rem] overflow-hidden group relative cursor-pointer">
+            <a href="{{ route('user.project') }}" class="md:col-span-2 md:row-span-1 rounded-[2rem] overflow-hidden group relative cursor-pointer block">
                 <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Office Tower">
                 <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div class="absolute bottom-0 left-0 p-6 translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                     <span class="text-accent font-bold text-xs uppercase tracking-widest mb-1 block">Commercial</span>
                     <h3 class="text-white font-display text-xl font-bold">Skyline Office Tower</h3>
                 </div>
-            </div>
+            </a>
 
-            <div class="md:col-span-1 md:row-span-1 rounded-[2rem] overflow-hidden group relative cursor-pointer">
+            <a href="{{ route('user.project') }}" class="md:col-span-1 md:row-span-1 rounded-[2rem] overflow-hidden group relative cursor-pointer block">
                 <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Interior">
                 <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div class="absolute bottom-0 left-0 p-6 translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                     <h3 class="text-white font-display text-lg font-bold">Interior Set</h3>
                 </div>
-            </div>
+            </a>
 
             <a href="{{ route('user.project') }}" class="md:col-span-1 md:row-span-1 rounded-[2rem] overflow-hidden group relative cursor-pointer bg-primary flex items-center justify-center">
                 <div class="text-center group-hover:scale-105 transition-transform duration-300 p-6">

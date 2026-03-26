@@ -10,14 +10,49 @@ use App\Http\Controllers\UserController;
 // ==========================================
 // RUTE UNTUK USER (LANDING PAGE & PUBLIK)
 // ==========================================
-Route::get('/', function () { return view('user.home'); });
+Route::get('/', function () { 
+    // Ambil 4 proyek terbaru untuk ditampilkan di Home (Awal buka web)
+    $projects = \App\Models\Project::latest()->take(4)->get();
+    return view('user.home', compact('projects')); 
+});
 
 Route::name('user.')->group(function () {
-    Route::get('/home', function () { return view('user.home'); })->name('home'); 
+    
+    // PERBAIKAN 1: Kirim data proyek ke rute /home
+    Route::get('/home', function () { 
+        $projects = \App\Models\Project::latest()->take(4)->get();
+        return view('user.home', compact('projects')); 
+    })->name('home'); 
+
     Route::get('/about', function () { return view('user.about'); })->name('about'); 
     Route::get('/service', function () { return view('user.service'); })->name('service');
-    Route::get('/project', function () { return view('user.project'); })->name('project');
+    
+    // PERBAIKAN 2: Kirim semua data proyek ke rute /project
+    Route::get('/project', function () { 
+        // Ubah dari get() menjadi paginate(6)
+        $projects = \App\Models\Project::latest()->paginate(6);
+        return view('user.project', compact('projects')); 
+    })->name('project');
+    
     Route::get('/contact', function () { return view('user.contact-person'); })->name('contact');
+
+    // Rute detail proyek (sudah benar)
+    Route::get('/project/detail/{id}', function ($id) {
+        $project = \App\Models\Project::findOrFail($id);
+        $relatedProjects = \App\Models\Project::where('id', '!=', $id)
+                            ->latest()
+                            ->take(3)
+                            ->get();
+
+        return view('user.detail-project', compact('project', 'relatedProjects'));
+    })->name('detail-project');
+    
+    // Rute tambahan dari temanmu
+    Route::get('/service/detail', function () { return view('user.detail-service'); })->name('detail-service');
+    Route::get('/profil', function () { return view('user.profil'); })->name('profil');
+    Route::get('/pembayaran', function () { return view('user.pembayaran'); })->name('pembayaran');
+    Route::get('/detail-pembayaran', function () { return view('user.detail-pembayaran'); })->name('detail-pembayaran');
+    Route::get('/notifikasi-pembayaran', function () { return view('user.notifikasi-pembayaran'); })->name('notifikasi-pembayaran');
 });
 
 
@@ -28,8 +63,7 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     
     // Rute Halaman Admin
     Route::get('/dashboard', function () { return view('admin.dashboard'); })->name('dashboard');
-    Route::get('/profil', function () { return view('admin.profil'); });
-    Route::get('/users', function () { return view('admin.users'); });
+    Route::get('/profiladmin', function () { return view('admin.profiladmin'); });
     Route::get('/pesan', function () { return view('admin.pesan'); });
     Route::get('/laporan-pembayaran', function () { return view('admin.laporanpembayaran'); });
     Route::get('/keamanan', function () { return view('admin.security'); });

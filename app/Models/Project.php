@@ -13,9 +13,14 @@ class Project extends Model
         'project_code',
         'name',
         'client_name',
+        'image',
+        'category',
         'location',
         'budget',
+        'completion_date',
         'progress',
         'status',
+        'background',
+        'challenge_solution',
     ];
 }
