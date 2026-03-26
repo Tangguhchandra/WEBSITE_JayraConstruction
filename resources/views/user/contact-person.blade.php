@@ -22,34 +22,35 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 reveal delay-100">
-            
-            @php
-            $team = [
-                ['name' => 'Budi Santoso', 'role' => 'Project Manager', 'image' => 'photo-1560250097-0b93528c311a'],
-                ['name' => 'Rina Wulandari', 'role' => 'Lead Architect', 'image' => 'photo-1573496359142-b8d87734a5a2'],
-                ['name' => 'Ahmad Subagyo', 'role' => 'Civil Engineer', 'image' => 'photo-1581092795360-fd1ca04f0952'],
-                ['name' => 'Dina Maharani', 'role' => 'Interior Designer', 'image' => 'photo-1507003211169-0a1dd7228f2d'],
-            ];
-            @endphp
-
-            @foreach($team as $member)
-            <div class="relative bg-slate-100 rounded-[2rem] aspect-[4/5] overflow-hidden group cursor-pointer shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-slate-200/50">
-                <img src="https://images.unsplash.com/{{ $member['image'] }}?q=80&w=1974&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0">
-                <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
-                <div class="absolute bottom-0 left-0 w-full p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 class="font-display text-xl font-bold text-white mb-1">{{ $member['name'] }}</h3>
-                    <p class="text-accent text-sm font-semibold uppercase tracking-wider mb-3">{{ $member['role'] }}</p>
-                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                        <span class="inline-flex items-center justify-center bg-white/20 hover:bg-accent backdrop-blur-sm text-white hover:text-primary w-10 h-10 rounded-full transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                        </span>
+            @forelse($teams as $member)
+                <div class="relative bg-slate-100 rounded-[2rem] aspect-[4/5] overflow-hidden group shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-slate-200/50">
+                    @if($member->image)
+                        <img src="{{ asset('storage/' . $member->image) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center bg-primary text-white font-display text-6xl opacity-50">{{ substr($member->name, 0, 1) }}</div>
+                    @endif
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
+                    
+                    <div class="absolute bottom-0 left-0 w-full p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-display text-xl font-bold text-white mb-1">{{ $member->name }}</h3>
+                        <p class="text-accent text-sm font-semibold uppercase tracking-wider mb-3">{{ $member->role }}</p>
+                        
+                        @if($member->phone)
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            <a href="tel:{{ $member->phone }}" class="inline-flex items-center justify-center bg-white/20 hover:bg-accent backdrop-blur-sm text-white hover:text-primary w-10 h-10 rounded-full transition-colors" title="Hubungi {{ $member->name }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                            </a>
+                        </div>
+                        @endif
                     </div>
                 </div>
+                @empty
+                <div class="col-span-full text-center py-10">
+                    <p class="text-slate-500">Belum ada data tim ahli yang ditambahkan.</p>
+                </div>
+                @endforelse
             </div>
-            @endforeach
-
-        </div>
-    </section>
+        </section>
 
     {{-- ================= FAQ ================= --}}
     <section class="py-24 bg-surface border-t border-slate-100 relative">

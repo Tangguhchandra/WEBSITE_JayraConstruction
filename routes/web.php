@@ -6,6 +6,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TeamController;
 
 // ==========================================
 // RUTE UNTUK USER (LANDING PAGE & PUBLIK)
@@ -34,7 +35,10 @@ Route::name('user.')->group(function () {
         return view('user.project', compact('projects')); 
     })->name('project');
     
-    Route::get('/contact', function () { return view('user.contact-person'); })->name('contact');
+    Route::get('/contact', function () { 
+        $teams = \App\Models\Team::latest()->get();
+        return view('user.contact-person', compact('teams')); 
+    })->name('contact');
 
     // Rute detail proyek (sudah benar)
     Route::get('/project/detail/{id}', function ($id) {
@@ -64,7 +68,6 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     // Rute Halaman Admin
     Route::get('/dashboard', function () { return view('admin.dashboard'); })->name('dashboard');
     Route::get('/profiladmin', function () { return view('admin.profiladmin'); });
-    Route::get('/pesan', function () { return view('admin.pesan'); });
     Route::get('/laporan-pembayaran', function () { return view('admin.laporanpembayaran'); });
     Route::get('/keamanan', function () { return view('admin.security'); });
 
@@ -79,6 +82,12 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    // Manajemen Kontak Tim
+    Route::get('/kontak-tim', [\App\Http\Controllers\TeamController::class, 'index'])->name('tim.index');
+    Route::post('/kontak-tim', [\App\Http\Controllers\TeamController::class, 'store'])->name('tim.store');
+    Route::put('/kontak-tim/{id}', [\App\Http\Controllers\TeamController::class, 'update'])->name('tim.update');
+    Route::delete('/kontak-tim/{id}', [\App\Http\Controllers\TeamController::class, 'destroy'])->name('tim.destroy');
 
     // Manajemen Proyek
     Route::get('/proyek', [ProjectController::class, 'index'])->name('proyek.index');

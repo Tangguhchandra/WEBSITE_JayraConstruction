@@ -143,27 +143,7 @@
                 </div>
             </div>
 
-            {{-- Banner Promo (DARK THEME PREMIUM) --}}
-            <div class="reveal delay-300 relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-primary to-slate-900 p-10 md:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 group">
-                {{-- Ornamen Abstrak --}}
-                <div class="absolute -right-10 top-0 w-64 h-64 bg-accent/20 rounded-full blur-[50px] pointer-events-none group-hover:scale-110 transition-transform duration-700"></div>
-                <div class="absolute left-10 -bottom-20 w-48 h-48 bg-white/5 rounded-full blur-[40px] pointer-events-none"></div>
-                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.05] pointer-events-none"></div>
-
-                <div class="relative z-10 text-center md:text-left">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 mb-4 backdrop-blur-sm text-white">
-                        <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-                        <span class="text-[10px] font-bold uppercase tracking-widest text-accent">Promo Terbatas</span>
-                    </div>
-                    <h4 class="font-display text-3xl md:text-4xl font-extrabold text-white mb-3">Konsultasi Desain <span class="text-accent">Gratis!</span></h4>
-                    <p class="text-slate-300 font-light text-sm md:text-base max-w-sm">Jadwalkan pertemuan dengan arsitek kami hari ini dan dapatkan sketsa awal tanpa biaya.</p>
-                </div>
-
-                <a href="{{ route('user.contact') }}" class="relative z-10 shrink-0 inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-accent text-primary font-bold text-[15px] shadow-[0_10px_25px_rgba(243,198,35,0.3)] hover:bg-white hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(255,255,255,0.2)] transition-all duration-300 w-full md:w-auto">
-                    Hubungi Sekarang
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                </a>
-            </div>
+            
 
         </div>
     </section>

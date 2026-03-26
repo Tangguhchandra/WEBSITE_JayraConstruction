@@ -264,6 +264,12 @@
                         <span class="badge rounded-pill pulse-badge ms-auto">3</span>
                     </a>
                 </li> -->
+                <li class="nav-item">
+                    <a class="nav-link-custom {{ request()->routeIs('tim.*') || request()->is('kontak-tim*') ? 'active' : '' }}" href="{{ route('tim.index') }}">
+                        <div class="icon-wrap"><i class="bi bi-people"></i></div>
+                        <span>Kontak Tim</span>
+                    </a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link-custom {{ request()->is('users') ? 'active' : '' }}" href="{{ url('/users') }}">
