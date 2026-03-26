@@ -211,9 +211,8 @@ body.admin-layout {
 <div id="loader-wrapper">
     <div class="loader-content">
         <div class="loader-visual">
-            <!-- Ganti Ikon dengan Logo Foto Kamu -->
             <div class="loader-logo-container">
-                <img src="{{ asset('assets/images/logo-jayra.png') }}" alt="Logo" class="loader-img-logo">
+                <img src="{{ asset('assets/images/logo_website.svg') }}" alt="Logo" class="loader-img-logo">
             </div>
             
             <!-- Ring yang berputar -->

@@ -10,32 +10,26 @@ class CompanyProfileController extends Controller
 {
     public function index()
     {
-        // Ambil data pertama, jika tidak ada buat object kosong
-        $profile = CompanyProfile::first() ?? new CompanyProfile();
-        return view('admin.profil', compact('profile'));
+        // Selalu ambil data pertama. Kalau kosong, otomatis buat satu data baru.
+        $profile = CompanyProfile::firstOrCreate(['id' => 1]);
+        return view('admin.profiladmin', compact('profile'));
     }
 
     public function update(Request $request)
     {
-        $request->validate([
-            'logo' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-        ]);
-
-        // Cari data ID 1 atau buat jika belum ada
         $profile = CompanyProfile::firstOrCreate(['id' => 1]);
+        $data = $request->except(['_token', 'about_image']);
 
-        $data = $request->all();
-
-        // Logika Upload Logo
-        if ($request->hasFile('logo')) {
-            if ($profile->logo) {
-                Storage::disk('public')->delete($profile->logo);
+        // Handle upload gambar jika ada
+        if ($request->hasFile('about_image')) {
+            if ($profile->about_image) {
+                Storage::disk('public')->delete($profile->about_image);
             }
-            $data['logo'] = $request->file('logo')->store('uploads/logo', 'public');
+            $data['about_image'] = $request->file('about_image')->store('company', 'public');
         }
 
         $profile->update($data);
 
-        return redirect()->back()->with('success', 'Profil perusahaan berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Profil Perusahaan berhasil diperbarui!');
     }
 }

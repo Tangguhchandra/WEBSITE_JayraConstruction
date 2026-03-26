@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory; 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CompanyProfile extends Model
 {
-    use HasFactory; 
-    
+    use HasFactory;
     protected $fillable = [
-        'name', 'tagline', 'description', 'vision', 'mission', 
-        'whatsapp', 'email', 'address', 'google_maps', 'logo'
+        'company_name', 'about_description', 'experience_years', 'projects_completed',
+        'vision', 'mission', 'email', 'phone', 'address', 'about_image'
     ];
 }

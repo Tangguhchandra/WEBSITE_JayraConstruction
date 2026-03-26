@@ -1,3 +1,9 @@
+@php
+    // Ambil data profil perusahaan dari database. 
+    // Jika tidak ada, gunakan nilai default agar tidak error.
+    $companyProfile = \App\Models\CompanyProfile::first();
+@endphp
+
 <footer class="bg-primaryDark text-slate-400 pt-24 pb-10 border-t border-white/5 relative overflow-hidden">
     <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[120px] pointer-events-none"></div>
     <div class="absolute bottom-0 left-[-10%] w-[400px] h-[400px] bg-white/5 rounded-full blur-[100px] pointer-events-none"></div>
@@ -9,10 +15,11 @@
             
             <div class="flex flex-col items-start gap-6 lg:pr-6">
                 <a href="{{ route('user.home') }}" class="block hover:scale-105 transition-transform duration-300">
-                    <img src="{{ asset('images/logo.png') }}" alt="Jayra Logo" class="h-12 w-auto brightness-0 invert opacity-95" onerror="this.src='{{ asset('assets/images/logo_website.svg') }}'">
+                    <img src="{{ asset('images/logo.png') }}" alt="{{ $companyProfile->company_name ?? 'Jayra Construction' }}" class="h-12 w-auto brightness-0 invert opacity-95" onerror="this.src='{{ asset('assets/images/logo_website.svg') }}'">
                 </a>
-                <p class="text-sm font-light leading-relaxed text-slate-400">
-                    CV Darming Jaya Abadi adalah pionir di industri konstruksi dan arsitektur. Kami membangun mahakarya infrastruktur dengan standar kualitas, keselamatan, dan presisi tertinggi.
+                <p class="text-sm font-light leading-relaxed text-slate-400 line-clamp-4">
+                    <strong class="text-white">{{ $companyProfile->company_name ?? 'CV Darming Jaya Abadi' }}</strong> 
+                    {{ $companyProfile->about_description ?? 'adalah pionir di industri konstruksi dan arsitektur. Kami membangun mahakarya infrastruktur dengan standar kualitas, keselamatan, dan presisi tertinggi.' }}
                 </p>
                 <div class="flex gap-3 pt-2">
                     <a href="#" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-accent hover:text-primary hover:border-accent hover:-translate-y-1 transition-all duration-300">
@@ -33,8 +40,7 @@
                     <li><a href="{{ route('user.home') }}" class="group flex items-center hover:text-white transition-colors"><span class="w-0 overflow-hidden group-hover:w-3 text-accent transition-all duration-300 mr-0 group-hover:mr-2">▹</span> Beranda</a></li>
                     <li><a href="{{ route('user.about') }}" class="group flex items-center hover:text-white transition-colors"><span class="w-0 overflow-hidden group-hover:w-3 text-accent transition-all duration-300 mr-0 group-hover:mr-2">▹</span> Profil Kami</a></li>
                     <li><a href="{{ route('user.project') }}" class="group flex items-center hover:text-white transition-colors"><span class="w-0 overflow-hidden group-hover:w-3 text-accent transition-all duration-300 mr-0 group-hover:mr-2">▹</span> Portofolio Proyek</a></li>
-                    <li><a href="{{ route('user.contact') }}" class="group flex items-center hover:text-white transition-colors"><span class="w-0 overflow-hidden group-hover:w-3 text-accent transition-all duration-300 mr-0 group-hover:mr-2">▹</span> Karir & Partner</a></li>
-                    <li><a href="{{ route('user.contact') }}" class="group flex items-center hover:text-white transition-colors"><span class="w-0 overflow-hidden group-hover:w-3 text-accent transition-all duration-300 mr-0 group-hover:mr-2">▹</span> FAQ</a></li>
+                    <li><a href="{{ route('user.contact') }}" class="group flex items-center hover:text-white transition-colors"><span class="w-0 overflow-hidden group-hover:w-3 text-accent transition-all duration-300 mr-0 group-hover:mr-2">▹</span> Kontak & Karir</a></li>
                 </ul>
             </div>
 
@@ -57,20 +63,20 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         </div>
                         <span class="font-light leading-relaxed hover:text-white transition-colors cursor-default">
-                            Desa Pejurukan, RT02/RW01, Kec. Kalibagor, Banyumas, Jawa Tengah 53191
+                            {{ $companyProfile->address ?? 'Desa Pejurukan, RT02/RW01, Kec. Kalibagor, Banyumas, Jawa Tengah 53191' }}
                         </span>
                     </li>
                     <li class="flex items-center gap-4">
                         <div class="text-accent">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                         </div>
-                        <a href="mailto:cv.darmingjayagrup@gmail.com" class="font-medium hover:text-accent transition-colors">cv.darmingjayagrup@gmail.com</a>
+                        <a href="mailto:{{ $companyProfile->email ?? 'cv.darmingjayagrup@gmail.com' }}" class="font-medium hover:text-accent transition-colors">{{ $companyProfile->email ?? 'cv.darmingjayagrup@gmail.com' }}</a>
                     </li>
                     <li class="flex items-center gap-4">
                         <div class="text-accent">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                         </div>
-                        <a href="tel:+6285772364659" class="font-medium hover:text-accent transition-colors">+62 857-7236-4659</a>
+                        <a href="tel:{{ $companyProfile->phone ?? '+6285772364659' }}" class="font-medium hover:text-accent transition-colors">{{ $companyProfile->phone ?? '+62 857-7236-4659' }}</a>
                     </li>
                     <li class="flex items-center gap-4 mt-2">
                         <div class="text-slate-500">
@@ -87,7 +93,7 @@
 
         <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 reveal delay-100">
             <div class="text-xs font-medium tracking-widest uppercase text-slate-500 text-center md:text-left">
-                &copy; {{ date('Y') }} Jayra Construction. All Rights Reserved.
+                &copy; {{ date('Y') }} {{ $companyProfile->company_name ?? 'Jayra Construction' }}. All Rights Reserved.
             </div>
             
             <div class="flex gap-6 text-xs font-medium text-slate-500">

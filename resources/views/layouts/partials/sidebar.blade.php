@@ -220,7 +220,11 @@
 <aside class="admin-sidebar" id="admin-sidebar">
     <div class="sidebar-content">
         <nav class="sidebar-nav">
-            <ul class="nav flex-column">
+            <ul class="nav flex-column w-100">
+                
+                <li class="nav-category mt-2 mb-2 px-4 text-uppercase fw-bold text-muted" style="font-size: 0.65rem; letter-spacing: 1px;">
+                    Utama
+                </li>
                 
                 <li class="nav-item">
                     <a class="nav-link-custom {{ request()->is('dashboard') || request()->is('/') ? 'active' : '' }}" href="{{ url('/dashboard') }}">
@@ -230,64 +234,68 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link-custom {{ request()->is('profiladmin') ? 'active' : '' }}" href="{{ url('/profiladmin') }}">
-                        <div class="icon-wrap"><i class="bi bi-building"></i></div>
-                        <span>Profil Perusahaan</span>
+                    <a class="nav-link-custom {{ request()->is('laporan-pembayaran') ? 'active' : '' }}" href="{{ url('/laporan-pembayaran') }}">
+                        <div class="icon-wrap"><i class="bi bi-wallet2"></i></div>
+                        <span>Laporan Pembayaran</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link-custom {{ request()->is('layanan') ? 'active' : '' }}" href="{{ url('/layanan') }}">
+                    <hr class="border-secondary-subtle mx-4 my-2 opacity-50">
+                </li>
+
+                <li class="nav-category mt-2 mb-2 px-4 text-uppercase fw-bold text-muted" style="font-size: 0.65rem; letter-spacing: 1px;">
+                    Manajemen Konten
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link-custom {{ request()->is('proyek*') ? 'active' : '' }}" href="{{ url('/proyek') }}">
+                        <div class="icon-wrap"><i class="bi bi-building-gear"></i></div>
+                        <span>Manajemen Proyek</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link-custom {{ request()->is('layanan*') ? 'active' : '' }}" href="{{ url('/layanan') }}">
                         <div class="icon-wrap"><i class="bi bi-tools"></i></div>
                         <span>Layanan Jasa</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link-custom {{ request()->is('proyek') ? 'active' : '' }}" href="{{ url('/proyek') }}">
-                        <div class="icon-wrap"><i class="bi bi-cone-striped"></i></div>
-                        <span>Manajemen Proyek</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link-custom {{ request()->is('laporan-pembayaran') ? 'active' : '' }}" href="{{ url('/laporan-pembayaran') }}">
-                        <div class="icon-wrap"><i class="bi bi-cash-stack"></i></div>
-                        <span>Laporan Pembayaran</span>
-                    </a>
-                </li>
-
-                <!-- <li class="nav-item">
-                    <a class="nav-link-custom {{ request()->is('pesan') ? 'active' : '' }}" href="{{ url('/pesan') }}">
-                        <div class="icon-wrap"><i class="bi bi-chat-left-text"></i></div>
-                        <span>Pesan Masuk</span>
-                        <span class="badge rounded-pill pulse-badge ms-auto">3</span>
-                    </a>
-                </li> -->
-                <li class="nav-item">
                     <a class="nav-link-custom {{ request()->routeIs('tim.*') || request()->is('kontak-tim*') ? 'active' : '' }}" href="{{ route('tim.index') }}">
-                        <div class="icon-wrap"><i class="bi bi-people"></i></div>
-                        <span>Kontak Tim</span>
+                        <div class="icon-wrap"><i class="bi bi-person-vcard"></i></div>
+                        <span>Kontak Tim Ahli</span>
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link-custom {{ request()->is('profiladmin*') ? 'active' : '' }}" href="{{ url('/profiladmin') }}">
+                        <div class="icon-wrap"><i class="bi bi-buildings"></i></div>
+                        <span>Profil Perusahaan</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link-custom {{ request()->is('users') ? 'active' : '' }}" href="{{ url('/users') }}">
-                        <div class="icon-wrap"><i class="bi bi-people"></i></div>
+                    <hr class="border-secondary-subtle mx-4 my-2 opacity-50">
+                </li>
+
+                <li class="nav-category mt-2 mb-2 px-4 text-uppercase fw-bold text-muted" style="font-size: 0.65rem; letter-spacing: 1px;">
+                    Sistem
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link-custom {{ request()->is('users*') ? 'active' : '' }}" href="{{ url('/users') }}">
+                        <div class="icon-wrap"><i class="bi bi-people-fill"></i></div>
                         <span>Data User & Admin</span>
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link-custom {{ request()->is('keamanan') ? 'active' : '' }}" href="{{ url('/keamanan') }}">
-                        <div class="icon-wrap"><i class="bi bi-shield-lock"></i></div>
-                        <span>Keamanan</span>
-                    </a>
-                </li>
             </ul>
         </nav>
     </div>
 </aside>
+
 
 <!-- Sidebar Backdrop (mobile overlay) -->
 <div class="sidebar-backdrop" aria-hidden="true"></div>

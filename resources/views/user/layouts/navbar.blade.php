@@ -1,3 +1,6 @@
+@php
+    $companyProfile = \App\Models\CompanyProfile::first();
+@endphp
 <header x-data="{ scrolled: false, menuOpen: false }"
         x-init="$watch('menuOpen', value => { document.body.style.overflow = value ? 'hidden' : '' })"
         @scroll.window="scrolled = (window.pageYOffset > 60) ? true : false"
@@ -17,7 +20,7 @@
             {{-- Menu Tengah (Desktop) --}}
             <div class="hidden md:flex items-center gap-10">
                 <a href="{{ route('user.home') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.home') ? 'text-accent' : 'text-primary hover:text-accent' }}">Home</a>
-                <a href="{{ route('user.about') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.about') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">Profile</a>
+                <a href="{{ route('user.about') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.about') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">About</a>
                 <a href="{{ route('user.service') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.service') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">Service</a>
                 <a href="{{ route('user.project') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.project') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">Project</a>
                 <a href="{{ route('user.contact') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.contact') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">Contact</a>
@@ -105,20 +108,24 @@
             <hr class="my-4 border-slate-100">
 
             <div class="flex flex-col gap-5">
-                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Hubungi Cepat</p>
-                <a href="#" class="flex items-center gap-4 text-[14px] font-medium text-slate-600 hover:text-primary transition-colors">
-                    <div class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-accent bg-white shadow-sm">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    </div>
-                    cv.darmingjayagrup@gmail.com
-                </a>
-                <a href="#" class="flex items-center gap-4 text-[14px] font-medium text-slate-600 hover:text-primary transition-colors">
-                    <div class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-accent bg-white shadow-sm">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                    </div>
-                    +62 857-7236-4659
-                </a>
-            </div>
+            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Hubungi Cepat</p>
+            
+            {{-- Ambil Email dari Database --}}
+            <a href="mailto:{{ $companyProfile->email ?? 'cv.darmingjayagrup@gmail.com' }}" class="flex items-center gap-4 text-[14px] font-medium text-slate-600 hover:text-primary transition-colors">
+                <div class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-accent bg-white shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                </div>
+                {{ $companyProfile->email ?? 'cv.darmingjayagrup@gmail.com' }}
+            </a>
+            
+            {{-- Ambil Nomor HP dari Database --}}
+            <a href="tel:{{ $companyProfile->phone ?? '+6285772364659' }}" class="flex items-center gap-4 text-[14px] font-medium text-slate-600 hover:text-primary transition-colors">
+                <div class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-accent bg-white shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                </div>
+                {{ $companyProfile->phone ?? '+62 857-7236-4659' }}
+            </a>
+        </div>
         </div>
 
         {{-- ================= TOMBOL LOGIN / PROFIL (MOBILE MENU) ================= --}}

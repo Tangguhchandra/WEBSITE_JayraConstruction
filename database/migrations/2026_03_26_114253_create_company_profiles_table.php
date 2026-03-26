@@ -13,20 +13,19 @@ public function up(): void
 {
     Schema::create('company_profiles', function (Blueprint $table) {
         $table->id();
-        $table->string('name')->default('JayraConstruction');
-        $table->string('tagline')->nullable();
-        $table->text('description')->nullable();
+        $table->string('company_name')->default('CV. DARMING JAYA ABADI');
+        $table->text('about_description')->nullable();
+        $table->string('experience_years')->default('15+');
+        $table->string('projects_completed')->default('200+');
         $table->text('vision')->nullable();
-        $table->text('mission')->nullable();
-        $table->string('whatsapp')->nullable();
+        $table->text('mission')->nullable(); // Kita simpan misi pakai format enter per baris
         $table->string('email')->nullable();
+        $table->string('phone')->nullable();
         $table->text('address')->nullable();
-        $table->text('google_maps')->nullable();
-        $table->string('logo')->nullable();
+        $table->string('about_image')->nullable();
         $table->timestamps();
     });
 }
-
     /**
      * Reverse the migrations.
      */
