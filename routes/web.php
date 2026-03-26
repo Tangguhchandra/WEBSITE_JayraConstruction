@@ -94,6 +94,55 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::post('/proyek', [ProjectController::class, 'store'])->name('proyek.store');
     Route::put('/proyek/{id}', [ProjectController::class, 'update'])->name('proyek.update');
     Route::delete('/proyek/{id}', [ProjectController::class, 'destroy'])->name('proyek.destroy');
+
+    // ==========================================
+    // RUTE GLOBAL SEARCH (NAVBAR)
+    // ==========================================
+    Route::get('/api/global-search', function (\Illuminate\Http\Request $request) {
+        $query = $request->get('q');
+        if (!$query || strlen($query) < 2) return response()->json([]); // Minimal ketik 2 huruf
+
+        $results = [];
+
+        // 1. Cari di tabel User
+        $users = \App\Models\User::where('name', 'like', "%{$query}%")
+                    ->orWhere('email', 'like', "%{$query}%")
+                    ->take(3)->get();
+        foreach ($users as $user) {
+            $results[] = [
+                'title' => $user->name,
+                'type' => 'Data User (' . $user->email . ')',
+                'url' => route('users.index'), // Arahkan ke halaman user
+                'icon' => 'bi-person-badge text-primary'
+            ];
+        }
+
+        // 2. Cari di tabel Tim
+        $teams = \App\Models\Team::where('name', 'like', "%{$query}%")
+                    ->orWhere('role', 'like', "%{$query}%")
+                    ->take(3)->get();
+        foreach ($teams as $team) {
+            $results[] = [
+                'title' => $team->name,
+                'type' => 'Kontak Tim (' . $team->role . ')',
+                'url' => route('tim.index'), // Arahkan ke halaman tim
+                'icon' => 'bi-people text-success'
+            ];
+        }
+
+        // 3. Cari di tabel Proyek
+        $projects = \App\Models\Project::where('name', 'like', "%{$query}%")->take(3)->get();
+        foreach ($projects as $project) {
+            $results[] = [
+                'title' => $project->name,
+                'type' => 'Data Proyek',
+                'url' => route('proyek.index'), // Arahkan ke halaman proyek
+                'icon' => 'bi-building text-warning'
+            ];
+        }
+
+        return response()->json($results);
+    })->name('global.search');
 });
 
 
