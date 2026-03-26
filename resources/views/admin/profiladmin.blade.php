@@ -32,10 +32,9 @@
         </div>
 
         <div x-data="{ activeSection: 'umum' }">
-            <div class="row g-4">
-                
+            <div class="row g-4">   
                 <div class="col-lg-3">
-                    <nav class="nav nav-pills flex-column p-3 rounded-4 shadow-sm border bg-white">
+                    <nav class="nav nav-pills flex-column p-3 rounded-4 shadow-sm border bg-body">
                         <a class="nav-link mb-2 fw-semibold" :class="{ 'active': activeSection === 'umum' }" href="#" @click.prevent="activeSection = 'umum'">
                             <i class="bi bi-info-circle me-2"></i> Informasi Umum
                         </a>
@@ -58,19 +57,19 @@
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label class="form-label fw-bold small text-muted">Nama Perusahaan</label>
-                                <input type="text" name="company_name" class="form-control bg-light" value="{{ $profile->company_name }}">
+                                <input type="text" name="company_name" class="form-control " value="{{ $profile->company_name }}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold small text-muted">Tahun Pengalaman</label>
-                                <input type="text" name="experience_years" class="form-control bg-light" value="{{ $profile->experience_years }}" placeholder="Contoh: 15+">
+                                <input type="text" name="experience_years" class="form-control " value="{{ $profile->experience_years }}" placeholder="Contoh: 15+">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold small text-muted">Jumlah Proyek Selesai</label>
-                                <input type="text" name="projects_completed" class="form-control bg-light" value="{{ $profile->projects_completed }}" placeholder="Contoh: 200+">
+                                <input type="text" name="projects_completed" class="form-control " value="{{ $profile->projects_completed }}" placeholder="Contoh: 200+">
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="form-label fw-bold small text-muted">Deskripsi 'Siapa Kami?'</label>
-                                <textarea name="about_description" class="form-control bg-light" rows="6">{{ $profile->about_description }}</textarea>
+                                <textarea name="about_description" class="form-control " rows="6">{{ $profile->about_description }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -79,11 +78,11 @@
                         <h5 class="fw-bold mb-3">Visi & Misi</h5>
                         <div class="mb-4">
                             <label class="form-label fw-bold small text-muted">Teks Visi</label>
-                            <textarea name="vision" class="form-control bg-light" rows="3">{{ $profile->vision }}</textarea>
+                            <textarea name="vision" class="form-control " rows="3">{{ $profile->vision }}</textarea>
                         </div>
                         <div>
                             <label class="form-label fw-bold small text-muted">Teks Misi (Pisahkan dengan baris baru / Enter)</label>
-                            <textarea name="mission" class="form-control bg-light" rows="8">{{ $profile->mission }}</textarea>
+                            <textarea name="mission" class="form-control " rows="8">{{ $profile->mission }}</textarea>
                             <small class="text-secondary d-block mt-1"><i class="bi bi-info-circle me-1"></i>Setiap baris baru akan diubah menjadi daftar nomor (1, 2, 3) di halaman pengunjung.</small>
                         </div>
                     </div>
@@ -93,15 +92,15 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold small text-muted">Nomor Handphone / WhatsApp</label>
-                                <input type="text" name="phone" class="form-control bg-light" value="{{ $profile->phone }}">
+                                <input type="text" name="phone" class="form-control " value="{{ $profile->phone }}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold small text-muted">Alamat Email</label>
-                                <input type="email" name="email" class="form-control bg-light" value="{{ $profile->email }}">
+                                <input type="email" name="email" class="form-control " value="{{ $profile->email }}">
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label fw-bold small text-muted">Alamat Lengkap</label>
-                                <textarea name="address" class="form-control bg-light" rows="3">{{ $profile->address }}</textarea>
+                                <textarea name="address" class="form-control " rows="3">{{ $profile->address }}</textarea>
                             </div>
                         </div>
                     </div>
