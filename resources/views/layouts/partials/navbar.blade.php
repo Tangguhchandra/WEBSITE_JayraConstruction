@@ -74,18 +74,28 @@
         </div>
 
             <div class="navbar-nav flex-row align-items-center">
-                <div x-data="themeSwitch" class="me-6"> <button class="btn btn-outline-secondary" 
+                <div class="me-3" x-data="{ 
+                        currentTheme: localStorage.getItem('theme') || 'light',
+                        toggle() {
+                            this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+                            localStorage.setItem('theme', this.currentTheme);
+                            document.documentElement.setAttribute('data-bs-theme', this.currentTheme);
+                        }
+                    }" 
+                    x-init="document.documentElement.setAttribute('data-bs-theme', currentTheme)">
+                    
+                    <button class="btn btn-outline-secondary me-2 d-none d-md-inline-block" 
                             type="button" 
                             @click="toggle()"
                             data-bs-toggle="tooltip"
                             data-bs-placement="bottom"
-                            title="Toggle theme">
-                        <i class="bi bi-sun-fill" x-show="currentTheme === 'light'" x-cloak></i>
-                        <i class="bi bi-moon-fill" x-show="currentTheme === 'dark'" x-cloak></i>
+                            title="Ubah Tema">
+                        <i class="bi bi-sun-fill text-warning" x-show="currentTheme === 'light'" x-cloak></i>
+                        <i class="bi bi-moon-fill text-primary" x-show="currentTheme === 'dark'" x-cloak></i>
                     </button>
                 </div>
 
-                <button class="btn btn-outline-secondary me-8 d-none d-md-inline-block" 
+                <button class="btn btn-outline-secondary me-9 d-none d-md-inline-block" 
                         type="button"
                         data-fullscreen-toggle
                         data-bs-toggle="tooltip"
