@@ -255,12 +255,15 @@
                                 </a>
                                 
                                 {{-- Tombol Sembunyikan (Hanya dari UI) --}}
-                                <form :action="`/pembayaran/sembunyikan/${selectedTrx?.id}`" method="POST">
-                                    @csrf
-                                    <button type="submit" class="w-full bg-white border border-slate-200 text-red-500 font-bold py-3.5 rounded-xl hover:bg-red-50 transition-all text-sm">
-                                        Batalkan Pesanan
-                                    </button>
-                                </form>
+                                <div x-show="selectedTrx?.status === 'pending'" x-cloak class="mt-4">
+                                    <form :action="`/pembayaran/batal/${selectedTrx?.id}`" method="POST" onsubmit="return confirm('Yakin ingin membatalkan pesanan ini? Pesanan akan dihapus permanen.')">
+                                        @csrf
+                                        @method('DELETE') {{-- Wajib pakai DELETE untuk menghapus dari database --}}
+                                        <button type="submit" class="w-full bg-white border border-slate-200 text-red-500 font-bold py-3.5 rounded-xl hover:bg-red-50 transition-all text-sm">
+                                            Batalkan Pesanan
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
 
                             {{-- Jika BERHASIL / GAGAL: Tampilkan tombol Hapus Riwayat (Sembunyikan) --}}

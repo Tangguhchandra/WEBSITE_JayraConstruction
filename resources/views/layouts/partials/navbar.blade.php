@@ -43,7 +43,7 @@
             
                 <div class="position-relative">
                     <input type="search" 
-                        class="form-control border-0 bg-light" 
+                        class="form-control border-0 " 
                         placeholder="Cari user, tim, atau proyek..."
                         x-model="query"
                         @input.debounce.500ms="search()" 

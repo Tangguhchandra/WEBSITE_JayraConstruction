@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Midtrans\Config;
 use Midtrans\Snap;
+use App\Models\Transaction;
 
 class TransactionController extends Controller
 {
@@ -89,5 +90,18 @@ class TransactionController extends Controller
         ]);
 
         return view('user.detail-pembayaran', compact('snapToken', 'request'));
+    }
+
+    public function cancelTransaction($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+
+        // Opsional: Pastikan hanya transaksi 'pending' yang bisa dihapus
+        if ($transaction->transaction_status === 'pending') {
+            $transaction->delete(); // Hapus dari database
+            return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan dan dihapus dari riwayat.');
+        }
+
+        return redirect()->back()->with('error', 'Pesanan ini tidak dapat dibatalkan.');
     }
 }

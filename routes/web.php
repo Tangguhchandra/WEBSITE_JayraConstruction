@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Project;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AuthController;
@@ -15,9 +16,12 @@ use Illuminate\Http\Request;
 // ==========================================
 
 // Rute Home (Root)
-Route::get('/', function () { 
-    $projects = \App\Models\Project::latest()->take(4)->get();
-    return view('user.home', compact('projects')); 
+Route::get('/', function () {
+    // Tarik 3 data proyek terbaru dari database
+    $projects = Project::latest()->take(3)->get(); 
+    
+    // Lempar datanya ke view halaman depan kamu
+    return view('home', compact('projects')); // Sesuaikan 'home' dengan nama file blade kamu
 });
 
 // KARENA ADA NAME('user.'), SEMUA RUTE DI BAWAH INI OTOMATIS BERAWALAN user.
@@ -96,6 +100,8 @@ Route::name('user.')->group(function () {
     Route::post('/pembayaran/proses', [\App\Http\Controllers\TransactionController::class, 'proses'])
         ->name('pembayaran.proses')
         ->middleware('auth');
+
+    Route::delete('/transaksi/{id}/batal', [TransactionController::class, 'cancelTransaction'])->name('transaksi.batal');
 
     // 3. Halaman Pembayaran Berhasil (Invoice & Update Database)
     Route::get('/pembayaran/sukses', function (\Illuminate\Http\Request $request) {
