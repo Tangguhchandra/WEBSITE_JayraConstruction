@@ -26,7 +26,7 @@
                     Pembayaran Berhasil!
                 </h1>
                 <p class="text-slate-500 text-lg font-light">
-                    Kredit sebesar <strong class="font-bold text-primary">Rp 63.850.123</strong> telah kami terima.
+                    Kredit pembayaran untuk tagihan Anda telah kami terima dengan baik.
                 </p>
             </div>
 
@@ -37,19 +37,19 @@
                 <div class="space-y-3">
                     <div class="flex justify-between items-center text-sm">
                         <span class="text-slate-500">No. Referensi / Invoice</span>
-                        <span class="font-bold text-primary uppercase">INV-JC-202603-001</span>
+                        {{-- MENAMPILKAN ORDER ID DINAMIS DARI MIDTRANS --}}
+                        <span class="font-bold text-primary uppercase">{{ $order_id ?? 'INV-JC-XXXXX' }}</span>
                     </div>
                     <div class="flex justify-between items-center text-sm">
-                        <span class="text-slate-500">Waktu Pembayaran</span>
-                        <span class="font-bold text-primary">26 Maret 2026, 14:15 WIB</span>
+                        <span class="text-slate-500">Waktu Konfirmasi</span>
+                        {{-- MENAMPILKAN WAKTU REAL-TIME --}}
+                        <span class="font-bold text-primary">{{ \Carbon\Carbon::now()->translatedFormat('d F Y, H:i') }} WIB</span>
                     </div>
                     <div class="flex justify-between items-center text-sm">
-                        <span class="text-slate-500">Metode</span>
-                        <span class="font-bold text-primary">QRIS / E-Wallet</span>
-                    </div>
-                    <div class="pt-3 border-t border-slate-200 flex justify-between items-center text-sm">
-                        <span class="text-slate-500">Total Dibayar</span>
-                        <span class="font-display font-extrabold text-lg text-green-600">Rp 63.850.123</span>
+                        <span class="text-slate-500">Status Gateway</span>
+                        <span class="font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded text-xs uppercase tracking-wider">
+                            {{ $status ?? 'SETTLEMENT' }}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -74,9 +74,9 @@
 
             {{-- 5. Tombol Aksi --}}
             <div class="relative z-10 flex flex-col sm:flex-row justify-center gap-4">
-                <button class="bg-white border-2 border-slate-200 text-primary font-bold py-3.5 px-8 rounded-xl hover:border-primary hover:bg-slate-50 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 group">
+                <button onclick="window.print()" class="bg-white border-2 border-slate-200 text-primary font-bold py-3.5 px-8 rounded-xl hover:border-primary hover:bg-slate-50 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 group">
                     <svg class="w-5 h-5 text-slate-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    Unduh Bukti Bayar PDF
+                    Cetak Bukti Bayar
                 </button>
                 <a href="{{ route('user.home') }}" class="bg-primary border-2 border-primary text-white font-bold py-3.5 px-8 rounded-xl shadow-lg hover:bg-primaryDark hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2">
                     Kembali ke Beranda

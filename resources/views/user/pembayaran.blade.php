@@ -15,12 +15,9 @@
     $invoice_number = 'INV-JC-' . date('Ymd') . '-' . rand(1000,9999);
 @endphp
 
-{{-- Tambahkan variabel Alpine.js untuk menyimpan No HP dan Alamat --}}
+{{-- Variabel Alpine.js hanya untuk No HP dan Alamat --}}
 <div class="pt-32 pb-0 bg-slate-50" 
      x-data="{ 
-        paymentMethod: '', 
-        selectedBank: '', 
-        selectedEwallet: '',
         isEditing: false,
         phone: '{{ auth()->user()->phone ?? '' }}',
         address: '{{ auth()->user()->address ?? '' }}'
@@ -43,9 +40,9 @@
 
     {{-- ================= KONTEN UTAMA ================= --}}
     <section class="max-w-7xl mx-auto px-6 mb-20">
-        {{-- Form action ini nanti akan kita arahkan ke Controller Transaksi untuk Midtrans --}}
-        <form action="{{ route('user.detail-pembayaran') }}" method="GET" class="lg:grid lg:grid-cols-12 gap-8 space-y-8 lg:space-y-0">
-            @csrf
+        {{-- Form action ini diarahkan ke Controller Transaksi untuk Midtrans --}}
+        <form action="{{ route('user.pembayaran.proses') }}" method="POST" class="lg:grid lg:grid-cols-12 gap-8 space-y-8 lg:space-y-0">
+        @csrf
             
             {{-- KOLOM KIRI (Ringkasan & Alamat) --}}
             <div class="lg:col-span-7 space-y-8">
@@ -133,6 +130,7 @@
                         {{-- Input Hidden untuk dilempar ke Midtrans nanti --}}
                         <input type="hidden" name="order_id" value="{{ $invoice_number }}">
                         <input type="hidden" name="gross_amount" value="{{ $total_bayar }}">
+                        <input type="hidden" name="service_name" value="{{ $service->name }}">
                     </div>
 
                     {{-- List Jasa & Material (Dinamis dari Database) --}}
@@ -175,151 +173,59 @@
 
             </div>
 
-            {{-- KOLOM KANAN (Metode Pembayaran) --}}
+            {{-- KOLOM KANAN (Aksi & Keamanan) --}}
             <div class="lg:col-span-5 space-y-8">
                 
-                <div class="bg-primary rounded-[2.5rem] p-6 sm:p-8 shadow-2xl relative overflow-hidden reveal delay-300">
+                {{-- Box Aksi Pembayaran --}}
+                <div class="bg-primary rounded-[2.5rem] p-6 sm:p-8 shadow-2xl relative overflow-hidden reveal delay-300 flex flex-col justify-center h-full">
                     <div class="absolute -right-20 -top-20 w-64 h-64 bg-accent/20 rounded-full blur-[60px] pointer-events-none"></div>
                     <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 mix-blend-overlay"></div>
                     
-                    <div class="relative z-10">
-                        <h3 class="font-display text-2xl font-bold text-white mb-6">Pilih Metode Pembayaran</h3>
+                    <div class="relative z-10 text-center">
+                        <div class="w-20 h-20 bg-white/10 text-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        
+                        <h3 class="font-display text-2xl font-bold text-white mb-3">Selesaikan Pesanan</h3>
+                        <p class="text-slate-300 text-sm font-light leading-relaxed mb-8">
+                            Klik tombol di bawah ini untuk memilih metode pembayaran melalui sistem terenkripsi Midtrans. Pembayaran akan terverifikasi secara otomatis.
+                        </p>
 
                         <div class="space-y-4">
-                            
-                            {{-- TRANSFER BANK --}}
-                            <div>
-                                <label class="flex items-center justify-between p-4 rounded-2xl border-2 border-white/10 bg-white/5 cursor-pointer hover:bg-white/10 hover:border-accent/50 transition-all duration-300"
-                                       :class="paymentMethod === 'bank' ? 'border-accent bg-white/20' : ''">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center bg-white"
-                                             :class="paymentMethod === 'bank' ? 'border-accent' : ''">
-                                            <div class="w-3 h-3 rounded-full bg-accent transition-transform duration-300" x-show="paymentMethod === 'bank'" x-transition:enter="scale-0" x-transition:enter-end="scale-100"></div>
-                                        </div>
-                                        <div class="text-white">
-                                            <h4 class="font-bold text-[15px]">Virtual Account (Bank)</h4>
-                                            <p class="text-xs text-white/60">BCA, Mandiri, BNI, BRI</p>
-                                        </div>
-                                    </div>
-                                    <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                                    <input type="radio" name="payment_type" value="bank" x-model="paymentMethod" class="hidden">
-                                </label>
-
-                                {{-- Pilihan Bank Dropdown --}}
-                                <div class="px-4 py-4 mt-2 mb-2 bg-white/5 rounded-2xl border border-white/10 space-y-2 overflow-hidden" 
-                                     x-show="paymentMethod === 'bank'" 
-                                     x-transition:enter="transition ease-out duration-300"
-                                     x-transition:enter-start="opacity-0 -translate-y-2"
-                                     x-transition:enter-end="opacity-100 translate-y-0">
-                                     <p class="text-xs text-accent font-bold mb-3 uppercase tracking-widest">Pilih Bank Tujuan</p>
-                                     <div class="grid grid-cols-2 gap-2">
-                                         <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:bg-white/10 cursor-pointer transition-colors" :class="selectedBank === 'bca' ? 'bg-white/20 border-accent/50' : ''">
-                                             <input type="radio" name="bank" value="bca" x-model="selectedBank" class="hidden">
-                                             <span class="font-bold text-white text-sm">BCA</span>
-                                         </label>
-                                         <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:bg-white/10 cursor-pointer transition-colors" :class="selectedBank === 'mandiri' ? 'bg-white/20 border-accent/50' : ''">
-                                             <input type="radio" name="bank" value="mandiri" x-model="selectedBank" class="hidden">
-                                             <span class="font-bold text-white text-sm">Mandiri</span>
-                                         </label>
-                                         <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:bg-white/10 cursor-pointer transition-colors" :class="selectedBank === 'bni' ? 'bg-white/20 border-accent/50' : ''">
-                                             <input type="radio" name="bank" value="bni" x-model="selectedBank" class="hidden">
-                                             <span class="font-bold text-white text-sm">BNI</span>
-                                         </label>
-                                         <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:bg-white/10 cursor-pointer transition-colors" :class="selectedBank === 'bri' ? 'bg-white/20 border-accent/50' : ''">
-                                             <input type="radio" name="bank" value="bri" x-model="selectedBank" class="hidden">
-                                             <span class="font-bold text-white text-sm">BRI</span>
-                                         </label>
-                                     </div>
-                                </div>
-                            </div>
-
-                            {{-- E-WALLET --}}
-                            <div>
-                                <label class="flex items-center justify-between p-4 rounded-2xl border-2 border-white/10 bg-white/5 cursor-pointer hover:bg-white/10 hover:border-accent/50 transition-all duration-300"
-                                       :class="paymentMethod === 'ewallet' ? 'border-accent bg-white/20' : ''">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center bg-white"
-                                             :class="paymentMethod === 'ewallet' ? 'border-accent' : ''">
-                                            <div class="w-3 h-3 rounded-full bg-accent transition-transform duration-300" x-show="paymentMethod === 'ewallet'" x-transition:enter="scale-0" x-transition:enter-end="scale-100"></div>
-                                        </div>
-                                        <div class="text-white">
-                                            <h4 class="font-bold text-[15px]">E-Wallet</h4>
-                                            <p class="text-xs text-white/60">GoPay, OVO, DANA</p>
-                                        </div>
-                                    </div>
-                                    <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                    <input type="radio" name="payment_type" value="ewallet" x-model="paymentMethod" class="hidden">
-                                </label>
-
-                                {{-- Pilihan Ewallet --}}
-                                <div class="px-4 py-4 mt-2 mb-2 bg-white/5 rounded-2xl border border-white/10 space-y-2 overflow-hidden" 
-                                     x-show="paymentMethod === 'ewallet'" 
-                                     x-transition:enter="transition ease-out duration-300"
-                                     x-transition:enter-start="opacity-0 -translate-y-2"
-                                     x-transition:enter-end="opacity-100 translate-y-0">
-                                     <p class="text-xs text-accent font-bold mb-3 uppercase tracking-widest">Pilih Dompet Digital</p>
-                                     <div class="grid grid-cols-2 gap-2">
-                                         <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:bg-white/10 cursor-pointer transition-colors" :class="selectedEwallet === 'gopay' ? 'bg-white/20 border-accent/50' : ''">
-                                             <input type="radio" name="ewallet" value="gopay" x-model="selectedEwallet" class="hidden">
-                                             <span class="font-bold text-white text-sm">GoPay</span>
-                                         </label>
-                                         <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:bg-white/10 cursor-pointer transition-colors" :class="selectedEwallet === 'ovo' ? 'bg-white/20 border-accent/50' : ''">
-                                             <input type="radio" name="ewallet" value="ovo" x-model="selectedEwallet" class="hidden">
-                                             <span class="font-bold text-white text-sm">OVO</span>
-                                         </label>
-                                         <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:bg-white/10 cursor-pointer transition-colors" :class="selectedEwallet === 'dana' ? 'bg-white/20 border-accent/50' : ''">
-                                             <input type="radio" name="ewallet" value="dana" x-model="selectedEwallet" class="hidden">
-                                             <span class="font-bold text-white text-sm">DANA</span>
-                                         </label>
-                                     </div>
-                                </div>
-                            </div>
-
-                            {{-- QRIS --}}
-                            <div>
-                                <label class="flex items-center justify-between p-4 rounded-2xl border-2 border-white/10 bg-white/5 cursor-pointer hover:bg-white/10 hover:border-accent/50 transition-all duration-300"
-                                       :class="paymentMethod === 'qris' ? 'border-accent bg-white/20' : ''">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center bg-white"
-                                             :class="paymentMethod === 'qris' ? 'border-accent' : ''">
-                                            <div class="w-3 h-3 rounded-full bg-accent transition-transform duration-300" x-show="paymentMethod === 'qris'" x-transition:enter="scale-0" x-transition:enter-end="scale-100"></div>
-                                        </div>
-                                        <div class="text-white">
-                                            <h4 class="font-bold text-[15px]">QRIS</h4>
-                                            <p class="text-xs text-white/60">Scan QR via m-Banking / Wallet</p>
-                                        </div>
-                                    </div>
-                                    <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
-                                    <input type="radio" name="payment_type" value="qris" x-model="paymentMethod" class="hidden">
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="mt-8">
                             <button type="submit" 
                                     class="w-full bg-accent text-primary font-bold text-lg py-4 rounded-xl shadow-lg shadow-accent/20 transition-all duration-300 flex items-center justify-center gap-2 group/btn"
-                                    :class="(!paymentMethod || !phone || !address) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:-translate-y-1'"
-                                    :disabled="!paymentMethod || !phone || !address">
-                                Konfirmasi Pembayaran
-                                <svg class="w-5 h-5 transition-transform" :class="(paymentMethod && phone && address) ? 'group-hover/btn:translate-x-1' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                    :class="(!phone || !address) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:-translate-y-1'"
+                                    :disabled="!phone || !address">
+                                Proses Pembayaran
+                                <svg class="w-5 h-5 transition-transform" :class="(phone && address) ? 'group-hover/btn:translate-x-1' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </button>
                             
                             {{-- Notifikasi peringatan jika data blm lengkap --}}
-                            <p x-show="!phone || !address" class="text-center text-xs text-yellow-300 font-bold mt-3 animate-pulse">
-                                Mohon lengkapi Nomor HP dan Alamat terlebih dahulu.
+                            <p x-show="!phone || !address" class="text-center text-sm text-yellow-300 font-bold mt-2 animate-pulse">
+                                Mohon lengkapi Nomor HP dan Alamat proyek Anda terlebih dahulu pada kotak di sebelah kiri.
                             </p>
+                        </div>
 
-                            <p class="text-center text-xs text-white/50 mt-4 leading-relaxed">
-                                Dengan menekan tombol di atas, Anda menyetujui<br><a href="#" class="text-accent hover:underline">Syarat & Ketentuan</a> dari Jayra Construction.
+                        <div class="mt-8 flex flex-col items-center gap-4">
+                            <div class="flex items-center justify-center gap-3 bg-white/5 py-2 px-4 rounded-full border border-white/10 w-max">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logo_QRIS.svg/1200px-Logo_QRIS.svg.png" alt="QRIS" class="h-4 object-contain brightness-0 invert opacity-80">
+                                <div class="w-1 h-4 bg-white/20 rounded-full"></div>
+                                <span class="text-xs font-bold text-white/80 uppercase tracking-widest">Bank Transfer</span>
+                                <div class="w-1 h-4 bg-white/20 rounded-full"></div>
+                                <span class="text-xs font-bold text-white/80 uppercase tracking-widest">E-Wallet</span>
+                            </div>
+                            
+                            <p class="text-center text-xs text-white/40 leading-relaxed">
+                                Dengan memproses pesanan, Anda menyetujui<br><a href="#" class="text-accent hover:underline">Syarat & Ketentuan</a> dari Jayra Construction.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {{-- Shield Keamanan --}}
+                {{-- Shield Keamanan Luar --}}
                 <div class="flex items-center justify-center gap-3 text-slate-400 text-sm font-medium reveal delay-400">
-                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                    Transaksi Anda dijamin aman 100% dan terenkripsi oleh Midtrans.
+                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    Pembayaran didukung penuh oleh Midtrans Payment Gateway.
                 </div>
 
             </div>

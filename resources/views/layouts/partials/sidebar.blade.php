@@ -1,99 +1,135 @@
 <style>
-/* --- PERBAIKAN CSS SIDEBAR: MINI SIDEBAR MODE --- */
-.admin-sidebar {
-    width: 280px; 
-    background: var(--bs-body-bg);
-    border-right: 1px solid rgba(0, 0, 0, 0.05);
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                background-color 0.6s ease, 
-                border-color 0.6s ease; /* Transisi lebih smooth */
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.02);
-    display: flex;
-    flex-direction: column;
-    z-index: 1040;
-    overflow: hidden; /* Penting agar teks tidak tumpah saat mengecil */
-}
-
-.admin-main {
-    margin-left: 280px; 
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* --- LOGIKA SAAT COLLAPSED (MENJADI MINI) --- */
-
-/* 1. Perkecil Lebar Sidebar & Hilangkan Margin Utama */
-.sidebar-collapsed .admin-sidebar {
-    width: 80px !important; /* Lebar saat hanya sisa ikon */
-}
-
-.sidebar-collapsed .admin-main {
-    margin-left: 80px !important;
-}
-
-/* 2. Sembunyikan Nama Brand (Teks Jayra Construction) */
-.sidebar-collapsed .brand-name,
-.sidebar-collapsed .brand-subtitle {
-    display: none !important;
-}
-
-/* 3. Atur Area Logo agar di tengah */
-.sidebar-collapsed .sidebar-brand-wrapper {
-    justify-content: center;
-    padding: 1.5rem 0;
-}
-
-/* 4. Sembunyikan Teks Menu (span) */
-.sidebar-collapsed .nav-link-custom span {
-    display: none !important;
-}
-
-/* 5. Buat Ikon Menu ke Tengah */
-.sidebar-collapsed .nav-link-custom {
-    justify-content: center;
-    padding: 14px 0 !important;
-}
-
-.sidebar-collapsed .icon-wrap {
-    margin-right: 0 !important; /* Hilangkan jarak kanan ikon */
-}
-
-/* 6. Hilangkan Animasi Geser ke Kanan saat mode mini agar tidak aneh */
-.sidebar-collapsed .nav-link-custom:hover {
-    transform: none !important;
-}
-
-/* Responsif Mobile (Tetap hilang total kalau di HP agar tidak sempit) */
-@media (max-width: 991.98px) {
-    .admin-main { margin-left: 0 !important; }
+    /* --- PERBAIKAN CSS SIDEBAR: MINI SIDEBAR MODE --- */
     .admin-sidebar {
-    /* Tambahkan transition background & border agar smooth saat ganti tema */
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                background-color 0.6s ease, 
-                border-color 0.6s ease;
-}
-    .sidebar-collapsed .admin-sidebar {
-        transform: translateX(0); /* Muncul penuh saat diklik di mobile */
-        width: 280px !important;
+        width: 280px; 
+        background: var(--bs-body-bg);
+        border-right: 1px solid rgba(0, 0, 0, 0.05);
+        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                    background-color 0.6s ease, 
+                    border-color 0.6s ease; /* Transisi lebih smooth */
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.02);
+        display: flex;
+        flex-direction: column;
+        z-index: 1040;
+        
+        /* 🔥 TAMBAHAN UNTUK SCROLLING 🔥 */
+        position: fixed;   /* Agar sidebar diam di tempat walau layar discroll */
+        height: 100vh;     /* Tinggi sidebar mentok seukuran layar penuh */
+        overflow-y: auto;  /* Jika menu kepanjangan, otomatis muncul scroll ke bawah */
+        overflow-x: hidden;/* Agar scroll ke samping (horizontal) tidak bocor */
     }
-}
-.nav-link-custom, 
-.brand-name, 
-.brand-subtitle, 
-.nav-category {
-    /* Supaya teks berubah warna pelan-pelan (hitam ke putih) */
-    transition: color 0.6s ease, background-color 0.3s ease, transform 0.2s ease;
-}
 
-/* Kotak Ikon */
-.icon-wrap {
-    /* Supaya kotak ikon berubah kegelapannya pelan-pelan */
-    transition: background-color 0.6s ease, color 0.6s ease;
-}
+    /* 🔥 TAMBAHAN DESAIN SCROLLBAR KECIL (OPSIONAL TAPI KEREN) 🔥 */
+    .admin-sidebar::-webkit-scrollbar { width: 4px; }
+    .admin-sidebar::-webkit-scrollbar-track { background: transparent; }
+    .admin-sidebar::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.3); border-radius: 10px; }
 
-/* Shadow pada Brand Icon */
-.brand-icon-box {
-    transition: box-shadow 0.6s ease, transform 0.3s ease;
-}
+    .admin-main {
+        margin-left: 280px; 
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* --- LOGIKA SAAT COLLAPSED (MENJADI MINI) --- */
+
+    /* 1. Perkecil Lebar Sidebar & Hilangkan Margin Utama */
+    .sidebar-collapsed .admin-sidebar {
+        width: 80px !important; /* Lebar saat hanya sisa ikon */
+    }
+
+    .sidebar-collapsed .admin-main {
+        margin-left: 80px !important;
+    }
+
+    /* 2. Sembunyikan Nama Brand & TULISAN KATEGORI (Utama, Sistem, dll) */
+    .sidebar-collapsed .brand-name,
+    .sidebar-collapsed .brand-subtitle,
+    .sidebar-collapsed .nav-category {
+        display: none !important;
+    }
+
+    /* 3. Atur Area Logo agar di tengah */
+    .sidebar-collapsed .sidebar-brand-wrapper {
+        justify-content: center;
+        padding: 1.5rem 0;
+    }
+
+    /* 4. Sembunyikan Teks Menu (span) */
+    .sidebar-collapsed .nav-link-custom span {
+        display: none !important;
+    }
+
+    /* 5. Buat Ikon Menu ke Tengah */
+    .sidebar-collapsed .nav-link-custom {
+        justify-content: center;
+        padding: 14px 0 !important;
+    }
+
+    .sidebar-collapsed .icon-wrap {
+        margin-right: 0 !important; /* Hilangkan jarak kanan ikon */
+    }
+
+    /* 6. Hilangkan Animasi Geser ke Kanan saat mode mini agar tidak aneh */
+    .sidebar-collapsed .nav-link-custom:hover {
+        transform: none !important;
+    }
+
+    /* --- CSS UNTUK BACKDROP GELAP DI HP --- */
+    .sidebar-backdrop {
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(2px);
+        z-index: 1035;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    /* Responsif Mobile (Tetap hilang total kalau di HP agar tidak sempit) */
+    @media (max-width: 991.98px) {
+        .admin-main { margin-left: 0 !important; }
+        
+        .admin-sidebar {
+            position: fixed;
+            top: 0; left: 0; height: 100vh;
+            transform: translateX(-100%); /* Sembunyikan ke kiri luar layar */
+            /* Tambahkan transition transform agar smooth saat keluar-masuk */
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        width 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        background-color 0.6s ease, 
+                        border-color 0.6s ease;
+        }
+        
+        .sidebar-collapsed .admin-sidebar {
+            transform: translateX(0); /* Muncul penuh saat diklik di mobile */
+            width: 280px !important;
+        }
+
+        /* Tampilkan backdrop gelap saat sidebar terbuka di HP */
+        body.sidebar-collapsed .sidebar-backdrop {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    .nav-link-custom, 
+    .brand-name, 
+    .brand-subtitle, 
+    .nav-category {
+        /* Supaya teks berubah warna pelan-pelan (hitam ke putih) */
+        transition: color 0.6s ease, background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Kotak Ikon */
+    .icon-wrap {
+        /* Supaya kotak ikon berubah kegelapannya pelan-pelan */
+        transition: background-color 0.6s ease, color 0.6s ease;
+    }
+
+    /* Shadow pada Brand Icon */
+    .brand-icon-box {
+        transition: box-shadow 0.6s ease, transform 0.3s ease;
+    }
 
     .brand-icon-box {
         width: 45px; height: 45px;
@@ -114,6 +150,7 @@
 
     .sidebar-nav {
         padding-top: 10px !important; /* Beri sedikit ruang agar tidak terlalu mepet garis */
+        padding-bottom: 90px !important; 
     }
 
     .sidebar-nav .nav-item {
@@ -216,7 +253,6 @@
     }
 </style>
 
-<!-- Sidebar -->
 <aside class="admin-sidebar" id="admin-sidebar">
     <div class="sidebar-content">
         <nav class="sidebar-nav">
@@ -296,6 +332,16 @@
     </div>
 </aside>
 
+<div class="sidebar-backdrop" id="mobile-backdrop" aria-hidden="true"></div>
 
-<!-- Sidebar Backdrop (mobile overlay) -->
-<div class="sidebar-backdrop" aria-hidden="true"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const backdrop = document.getElementById('mobile-backdrop');
+        if (backdrop) {
+            backdrop.addEventListener('click', function() {
+                // Menghapus class sidebar-collapsed dari body akan menyembunyikan sidebar di mobile
+                document.body.classList.remove('sidebar-collapsed');
+            });
+        }
+    });
+</script>

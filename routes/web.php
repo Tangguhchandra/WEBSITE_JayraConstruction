@@ -74,30 +74,77 @@ Route::name('user.')->group(function () {
         return view('user.contact-person', compact('teams')); 
     })->name('contact');
 
-    // Profil Pengguna (Mungkin butuh middleware auth nantinya)
+    // Profil (Menampilkan Riwayat Transaksi)
     Route::get('/profil', function () { 
-        return view('user.profil'); 
-    })->name('profil');
+        $transactions = \App\Models\Transaction::where('user_id', auth()->id())
+                            ->where('is_hidden', false)
+                            ->latest()->get();
+        return view('user.profil', compact('transactions')); 
+    })->name('profil')->middleware('auth');
 
     // ==========================================
     // ALUR PEMBAYARAN (CHECKOUT -> QRIS -> SUKSES)
     // ==========================================
 
-    // 1. Proses Pembayaran (Checkout) - Wajib Login
+    // 1. Proses Pembayaran (Checkout)
     Route::get('/pembayaran/checkout/{id}', function ($id) {
         $service = \App\Models\Service::findOrFail($id);
         return view('user.pembayaran', compact('service'));
     })->name('pembayaran')->middleware('auth');
 
-    // 2. Halaman Detail Pembayaran (Menampilkan QRIS)
-    Route::get('/pembayaran/qris', function () {
-        return view('user.detail-pembayaran');
-    })->name('detail-pembayaran');
+    // 2. Rute untuk memproses data dari form Checkout ke Midtrans
+    Route::post('/pembayaran/proses', [\App\Http\Controllers\TransactionController::class, 'proses'])
+        ->name('pembayaran.proses')
+        ->middleware('auth');
 
-    // 3. Halaman Pembayaran Berhasil (Invoice)
-    Route::get('/pembayaran/sukses', function () {
-        return view('user.pembayaran-berhasil'); // Pastikan nama file blade-nya 'pembayaran-berhasil.blade.php'
+    // 3. Halaman Pembayaran Berhasil (Invoice & Update Database)
+    Route::get('/pembayaran/sukses', function (\Illuminate\Http\Request $request) {
+        $order_id = $request->order_id;
+        $status = $request->transaction_status ?? 'settlement';
+
+        if ($order_id) {
+            $transaction = \App\Models\Transaction::where('order_id', $order_id)->first();
+            if ($transaction) {
+                $transaction->update([
+                    'transaction_status' => $status
+                ]);
+            }
+        }
+
+        return view('user.notifikasi-pembayaran', [ // Pastikan nama view ini sesuai ya
+            'order_id' => $order_id ?? 'INV-JC-SUCCESS',
+            'status' => $status
+        ]); 
     })->name('pembayaran-berhasil');
+
+    // 4. Batalkan Pembayaran (Hapus Permanen dari Database)
+    Route::get('/pembayaran/batal/{order_id}', function ($order_id) {
+        $transaction = \App\Models\Transaction::where('order_id', $order_id)
+                            ->where('user_id', auth()->id())
+                            ->first();
+        
+        if ($transaction) {
+            $transaction->delete();
+        }
+        return redirect()->route('user.service');
+    })->name('pembayaran.batal')->middleware('auth');
+
+    // 5. Sembunyikan riwayat transaksi dari profil user (Soft Delete)
+    Route::post('/pembayaran/sembunyikan/{id}', function ($id) {
+        $transaction = \App\Models\Transaction::where('id', $id)
+                            ->where('user_id', auth()->id())
+                            ->first();
+
+        if ($transaction) {
+            $transaction->update(['is_hidden' => true]);
+        }
+        return redirect()->back()->with('success', 'Riwayat berhasil disembunyikan.');
+    })->name('pembayaran.sembunyikan')->middleware('auth');
+
+    // 6. Lanjutkan Pembayaran yang Pending (Generate Token Baru)
+    Route::get('/pembayaran/lanjutkan/{id}', [\App\Http\Controllers\TransactionController::class, 'lanjutkan'])
+        ->name('pembayaran.lanjutkan')
+        ->middleware('auth');
 
 });
 
@@ -131,11 +178,77 @@ Route::get('/verification-password-success', function () { return view('user.ver
 
 Route::middleware(['auth', IsAdmin::class])->group(function () {
     
-    // Dashboard Admin
-    Route::get('/dashboard', function () { return view('admin.dashboard'); })->name('dashboard');
+// Dashboard Admin
+    Route::get('/dashboard', function () { 
+        // Hitung total data untuk ditampilkan di Dashboard
+        $totalProyek = \App\Models\Project::count();
+        $totalLayanan = \App\Models\Service::count();
+        $totalUser = \App\Models\User::count(); // Bisa ditambahin ->where('role', 'user') kalau ada sistem role
+        $pendingTrx = \App\Models\Transaction::where('transaction_status', 'pending')->count();
+
+        return view('admin.dashboard', compact('totalProyek', 'totalLayanan', 'totalUser', 'pendingTrx')); 
+    })->name('dashboard');
     
-    // Laporan
-    Route::get('/laporan-pembayaran', function () { return view('admin.laporanpembayaran'); })->name('laporan-pembayaran');
+    // Halaman Laporan Pembayaran Admin
+        Route::get('/laporan-pembayaran', function () {
+            // Ambil semua transaksi (termasuk yang disembunyikan user) dari yang terbaru
+            $transactions = \App\Models\Transaction::with('user')->latest()->get();
+
+            // Hitung statistik otomatis
+            $totalPendapatan = $transactions->whereIn('transaction_status', ['settlement', 'success'])->sum('gross_amount');
+            $totalPending = $transactions->where('transaction_status', 'pending')->count();
+            $totalBerhasil = $transactions->whereIn('transaction_status', ['settlement', 'success'])->count();
+            $totalGagal = $transactions->whereIn('transaction_status', ['expire', 'cancel', 'deny'])->count();
+
+            return view('admin.laporanpembayaran', compact(
+                'transactions', 'totalPendapatan', 'totalPending', 'totalBerhasil', 'totalGagal'
+            ));
+        })->name('laporan-pembayaran');
+
+        // Fitur Hapus Transaksi oleh Admin
+        Route::delete('/laporan-pembayaran/{id}', function ($id) {
+            $transaction = \App\Models\Transaction::findOrFail($id);
+            $transaction->delete(); // Hapus permanen dari database
+            return redirect()->back()->with('success', 'Data transaksi berhasil dihapus!');
+        })->name('laporan-pembayaran.destroy');
+
+    // Fitur Export ke Excel (CSV)
+        Route::get('/laporan-pembayaran/export', function () {
+            $transactions = \App\Models\Transaction::with('user')->latest()->get();
+            $filename = "Laporan_Pembayaran_Jayra_" . date('Y-m-d') . ".csv";
+
+            $headers = [
+                "Content-type"        => "text/csv",
+                "Content-Disposition" => "attachment; filename=$filename",
+                "Pragma"              => "no-cache",
+                "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                "Expires"             => "0"
+            ];
+
+            // Judul Kolom di Excel nanti
+            $columns = ['Order ID', 'Tanggal Transaksi', 'Nama Pelanggan', 'No. HP', 'Alamat', 'Layanan', 'Nominal Tagihan (Rp)', 'Status'];
+
+            $callback = function() use($transactions, $columns) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns); // Tulis Baris Pertama (Judul)
+
+                foreach ($transactions as $trx) {
+                    fputcsv($file, [
+                        $trx->order_id,
+                        $trx->created_at->format('Y-m-d H:i'),
+                        $trx->user->name ?? 'User Terhapus',
+                        $trx->phone ?? 'Tidak ada',
+                        $trx->address ?? 'Tidak ada',
+                        $trx->service_name,
+                        $trx->gross_amount,
+                        strtoupper($trx->transaction_status)
+                    ]);
+                }
+                fclose($file);
+            };
+
+            return response()->stream($callback, 200, $headers);
+        })->name('laporan-pembayaran.export');
 
     // Profil Perusahaan
     Route::get('/profiladmin', [CompanyProfileController::class, 'index'])->name('profilperusahaan.index');
