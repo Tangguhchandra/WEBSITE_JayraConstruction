@@ -20,6 +20,7 @@ Route::get('/', function () {
     return view('user.home', compact('projects')); 
 });
 
+// KARENA ADA NAME('user.'), SEMUA RUTE DI BAWAH INI OTOMATIS BERAWALAN user.
 Route::name('user.')->group(function () {
     
     // Halaman Utama
@@ -52,14 +53,12 @@ Route::name('user.')->group(function () {
     Route::get('/service', function (\Illuminate\Http\Request $request) { 
         $query = \App\Models\Service::where('status', 'Aktif')->latest();
         
-        // Jika ada pencarian
         if ($request->has('search')) {
             $query->where('name', 'like', '%' . $request->search . '%')
                   ->orWhere('category', 'like', '%' . $request->search . '%');
         }
 
-        $services = $query->paginate(4)->withQueryString(); // Tambah withQueryString agar search tidak hilang pas pindah halaman
-        
+        $services = $query->paginate(4)->withQueryString(); 
         return view('user.service', compact('services')); 
     })->name('service');
 
@@ -80,10 +79,26 @@ Route::name('user.')->group(function () {
         return view('user.profil'); 
     })->name('profil');
 
-    // Proses Pembayaran
-    Route::get('/pembayaran', function () { return view('user.pembayaran'); })->name('pembayaran');
-    Route::get('/detail-pembayaran', function () { return view('user.detail-pembayaran'); })->name('detail-pembayaran');
-    Route::get('/notifikasi-pembayaran', function () { return view('user.notifikasi-pembayaran'); })->name('notifikasi-pembayaran');
+    // ==========================================
+    // ALUR PEMBAYARAN (CHECKOUT -> QRIS -> SUKSES)
+    // ==========================================
+
+    // 1. Proses Pembayaran (Checkout) - Wajib Login
+    Route::get('/pembayaran/checkout/{id}', function ($id) {
+        $service = \App\Models\Service::findOrFail($id);
+        return view('user.pembayaran', compact('service'));
+    })->name('pembayaran')->middleware('auth');
+
+    // 2. Halaman Detail Pembayaran (Menampilkan QRIS)
+    Route::get('/pembayaran/qris', function () {
+        return view('user.detail-pembayaran');
+    })->name('detail-pembayaran');
+
+    // 3. Halaman Pembayaran Berhasil (Invoice)
+    Route::get('/pembayaran/sukses', function () {
+        return view('user.pembayaran-berhasil'); // Pastikan nama file blade-nya 'pembayaran-berhasil.blade.php'
+    })->name('pembayaran-berhasil');
+
 });
 
 

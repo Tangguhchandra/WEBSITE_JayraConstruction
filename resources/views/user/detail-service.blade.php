@@ -150,8 +150,8 @@
                         
                         {{-- CEK APAKAH USER SUDAH LOGIN ATAU BELUM --}}
                         @auth
-                            {{-- Jika Sudah Login -> Langsung ke halaman pembayaran --}}
-                            <a href="{{ route('user.pembayaran') }}" class="flex-1 flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl border-2 border-primary bg-primary text-white font-bold text-[14px] hover:bg-primaryDark hover:border-primaryDark hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 text-center">
+                            {{-- Jika Sudah Login -> Langsung ke halaman pembayaran membawa ID layanan --}}
+                            <a href="{{ route('user.pembayaran', $service->id) }}" class="flex-1 flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl border-2 border-primary bg-primary text-white font-bold text-[14px] hover:bg-primaryDark hover:border-primaryDark hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 text-center">
                                 Pesan Sekarang
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                             </a>
