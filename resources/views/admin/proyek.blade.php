@@ -24,9 +24,6 @@
             <p class="text-body-secondary mb-0">Pantau progres, kelola anggaran, dan rincian konstruksi JayraConstruction.</p>
         </div>
         <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-secondary">
-                <i class="bi bi-download me-2"></i>Export
-            </button>
             <button type="button" class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#projectModal" onclick="prepareAdd()">
                 <i class="bi bi-plus-lg me-2"></i>Tambah Proyek
             </button>
@@ -143,17 +140,21 @@
                                 </span>
                             </td>
                             <td class="text-end pe-4">
-                                <button type="button" class="btn btn-sm  text-primary me-1 border shadow-sm hover-elevate" 
-                                    data-bs-toggle="modal" data-bs-target="#projectModal" onclick='prepareEdit(@json($item))'>
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-                                <form action="{{ route('proyek.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus proyek ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm  text-danger border shadow-sm hover-elevate">
-                                        <i class="bi bi-trash"></i>
+                                <div class="btn-group shadow-sm">
+                                    <button type="button" 
+                                            class="btn btn-light-custom btn-sm" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#projectModal" 
+                                            onclick='prepareEdit(@json($item))'>
+                                        <i class="bi bi-pencil-fill text-primary"></i>
                                     </button>
-                                </form>
+                                    <form action="{{ route('proyek.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus proyek ini?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="btn btn-light-custom btn-sm text-danger" title="Hapus">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @empty

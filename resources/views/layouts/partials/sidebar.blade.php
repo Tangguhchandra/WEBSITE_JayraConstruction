@@ -6,69 +6,65 @@
         border-right: 1px solid rgba(0, 0, 0, 0.05);
         transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
                     background-color 0.6s ease, 
-                    border-color 0.6s ease; /* Transisi lebih smooth */
+                    border-color 0.6s ease;
         box-shadow: 10px 0 30px rgba(0, 0, 0, 0.02);
         display: flex;
         flex-direction: column;
         z-index: 1040;
         
-        /* 🔥 TAMBAHAN UNTUK SCROLLING 🔥 */
-        position: fixed;   /* Agar sidebar diam di tempat walau layar discroll */
-        height: 100vh;     /* Tinggi sidebar mentok seukuran layar penuh */
-        overflow-y: auto;  /* Jika menu kepanjangan, otomatis muncul scroll ke bawah */
-        overflow-x: hidden;/* Agar scroll ke samping (horizontal) tidak bocor */
+        position: fixed;   
+        height: 100vh;     
+        overflow-y: auto;  
+        overflow-x: hidden;
     }
 
-    /* 🔥 TAMBAHAN DESAIN SCROLLBAR KECIL (OPSIONAL TAPI KEREN) 🔥 */
     .admin-sidebar::-webkit-scrollbar { width: 4px; }
     .admin-sidebar::-webkit-scrollbar-track { background: transparent; }
     .admin-sidebar::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.3); border-radius: 10px; }
 
+    /* 🔥 FIX 2: Lebar admin-main diatur pakai calc() biar halaman kanan otomatis ngisi ruang kosong! */
     .admin-main {
         margin-left: 280px; 
+        width: calc(100% - 280px); /* Kunci lebarnya */
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 100vh;
     }
 
     /* --- LOGIKA SAAT COLLAPSED (MENJADI MINI) --- */
-
-    /* 1. Perkecil Lebar Sidebar & Hilangkan Margin Utama */
     .sidebar-collapsed .admin-sidebar {
-        width: 80px !important; /* Lebar saat hanya sisa ikon */
+        width: 80px !important; 
     }
 
+    /* 🔥 FIX 3: Saat sidebar ngecil, admin-main langsung melar ke kiri! */
     .sidebar-collapsed .admin-main {
         margin-left: 80px !important;
+        width: calc(100% - 80px) !important;
     }
 
-    /* 2. Sembunyikan Nama Brand & TULISAN KATEGORI (Utama, Sistem, dll) */
     .sidebar-collapsed .brand-name,
     .sidebar-collapsed .brand-subtitle,
     .sidebar-collapsed .nav-category {
         display: none !important;
     }
 
-    /* 3. Atur Area Logo agar di tengah */
     .sidebar-collapsed .sidebar-brand-wrapper {
         justify-content: center;
         padding: 1.5rem 0;
     }
 
-    /* 4. Sembunyikan Teks Menu (span) */
     .sidebar-collapsed .nav-link-custom span {
         display: none !important;
     }
 
-    /* 5. Buat Ikon Menu ke Tengah */
     .sidebar-collapsed .nav-link-custom {
         justify-content: center;
         padding: 14px 0 !important;
     }
 
     .sidebar-collapsed .icon-wrap {
-        margin-right: 0 !important; /* Hilangkan jarak kanan ikon */
+        margin-right: 0 !important; 
     }
 
-    /* 6. Hilangkan Animasi Geser ke Kanan saat mode mini agar tidak aneh */
     .sidebar-collapsed .nav-link-custom:hover {
         transform: none !important;
     }
@@ -85,15 +81,25 @@
         transition: all 0.3s ease;
     }
 
-    /* Responsif Mobile (Tetap hilang total kalau di HP agar tidak sempit) */
+    /* Responsif Mobile */
     @media (max-width: 991.98px) {
-        .admin-main { margin-left: 0 !important; }
+
+    .admin-header {
+        position: sticky;
+        top: 0;
+        z-index: 1050 !important; /* Angka ini lebih tinggi dari z-index sidebar (1040) */
+        background: white;
+    }
+        .admin-main { 
+            margin-left: 0 !important; 
+            width: 100% !important; /* Di HP jadi full layar */
+        }
         
         .admin-sidebar {
             position: fixed;
+            padding-top: 70px !important;
             top: 0; left: 0; height: 100vh;
-            transform: translateX(-100%); /* Sembunyikan ke kiri luar layar */
-            /* Tambahkan transition transform agar smooth saat keluar-masuk */
+            transform: translateX(-100%); 
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
                         width 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
                         background-color 0.6s ease, 
@@ -101,11 +107,10 @@
         }
         
         .sidebar-collapsed .admin-sidebar {
-            transform: translateX(0); /* Muncul penuh saat diklik di mobile */
+            transform: translateX(0); 
             width: 280px !important;
         }
 
-        /* Tampilkan backdrop gelap saat sidebar terbuka di HP */
         body.sidebar-collapsed .sidebar-backdrop {
             opacity: 1;
             visibility: visible;
@@ -116,20 +121,11 @@
     .brand-name, 
     .brand-subtitle, 
     .nav-category {
-        /* Supaya teks berubah warna pelan-pelan (hitam ke putih) */
         transition: color 0.6s ease, background-color 0.3s ease, transform 0.2s ease;
     }
 
-    /* Kotak Ikon */
-    .icon-wrap {
-        /* Supaya kotak ikon berubah kegelapannya pelan-pelan */
-        transition: background-color 0.6s ease, color 0.6s ease;
-    }
-
-    /* Shadow pada Brand Icon */
-    .brand-icon-box {
-        transition: box-shadow 0.6s ease, transform 0.3s ease;
-    }
+    .icon-wrap { transition: background-color 0.6s ease, color 0.6s ease; }
+    .brand-icon-box { transition: box-shadow 0.6s ease, transform 0.3s ease; }
 
     .brand-icon-box {
         width: 45px; height: 45px;
@@ -143,65 +139,30 @@
     .brand-name { font-weight: 800; font-size: 1.2rem; color: var(--bs-heading-color); line-height: 1; }
     .brand-subtitle { font-size: 0.7rem; text-transform: uppercase; color: #f39c12; font-weight: 700; }
 
-    /* Bagian Konten & Navigasi - Dibuat nempel ke atas */
-    .sidebar-content {
-        padding-top: 0 !important; /* Hilangkan padding atas total */
-    }
-
-    .sidebar-nav {
-        padding-top: 10px !important; /* Beri sedikit ruang agar tidak terlalu mepet garis */
-        padding-bottom: 90px !important; 
-    }
-
-    .sidebar-nav .nav-item {
-        padding: 0 15px;
-        margin-bottom: 8px;
-    }
+    .sidebar-content { padding-top: 0 !important; }
+    .sidebar-nav { padding-top: 10px !important; padding-bottom: 90px !important; }
+    .sidebar-nav .nav-item { padding: 0 15px; margin-bottom: 8px; }
 
     .nav-link-custom {
-        display: flex;
-        align-items: center;
-        padding: 14px 18px !important;
-        border-radius: 16px !important;
-        color: #64748b !important;
-        font-weight: 600;
-        font-size: 0.95rem;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; align-items: center; padding: 14px 18px !important;
+        border-radius: 16px !important; color: #64748b !important;
+        font-weight: 600; font-size: 0.95rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none !important;
     }
 
     .icon-wrap {
-        width: 34px; height: 34px;
-        display: flex; align-items: center; justify-content: center;
-        border-radius: 10px;
-        margin-right: 15px;
-        background: rgba(100, 116, 139, 0.05);
-        transition: all 0.3s ease;
+        width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+        border-radius: 10px; margin-right: 15px; background: rgba(100, 116, 139, 0.05); transition: all 0.3s ease;
     }
 
     .icon-wrap i { font-size: 1.2rem; }
 
-    /* Hover & Active Effect */
-    .nav-link-custom:hover {
-        background: rgba(243, 156, 18, 0.08) !important;
-        color: #f39c12 !important;
-        transform: translateX(8px);
-    }
-
+    .nav-link-custom:hover { background: rgba(243, 156, 18, 0.08) !important; color: #f39c12 !important; transform: translateX(8px); }
     .nav-link-custom:hover .icon-wrap { background: #f39c12; color: white !important; transform: scale(1.1) rotate(-5deg); }
-
-    .nav-link-custom.active {
-        background: linear-gradient(135deg, #f39c12, #e67e22) !important;
-        color: white !important;
-        box-shadow: 0 8px 25px rgba(243, 156, 18, 0.3) !important;
-    }
-
+    .nav-link-custom.active { background: linear-gradient(135deg, #f39c12, #e67e22) !important; color: white !important; box-shadow: 0 8px 25px rgba(243, 156, 18, 0.3) !important; }
     .nav-link-custom.active .icon-wrap { background: rgba(255, 255, 255, 0.2); color: white !important; }
 
-    .pulse-badge {
-        background: #ef4444; padding: 5px 9px; font-size: 0.75rem;
-        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); animation: pulse 2s infinite;
-    }
+    .pulse-badge { background: #ef4444; padding: 5px 9px; font-size: 0.75rem; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); animation: pulse 2s infinite; }
 
     @keyframes pulse {
         0% { transform: scale(0.95); }
@@ -209,49 +170,17 @@
         100% { transform: scale(0.95); }
     }
 
-    .admin-main { margin-left: 280px !important; }
+    /* 👇👇 KODE ".admin-main { margin-left: 280px !important; }" YANG BIKIN ERROR UDAH AKU HAPUS DARI SINI 👇👇 */
 
-    [data-bs-theme=dark] .admin-sidebar { background: #0f172a; border-right: 1px solid rgba(255, 255, 255, 0.05); }
-    [data-bs-theme=dark] .nav-link-custom { color: #94a3b8 !important; }
-
-    /* --- PENYESUAIAN KHUSUS MODE MALAM --- */
-    [data-bs-theme=dark] .admin-sidebar { 
-        background: #0f172a; 
-        border-right: 1px solid rgba(255, 255, 255, 0.1); 
-    }
-
-    /* Warna Nama Brand di Mode Malam */
-    [data-bs-theme=dark] .brand-name { 
-        color: #ffffff !important; 
-    }
-
-    /* Warna Teks Menu: Diubah dari abu-abu ke Putih Terang (#f1f5f9) */
-    [data-bs-theme=dark] .nav-link-custom { 
-        color: #f1f5f9 !important; 
-    }
-
-    /* Warna Ikon Box di Mode Malam */
-    [data-bs-theme=dark] .icon-wrap { 
-        background: rgba(255, 255, 255, 0.08); 
-        color: #f1f5f9;
-    }
-
-    /* Warna saat Menu di-Hover di Mode Malam */
-    [data-bs-theme=dark] .nav-link-custom:hover {
-        background: rgba(243, 156, 18, 0.2) !important; /* Oranye lebih tegas di gelap */
-        color: #ffffff !important;
-    }
-
-    [data-bs-theme=dark] .nav-link-custom:hover .icon-wrap {
-        background: #f39c12;
-        color: white !important;
-    }
-
-    /* Warna Teks Muted (Sub-judul/Tagline) di Mode Malam agar lebih terbaca */
-    [data-bs-theme=dark] .text-muted {
-        color: #a1a1aa !important;
-    }
+    [data-bs-theme=dark] .admin-sidebar { background: #0f172a; border-right: 1px solid rgba(255, 255, 255, 0.1); }
+    [data-bs-theme=dark] .brand-name { color: #ffffff !important; }
+    [data-bs-theme=dark] .nav-link-custom { color: #f1f5f9 !important; }
+    [data-bs-theme=dark] .icon-wrap { background: rgba(255, 255, 255, 0.08); color: #f1f5f9; }
+    [data-bs-theme=dark] .nav-link-custom:hover { background: rgba(243, 156, 18, 0.2) !important; color: #ffffff !important; }
+    [data-bs-theme=dark] .nav-link-custom:hover .icon-wrap { background: #f39c12; color: white !important; }
+    [data-bs-theme=dark] .text-muted { color: #a1a1aa !important; }
 </style>
+
 
 <aside class="admin-sidebar" id="admin-sidebar">
     <div class="sidebar-content">
@@ -337,10 +266,20 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const backdrop = document.getElementById('mobile-backdrop');
+        const btnToggle = document.getElementById('btn-toggle-sidebar');
+        const body = document.body;
+
+        // Script 1: Memunculkan sidebar saat tombol garis 3 di klik
+        if (btnToggle) {
+            btnToggle.addEventListener('click', function() {
+                body.classList.toggle('sidebar-collapsed');
+            });
+        }
+
+        // Script 2: Menutup sidebar saat area gelap (backdrop) di klik
         if (backdrop) {
             backdrop.addEventListener('click', function() {
-                // Menghapus class sidebar-collapsed dari body akan menyembunyikan sidebar di mobile
-                document.body.classList.remove('sidebar-collapsed');
+                body.classList.remove('sidebar-collapsed');
             });
         }
     });

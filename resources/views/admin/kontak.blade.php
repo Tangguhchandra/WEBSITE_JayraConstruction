@@ -54,16 +54,22 @@
                             </td>
                             <td class="text-body-secondary">{{ $item->phone ?? '-' }}</td>
                             <td class="text-end pe-4">
-                                <button type="button" class="btn btn-sm text-primary border shadow-sm me-1" data-bs-toggle="modal" data-bs-target="#teamModal" onclick='prepareEdit(@json($item))'>
-                                    <i class="bi bi-pencil-square"></i>
+                            <div class="btn-group shadow-sm">
+                                <button type="button" 
+                                        class="btn btn-light-custom btn-sm" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#teamModal" 
+                                        onclick='prepareEdit(@json($item))'>
+                                    <i class="bi bi-pencil-fill text-primary"></i>
                                 </button>
                                 <form action="{{ route('tim.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus anggota tim ini?')">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-sm  text-danger border shadow-sm">
-                                        <i class="bi bi-trash"></i>
+                                    <button type="submit" class="btn btn-light-custom btn-sm text-danger" title="Hapus">
+                                        <i class="bi bi-trash-fill"></i>
                                     </button>
                                 </form>
-                            </td>
+                            </div>
+                        </td>
                         </tr>
                         @empty
                         <tr><td colspan="4" class="text-center py-5 text-muted">Belum ada anggota tim.</td></tr>

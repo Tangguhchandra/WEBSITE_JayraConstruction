@@ -1,15 +1,22 @@
 <header class="admin-header">
+    {{-- Tambahan flex-nowrap agar di HP tidak patah ke baris bawah --}}
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-        <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center" href="{{ route('dashboard') }}">
-                <h1 class="h4 mb-0 fw-bold text-primary">JayraConstruction</h1>
-            </a>
+        <div class="container-fluid flex-nowrap">
+            
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand d-flex align-items-center m-0 me-2" href="{{ route('dashboard') }}">
+                    <h1 class="h4 mb-0 fw-bold text-primary d-none d-sm-block">JayraConstruction</h1>
+                    {{-- Di layar HP yang sempit banget, tampilkan JC aja biar search bar muat --}}
+                    <h1 class="h4 mb-0 fw-bold text-primary d-block d-sm-none">JC.</h1>
+                </a>
 
-            <button class="hamburger-menu" type="button" data-sidebar-toggle aria-label="Toggle sidebar">
-                <i class="bi bi-list"></i>
-            </button>
+                <button class="hamburger-menu btn border-0" type="button" id="btn-toggle-sidebar" aria-label="Toggle sidebar">
+                    <i class="bi bi-list fs-5"></i>
+                </button>
+            </div>
 
-            <div class="search-container flex-grow-1 mx-4" x-data="{
+            {{-- mx-4 diganti mx-2 di mobile biar lega --}}
+            <div class="search-container flex-grow-1 mx-2 mx-md-4" x-data="{
                 query: '',
                 results: [],
                 isLoading: false,
@@ -28,53 +35,55 @@
                         .then(data => {
                             this.results = data;
                             this.isLoading = false;
+                        }).catch(err => {
+                            this.isLoading = false;
                         });
                 }
             }">
             
-            <div class="position-relative">
-                <input type="search" 
-                    class="form-control border-0 " 
-                    placeholder="Cari user, tim, atau proyek..."
-                    x-model="query"
-                    @input.debounce.500ms="search()" 
-                    @click.outside="results = []"
-                    aria-label="Search">
+                <div class="position-relative">
+                    <input type="search" 
+                        class="form-control border-0 bg-light" 
+                        placeholder="Cari user, tim, atau proyek..."
+                        x-model="query"
+                        @input.debounce.500ms="search()" 
+                        @click.outside="results = []"
+                        aria-label="Search">
+                        
+                    <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted" x-show="!isLoading"></i>
+                    <div class="spinner-border spinner-border-sm text-primary position-absolute top-50 end-0 translate-middle-y me-3" role="status" x-show="isLoading" x-cloak>
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                     
-                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted" x-show="!isLoading"></i>
-                <div class="spinner-border spinner-border-sm text-primary position-absolute top-50 end-0 translate-middle-y me-3" role="status" x-show="isLoading" x-cloak>
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                
-                <div x-show="results.length > 0" x-cloak
-                    x-transition:enter="transition ease-out duration-100"
-                    x-transition:enter-start="opacity-0 scale-95"
-                    x-transition:enter-end="opacity-100 scale-100"
-                    class="position-absolute top-100 start-0 w-100 bg-white border rounded-3 shadow-lg mt-2 z-[1050] overflow-hidden">
-                    
-                    <template x-for="result in results" :key="result.title">
-                        <a :href="result.url" class="d-block px-3 py-2 text-decoration-none text-dark border-bottom hover-bg-light" style="transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'">
-                            <div class="d-flex align-items-center">
-                                <i :class="result.icon + ' me-3 fs-5'"></i>
-                                <div>
-                                    <div class="fw-bold text-body" x-text="result.title"></div>
-                                    <small class="text-body-secondary" x-text="result.type"></small>
+                    <div x-show="results.length > 0" x-cloak
+                        x-transition:enter="transition ease-out duration-100"
+                        x-transition:enter-start="opacity-0 scale-95"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        class="position-absolute top-100 start-0 w-100 bg-white border rounded-3 shadow-lg mt-2 z-[1050] overflow-hidden">
+                        
+                        <template x-for="result in results" :key="result.title">
+                            <a :href="result.url" class="d-block px-3 py-2 text-decoration-none text-dark border-bottom hover-bg-light" style="transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'">
+                                <div class="d-flex align-items-center">
+                                    <i :class="result.icon + ' me-3 fs-5'"></i>
+                                    <div>
+                                        <div class="fw-bold text-body" x-text="result.title"></div>
+                                        <small class="text-body-secondary" x-text="result.type"></small>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </template>
+                            </a>
+                        </template>
+                        
+                    </div>
                     
-                </div>
-                
-                <div x-show="query.length >= 2 && results.length === 0 && !isLoading" x-cloak class="position-absolute top-100 start-0 w-100 bg-white border rounded-3 shadow-lg mt-2 z-[1050] p-3 text-center text-muted">
-                    <i class="bi bi-emoji-frown fs-4 d-block mb-1"></i>
-                    Data tidak ditemukan
+                    <div x-show="query.length >= 2 && results.length === 0 && !isLoading" x-cloak class="position-absolute top-100 start-0 w-100 bg-white border rounded-3 shadow-lg mt-2 z-[1050] p-3 text-center text-muted">
+                        <i class="bi bi-emoji-frown fs-4 d-block mb-1"></i>
+                        Data tidak ditemukan
+                    </div>
                 </div>
             </div>
-        </div>
 
             <div class="navbar-nav flex-row align-items-center">
-                <div class="me-3" x-data="{ 
+                <div class="me-2 me-md-3" x-data="{ 
                         currentTheme: localStorage.getItem('theme') || 'light',
                         toggle() {
                             this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
@@ -84,27 +93,31 @@
                     }" 
                     x-init="document.documentElement.setAttribute('data-bs-theme', currentTheme)">
                     
-                    <button class="btn btn-outline-secondary me-2 d-none d-md-inline-block" 
+                    <button class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center position-relative" 
                             type="button" 
+                            style="width: 42px; height: 42px; padding: 0;"
                             @click="toggle()"
                             data-bs-toggle="tooltip"
                             data-bs-placement="bottom"
                             title="Ubah Tema">
-                        <i class="bi bi-sun-fill text-warning" x-show="currentTheme === 'light'" x-cloak></i>
-                        <i class="bi bi-moon-fill text-primary" x-show="currentTheme === 'dark'" x-cloak></i>
+                        <i class="bi bi-sun-fill text-warning fs-5 position-absolute m-0" style="line-height: 0;" x-show="currentTheme === 'light'" x-cloak></i>
+                        <i class="bi bi-moon-fill text-primary fs-5 position-absolute m-0" style="line-height: 0;" x-show="currentTheme === 'dark'" x-cloak></i>
                     </button>
                 </div>
 
-                <button class="btn btn-outline-secondary me-9 d-none d-md-inline-block" 
+                {{-- Fullscreen sembunyikan di HP (d-none d-md-inline-flex) --}}
+                <button class="btn btn-outline-secondary me-3 d-none d-md-inline-flex align-items-center justify-content-center" 
                         type="button"
+                        style="width: 42px; height: 42px; padding: 0;"
                         data-fullscreen-toggle
                         data-bs-toggle="tooltip"
                         data-bs-placement="bottom"
                         title="Toggle fullscreen">
-                    <i class="bi bi-arrows-fullscreen icon-hover"></i>
+                    <i class="bi bi-arrows-fullscreen icon-hover fs-5 m-0" style="line-height: 0;"></i>
                 </button>
+
                 <div class="dropdown">
-                    <button class="btn border-0 me-4 d-flex align-items-center rounded-pill px-2 py-1" 
+                    <button class="btn border-0 pe-0 d-flex align-items-center rounded-pill px-2 py-1" 
                             type="button" 
                             data-bs-toggle="dropdown" 
                             aria-expanded="false">
@@ -112,14 +125,14 @@
                             alt="User Avatar" 
                             width="32" 
                             height="32" 
-                            class="rounded-circle me-2 shadow-sm">
+                            class="rounded-circle me-1 me-md-2 shadow-sm">
                             
                         <span class="d-none d-md-inline fw-semibold text-body me-1">{{ Auth::user()->name }}</span>
                         
-                        <i class="bi bi-chevron-down text-body-secondary small"></i>
+                        <i class="bi bi-chevron-down text-body-secondary small d-none d-md-inline"></i>
                     </button>
                     
-                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 rounded-3">
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 rounded-3 position-absolute">
                         <li class="px-3 py-2 border-bottom mb-1">
                             <div class="fw-bold">{{ Auth::user()->name }}</div>
                             <div class="small text-muted">{{ Auth::user()->email }}</div>
@@ -141,6 +154,7 @@
 </header>
 
 @push('scripts')
+{{-- Script AlpineJS untuk Search di bawah tidak aku ubah sama sekali sesuai aslimu --}}
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('searchComponent', () => ({
