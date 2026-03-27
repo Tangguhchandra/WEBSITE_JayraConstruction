@@ -48,12 +48,25 @@ Route::name('user.')->group(function () {
         return view('user.detail-project', compact('project', 'relatedProjects'));
     })->name('detail-project');
 
-    // Halaman Layanan & Detailnya
-    Route::get('/service', function () { 
-        return view('user.service'); 
+    // Halaman Katalog Layanan
+    Route::get('/service', function (\Illuminate\Http\Request $request) { 
+        $query = \App\Models\Service::where('status', 'Aktif')->latest();
+        
+        // Jika ada pencarian
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('category', 'like', '%' . $request->search . '%');
+        }
+
+        $services = $query->paginate(4)->withQueryString(); // Tambah withQueryString agar search tidak hilang pas pindah halaman
+        
+        return view('user.service', compact('services')); 
     })->name('service');
-    Route::get('/service/detail', function () { 
-        return view('user.detail-service'); 
+
+    // Halaman Detail Layanan
+    Route::get('/service/detail/{id}', function ($id) { 
+        $service = \App\Models\Service::findOrFail($id);
+        return view('user.detail-service', compact('service')); 
     })->name('detail-service');
 
     // Halaman Kontak / Tim

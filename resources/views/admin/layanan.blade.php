@@ -4,8 +4,7 @@
 
 <div class="container-fluid p-4 p-lg-5" x-data="{ search: '' }">
 
-<!-- Notifikasi Modern -->
- @if(session('success'))
+@if(session('success'))
 <div x-data="{ show: true }" 
     x-init="setTimeout(() => show = false, 5000)" 
     x-show="show" 
@@ -19,25 +18,18 @@
     </div>
 @endif
 
-<!-- Header Section -->
 <div class="row align-items-center mb-5">
     <div class="col">
         <h1 class="h3 mb-1 fw-bold text-body">Manajemen Layanan Jasa</h1>
         <p class="text-muted mb-0">Pusat kendali layanan unggulan JayraConstruction untuk merepresentasikan kualitas dan profesionalisme tim di mata klien.</p>
     </div>
     <div class="col-auto">
-        
-        <button type="button" 
-                class="btn btn-primary px-4 py-2 shadow-sm fw-bold rounded-pill" 
-                data-bs-toggle="modal" 
-                data-bs-target="#serviceModal" 
-                onclick="prepareAdd()">
+        <button type="button" class="btn btn-primary px-4 py-2 shadow-sm fw-bold rounded-pill" data-bs-toggle="modal" data-bs-target="#serviceModal" onclick="prepareAdd()">
             <i class="bi bi-plus-lg me-2"></i>Tambah Layanan
         </button>
     </div>
 </div>
 
-<!-- Stats Widgets (Gaya Premium) -->
 <div class="row g-4 mb-5">
    <div class="col-md-4">
     <div class="card border-0 shadow-sm overflow-hidden h-100 bg-body">
@@ -87,7 +79,6 @@
     </div>
 </div>
 
-<!-- Table Section -->
 <div class="card border-0 shadow-sm bg-body">
     <div class="card-header bg-transparent border-bottom py-4">
         <div class="row align-items-center g-3">
@@ -123,8 +114,8 @@
                         <td class="ps-4">
                             <div class="d-flex align-items-center py-2">
                                 <div class="avatar-service bg-body-tertiary rounded-3 me-3 d-flex align-items-center justify-content-center border" style="width: 48px; height: 48px; overflow: hidden;">
-                                    @if($item->image)
-                                        <img src="{{ asset('storage/' . $item->image) }}" class="img-fluid object-fit-cover">
+                                    @if($item->image_1)
+                                        <img src="{{ asset('storage/' . $item->image_1) }}" class="img-fluid object-fit-cover">
                                     @else
                                         <i class="bi bi-image text-muted fs-4"></i>
                                     @endif
@@ -140,7 +131,7 @@
                                 <i class="bi bi-tag-fill me-1 small"></i>{{ $item->category }}
                             </span>
                         </td>
-                        <td class="fw-semibold text-body">{{ $item->price_estimate }}</td>
+                        <td class="fw-semibold text-body">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
                         <td>
                             @if($item->status == 'Aktif')
                                 <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 rounded-pill">Aktif</span>
@@ -157,7 +148,7 @@
                                         onclick='prepareEdit(@json($item))'>
                                     <i class="bi bi-pencil-fill text-primary"></i>
                                 </button>
-                                <form action="{{ route('layanan.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus layanan ini?')">
+                                <form action="{{ route('layanan.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus layanan ini? Semua gambar terkait akan terhapus.')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="btn btn-light-custom btn-sm text-danger" title="Hapus">
                                         <i class="bi bi-trash-fill"></i>
@@ -172,7 +163,7 @@
                             <div class="py-4">
                                 <i class="bi bi-folder-x fs-1 text-muted opacity-50 mb-3"></i>
                                 <h5 class="text-muted">Belum ada layanan jasa ditemukan.</h5>
-                                <button class="btn btn-sm btn-primary mt-2" @click="prepareAdd()">Tambah Layanan Sekarang</button>
+                                <button class="btn btn-sm btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#serviceModal" onclick="prepareAdd()">Tambah Layanan Sekarang</button>
                             </div>
                         </td>
                     </tr>
@@ -183,8 +174,7 @@
     </div>
 </div>
 </div>
-<!-- Modal Form Modern -->
-<!-- Modal Form Premium (Fixed Submit) -->
+
 <div class="modal fade" id="serviceModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow-lg bg-body">
@@ -193,83 +183,75 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-<!-- TAG FORM DIMULAI DI SINI -->
-        <form id="serviceForm" method="POST" enctype="multipart/form-data">
-            @csrf
-            <!-- Tempat inject @method('PUT') lewat JavaScript saat Edit -->
-            <div id="methodField"></div> 
+            <form id="serviceForm" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div id="methodField"></div> 
 
-            <div class="modal-body p-4">
-                <div class="row g-4">
-                    <!-- Sisi Kiri: Foto -->
-                    <div class="col-md-4 text-center">
-                        <label class="form-label fw-bold d-block text-start">Foto Layanan</label>
-                        <div class="preview-box rounded-4 border d-flex align-items-center justify-content-center bg-body-tertiary mb-3" 
-                             style="height: 180px; overflow: hidden; position: relative;">
-                            <img id="img-preview" src="#" class="img-fluid d-none rounded-4 w-100 h-100 object-fit-cover">
-                            <div id="preview-placeholder">
-                                <i class="bi bi-camera fs-1 text-muted"></i>
+                <div class="modal-body p-4" style="max-height: 70vh; overflow-y: auto;">
+                    <div class="row g-4">
+                        <div class="col-md-7">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Nama Layanan</label>
+                                <input type="text" name="name" id="field_name" class="form-control bg-body-tertiary border-0" placeholder="Misal: Pembangunan Rumah" required>
                             </div>
-                        </div>
-                        <!-- Input File wajib ada name="image" -->
-                        <input type="file" name="image" id="input-image" class="form-control form-control-sm" accept="image/*" onchange="previewImage(this)">
-                    </div>
-                    
-                    <!-- Sisi Kanan: Input Teks -->
-                    <div class="col-md-8">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Nama Layanan</label>
-                            <input type="text" name="name" id="field_name" class="form-control bg-body-tertiary border-0" placeholder="Misal: Pembangunan Rumah" required>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 mb-3">
-                                <label class="form-label fw-bold">Kategori</label>
-                                <select name="category" id="field_category" class="form-select bg-body-tertiary border-0" required>
-                                    <option value="Konstruksi Bangunan">Konstruksi Bangunan</option>
-                                    <option value="Renovasi & Perbaikan">Renovasi & Perbaikan</option>
-                                    <option value="Interior & Eksterior">Interior & Eksterior</option>
-                                    <option value="Arsitektur & Sipil">Arsitektur & Sipil</option>
-                                </select>
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label class="form-label fw-bold">Kategori</label>
+                                    <select name="category" id="field_category" class="form-select bg-body-tertiary border-0" required>
+                                        <option value="Konstruksi Bangunan">Konstruksi Bangunan</option>
+                                        <option value="Renovasi & Perbaikan">Renovasi & Perbaikan</option>
+                                        <option value="Interior & Eksterior">Interior & Eksterior</option>
+                                        <option value="Arsitektur & Sipil">Arsitektur & Sipil</option>
+                                    </select>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label class="form-label fw-bold">Harga Estimasi (Rp)</label>
+                                    <input type="number" name="price" id="field_price" class="form-control bg-body-tertiary border-0" placeholder="Misal: 3500000" required>
+                                </div>
                             </div>
-                            <div class="col-6 mb-3">
-                                <label class="form-label fw-bold">Estimasi Harga</label>
-                                <input type="text" name="price_estimate" id="field_price" class="form-control bg-body-tertiary border-0" placeholder="Contoh: 5jt/m2" required>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Deskripsi Singkat</label>
+                                <textarea name="short_description" id="field_short_desc" class="form-control bg-body-tertiary border-0" rows="2" placeholder="Muncul di halaman depan layanan"></textarea>
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Deskripsi Lengkap (Detail)</label>
+                                <textarea name="full_description" id="field_full_desc" class="form-control bg-body-tertiary border-0" rows="4" placeholder="Muncul di halaman detail layanan"></textarea>
+                            </div>
+                            
+                            
                         </div>
-                        <div class="mb-3">
+
+                        <div class="col-md-5">
+                            <label class="form-label fw-bold">Upload Minimal 1 Foto</label>
+                            <input type="file" name="image_1" class="form-control form-control-sm mb-2" accept="image/*">
+                            <input type="file" name="image_2" class="form-control form-control-sm mb-2" accept="image/*">
+                            <input type="file" name="image_3" class="form-control form-control-sm mb-4" accept="image/*">
+
+                            <label class="form-label fw-bold">Spesifikasi (Cakupan Pekerjaan)</label>
+                            <input type="text" name="spec_1" id="field_spec_1" class="form-control form-control-sm bg-body-tertiary border-0 mb-2" placeholder="Spek 1 (Struktur Bawah)">
+                            <input type="text" name="spec_2" id="field_spec_2" class="form-control form-control-sm bg-body-tertiary border-0 mb-2" placeholder="Spek 2 (Struktur Atas)">
+                            <input type="text" name="spec_3" id="field_spec_3" class="form-control form-control-sm bg-body-tertiary border-0 mb-2" placeholder="Spek 3 (Rangka/Atap)">
+                            <input type="text" name="spec_4" id="field_spec_4" class="form-control form-control-sm bg-body-tertiary border-0 mb-4" placeholder="Spek 4 (Finishing/MEP)">
+
                             <label class="form-label fw-bold">Status Layanan</label>
-                            <div class="d-flex gap-3 mt-1">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="status" id="statusAktif" value="Aktif" checked>
-                                    <label class="form-check-label text-success fw-bold" for="statusAktif">Publish</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="status" id="statusDraft" value="Draft">
-                                    <label class="form-check-label text-muted" for="statusDraft">Draft</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-0">
-                            <label class="form-label fw-bold">Deskripsi</label>
-                            <textarea name="description" id="field_desc" class="form-control bg-body-tertiary border-0" rows="3"></textarea>
+                            <select name="status" id="field_status" class="form-select bg-body-tertiary border-0">
+                                <option value="Aktif">Publish (Aktif)</option>
+                                <option value="Draft">Draft (Sembunyikan)</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Footer di dalam Tag Form -->
-            <div class="modal-footer border-0 bg-body-tertiary p-4">
-                <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">Batal</button>
-                <!-- WAJIB type="submit" -->
-                <button type="submit" class="btn btn-primary px-5 rounded-pill shadow fw-bold">
-                    Simpan Jasa <i class="bi bi-send-fill ms-2"></i>
-                </button>
+                <div class="modal-footer border-0 bg-body-tertiary p-4">
+                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary px-5 rounded-pill shadow fw-bold">Simpan Layanan <i class="bi bi-send-fill ms-2"></i></button>
+                </div>
+            </form>
             </div>
-        </form>
-        <!-- TAG FORM BERAKHIR DI SINI -->
     </div>
 </div>
-</div>
+
 <style>
     /* Mode Terang (Default) */
     .custom-table tbody tr { transition: 0.3s; }
@@ -304,55 +286,39 @@
 @endsection
 @push('scripts')
 <script>
-    // Gunakan window.namaFungsi agar bisa dipanggil dari HTML onclick
+    // JS Edit (Menyuntikkan data dari row ke dalam Modal)
     window.prepareEdit = function(item) {
-        console.log("Data masuk:", item); // Cek di F12 jika data muncul
-
-        // 1. Ganti Judul
         document.getElementById('modalTitle').innerText = 'Edit Detail Layanan';
         
-        // 2. Set Action Form (Update)
         const form = document.getElementById('serviceForm');
         form.action = "/layanan/" + item.id;
         
-        // 3. Suntikkan Method PUT (Wajib Laravel)
         document.getElementById('methodField').innerHTML = '<input type="hidden" name="_method" value="PUT">';
         
-        // 4. Isi field input (Pastikan ID di HTML sudah pas)
+        // Isi input dengan data lama
         document.getElementById('field_name').value = item.name;
         document.getElementById('field_category').value = item.category;
-        document.getElementById('field_price').value = item.price_estimate;
-        document.getElementById('field_desc').value = item.description || '';
+        document.getElementById('field_price').value = item.price;
+        document.getElementById('field_short_desc').value = item.short_description || '';
+        document.getElementById('field_full_desc').value = item.full_description || '';
         
-        // 5. Set Radio Status
-        if(item.status === 'Aktif') {
-            document.getElementById('statusAktif').checked = true;
-        } else {
-            document.getElementById('statusDraft').checked = true;
-        }
-
-        // 6. Preview Gambar
-        const preview = document.getElementById('img-preview');
-        const placeholder = document.getElementById('preview-placeholder');
-        if(item.image) {
-            preview.src = "/storage/" + item.image;
-            preview.classList.remove('d-none');
-            placeholder.classList.add('d-none');
-        } else {
-            preview.classList.add('d-none');
-            placeholder.classList.remove('d-none');
-        }
+        document.getElementById('field_spec_1').value = item.spec_1 || '';
+        document.getElementById('field_spec_2').value = item.spec_2 || '';
+        document.getElementById('field_spec_3').value = item.spec_3 || '';
+        document.getElementById('field_spec_4').value = item.spec_4 || '';
+        
+        document.getElementById('field_status').value = item.status;
     };
 
-    // Lakukan hal yang sama untuk prepareAdd
+    // JS Add (Mengosongkan Modal untuk data baru)
     window.prepareAdd = function() {
         document.getElementById('modalTitle').innerText = 'Tambah Layanan Baru';
+        
         const form = document.getElementById('serviceForm');
         form.action = "{{ route('layanan.store') }}";
+        
         document.getElementById('methodField').innerHTML = ""; 
-        form.reset();
-        document.getElementById('img-preview').classList.add('d-none');
-        document.getElementById('preview-placeholder').classList.remove('d-none');
+        form.reset(); // Kosongkan semua isian form
     };
 </script>
 @endpush

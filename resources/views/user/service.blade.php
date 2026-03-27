@@ -32,7 +32,8 @@
     </section>
 
     {{-- ================= HEADER & SEARCH ================= --}}
-    <section class="max-w-7xl mx-auto px-6 mb-12">
+    {{-- TAMBAHKAN ID "pelayanan-kami" SEBAGAI TARGET SCROLL --}}
+    <section id="pelayanan-kami" class="max-w-7xl mx-auto px-6 mb-12">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 reveal">
             <div class="max-w-2xl">
                 <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary mb-4 tracking-tight">
@@ -43,66 +44,98 @@
                 </p>
             </div>
 
-            <div class="relative w-full md:max-w-[350px] group">
+            {{-- Form Pencarian Laravel --}}
+            <form action="{{ route('user.service') }}" method="GET" class="relative w-full md:max-w-[350px] group">
                 <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
-                <input type="text" placeholder="Cari layanan..." 
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari layanan..." 
                        class="w-full pl-12 pr-6 py-4 rounded-full border border-slate-200 bg-white text-sm font-medium text-primary shadow-sm focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all duration-300">
-            </div>
+                {{-- Tombol submit tersembunyi agar bisa enter --}}
+                <button type="submit" class="hidden"></button>
+            </form>
         </div>
     </section>
 
-    {{-- ================= SERVICE CARDS ================= --}}
+    {{-- ================= SERVICE CARDS GRID ================= --}}
     <section class="max-w-7xl mx-auto px-6 mb-20">
+        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
-            @php
-            $services = [
-                ['image' => 'photo-1503387762-592deb58ef4e', 'title' => 'Renovasi Rumah', 'desc' => 'Layanan renovasi rumah komprehensif untuk memperbaiki, memperbarui, dan meningkatkan kenyamanan serta fungsionalitas bangunan Anda.', 'price' => 'Rp 25.000.000', 'label' => 'Mulai dari'],
-                ['image' => 'photo-1600585154340-be6161a56a0c', 'title' => 'Renovasi Interior', 'desc' => 'Penataan ulang ruang dalam untuk menciptakan estetika visual modern dengan efisiensi penggunaan ruang yang optimal.', 'price' => 'Rp 15.000.000', 'label' => 'Mulai dari'],
-                ['image' => 'photo-1600596542815-ffad4c1539a9', 'title' => 'Pembangunan Baru', 'desc' => 'Pengerjaan proyek konstruksi hunian atau komersial dari titik nol dengan pengawasan ahli sipil profesional.', 'price' => 'Rp 4.500.000', 'label' => 'Estimasi /m²'],
-                ['image' => 'photo-1486406146926-c627a92ad1ab', 'title' => 'Desain Arsitektur', 'desc' => 'Pembuatan rancangan desain cetak biru (blueprint) 2D/3D yang estetik, fungsional, dan sesuai dengan regulasi tata kota.', 'price' => 'Rp 10.000.000', 'label' => 'Mulai dari'],
-            ];
-            @endphp
-
-            @foreach($services as $index => $service)
-            <div class="bg-white rounded-[2rem] p-6 lg:p-8 shadow-[0_10px_40px_-10px_rgba(16,55,92,0.08)] hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 group reveal {{ $index % 2 === 1 ? 'delay-100' : '' }} border border-slate-50 cursor-pointer flex flex-col h-full">
-                <div class="relative w-full aspect-[16/9] rounded-[1.5rem] overflow-hidden mb-6 bg-slate-100">
-                    <img src="https://images.unsplash.com/{{ $service['image'] }}?q=80&w=2071&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300"></div>
-                </div>
-                <div class="flex-1 flex flex-col">
-                    <h3 class="font-display text-2xl font-bold text-primary mb-3 group-hover:text-accent transition-colors">{{ $service['title'] }}</h3>
-                    <p class="text-sm text-slate-500 font-light leading-relaxed mb-8">{{ $service['desc'] }}</p>
-                    <div class="mt-auto flex flex-wrap justify-between items-center gap-4 pt-6 border-t border-slate-100">
-                        <span class="px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-primary shadow-sm whitespace-nowrap">
-                            <span class="text-xs text-slate-400 font-medium block leading-none mb-1">{{ $service['label'] }}</span>
-                            {{ $service['price'] }}
-                        </span>
-                        <a href="{{ route('user.detail-service') }}" class="bg-primary text-white px-6 py-3 rounded-xl text-[13px] font-bold shadow-md hover:bg-primaryDark hover:-translate-y-1 transition-all duration-300 whitespace-nowrap text-center flex items-center gap-2">
-                            Lihat Detail
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                        </a>
+            @forelse($services as $item)
+                <div class="bg-white rounded-[2rem] p-6 lg:p-8 shadow-[0_10px_40px_-10px_rgba(16,55,92,0.08)] hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 group border border-slate-50 cursor-pointer flex flex-col h-full reveal">
+                    
+                    <div class="relative w-full aspect-[16/9] rounded-[1.5rem] overflow-hidden mb-6 bg-slate-100">
+                        <img src="{{ $item->image_1 ? asset('storage/' . $item->image_1) : 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2071' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300"></div>
+                    </div>
+                    
+                    <div class="flex-1 flex flex-col">
+                        <h3 class="font-display text-2xl font-bold text-primary mb-3 group-hover:text-accent transition-colors">{{ $item->name }}</h3>
+                        <p class="text-sm text-slate-500 font-light leading-relaxed mb-8">{{ $item->short_description }}</p>
+                        
+                        <div class="mt-auto flex flex-wrap justify-between items-center gap-4 pt-6 border-t border-slate-100">
+                            <span class="px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-primary shadow-sm whitespace-nowrap">
+                                <span class="text-xs text-slate-400 font-medium block leading-none mb-1">Mulai dari</span>
+                                Rp{{ number_format($item->price, 0, ',', '.') }}
+                            </span>
+                            
+                            <a href="{{ route('user.detail-service', $item->id) }}" class="bg-primary text-white px-6 py-3 rounded-xl text-[13px] font-bold shadow-md hover:bg-primaryDark hover:-translate-y-1 transition-all duration-300 whitespace-nowrap text-center flex items-center gap-2">
+                                Lihat Detail
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </a>
+                        </div>
                     </div>
                 </div>
+            @empty
+                <div class="col-span-2 text-center py-16">
+                    <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <p class="text-slate-500 font-medium">Layanan tidak ditemukan.</p>
+                    <p class="text-sm text-slate-400 mt-1">Coba gunakan kata kunci pencarian yang lain.</p>
+                </div>
+            @endforelse
+
+        </div>
+
+        {{-- ================= PAGINATION LARAVEL ================= --}}
+        @if ($services->hasPages())
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-6 pt-12 mt-12 border-t border-slate-100 reveal">
+            
+            {{-- Tombol Prev --}}
+            @if ($services->onFirstPage())
+                <span class="inline-flex items-center gap-2 px-6 py-3 border-2 border-slate-100 text-slate-300 font-bold text-[13px] rounded-xl cursor-not-allowed">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    Sebelumnya
+                </span>
+            @else
+                <a href="{{ $services->previousPageUrl() }}" class="inline-flex items-center gap-2 px-6 py-3 border-2 border-slate-200 text-primary font-bold text-[13px] rounded-xl hover:border-primary hover:bg-slate-50 transition-all duration-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    Sebelumnya
+                </a>
+            @endif
+
+            <div class="flex justify-center items-center gap-2">
+                <span class="text-sm font-semibold text-slate-500 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
+                    Halaman <span class="text-primary font-bold">{{ $services->currentPage() }}</span> dari <span class="text-primary font-bold">{{ $services->lastPage() }}</span>
+                </span>
             </div>
-            @endforeach
 
+            {{-- Tombol Next --}}
+            @if ($services->hasMorePages())
+                <a href="{{ $services->nextPageUrl() }}" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl shadow-md hover:bg-primaryDark hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300">
+                    Selanjutnya
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </a>
+            @else
+                <span class="inline-flex items-center gap-2 px-6 py-3 bg-slate-200 text-slate-400 font-bold text-[13px] rounded-xl cursor-not-allowed">
+                    Selanjutnya
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </span>
+            @endif
         </div>
-
-        {{-- Pagination --}}
-        <div class="flex justify-center items-center gap-2 reveal delay-200 mt-12">
-            <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-primary hover:bg-slate-100 transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-            </a>
-            <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-primary text-white shadow-md hover:-translate-y-1 transition-transform">1</a>
-            <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm text-slate-500 hover:bg-slate-100 hover:text-primary transition-colors">2</a>
-            <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm text-slate-500 hover:bg-slate-100 hover:text-primary transition-colors">3</a>
-            <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-primary hover:bg-slate-100 transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            </a>
-        </div>
+        @endif
     </section>
 
     {{-- ================= CUSTOM REQUEST ================= --}}
@@ -158,3 +191,24 @@
 </div>
 
 @endsection
+
+{{-- ================= JAVASCRIPT UNTUK AUTO SCROLL ================= --}}
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Cek apakah di URL ada parameter 'page' (artinya user baru saja klik pagination)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('page')) {
+            // Cari elemen dengan ID 'pelayanan-kami'
+            const target = document.getElementById('pelayanan-kami');
+            if (target) {
+                // Beri sedikit delay agar DOM selesai merender sepenuhnya, lalu scroll halus
+                setTimeout(() => {
+                    const yOffset = target.getBoundingClientRect().top + window.pageYOffset - 120; // 120px jarak agar tidak tertutup navbar
+                    window.scrollTo({ top: yOffset, behavior: 'smooth' });
+                }, 100);
+            }
+        }
+    });
+</script>
+@endpush

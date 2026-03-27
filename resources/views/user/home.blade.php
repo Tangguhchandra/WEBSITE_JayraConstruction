@@ -139,7 +139,7 @@
                 </div>
                 <h3 class="font-display text-xl font-bold text-primary mb-4">{{ $svc['title'] }}</h3>
                 <p class="text-slate-500 text-sm leading-relaxed mb-8">{{ $svc['desc'] }}</p>
-                <a href="{{ route('user.detail-service') }}" class="text-sm font-semibold text-primary group-hover:text-accent flex items-center gap-2 transition-colors">
+                <a href="{{ route('user.detail-service', 1) }}" class="text-sm font-semibold text-primary group-hover:text-accent flex items-center gap-2 transition-colors">
                     Info Detail <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
             </div>
