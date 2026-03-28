@@ -254,12 +254,13 @@
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                 </a>
                                 
-                                {{-- Tombol Sembunyikan (Hanya dari UI) --}}
+                                {{-- Tombol Batalkan Pesanan dengan Konfirmasi --}}
                                 <div x-show="selectedTrx?.status === 'pending'" x-cloak class="mt-4">
-                                    <form :action="`/pembayaran/batal/${selectedTrx?.id}`" method="POST" onsubmit="return confirm('Yakin ingin membatalkan pesanan ini? Pesanan akan dihapus permanen.')">
+                                    <form :action="`/transaksi/${selectedTrx?.id}/batal`" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini? Pesanan yang dibatalkan tidak dapat dikembalikan.');">
                                         @csrf
-                                        @method('DELETE') {{-- Wajib pakai DELETE untuk menghapus dari database --}}
-                                        <button type="submit" class="w-full bg-white border border-slate-200 text-red-500 font-bold py-3.5 rounded-xl hover:bg-red-50 transition-all text-sm">
+                                        @method('DELETE')                                      
+                                        <button type="submit" class="w-full bg-white border border-slate-200 text-red-500 font-bold py-3.5 rounded-xl hover:bg-red-50 transition-all text-sm flex items-center justify-center gap-2">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                                             Batalkan Pesanan
                                         </button>
                                     </form>

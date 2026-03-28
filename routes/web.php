@@ -10,6 +10,10 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\CompanyProfileController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use App\Models\User;
 
 // ==========================================
 // RUTE UNTUK PENGUNJUNG (PUBLIK)
@@ -21,7 +25,7 @@ Route::get('/', function () {
     $projects = Project::latest()->take(3)->get(); 
     
     // Lempar datanya ke view halaman depan kamu
-    return view('home', compact('projects')); // Sesuaikan 'home' dengan nama file blade kamu
+    return view('user.home', compact('projects')); // Sesuaikan 'home' dengan nama file blade kamu
 });
 
 // KARENA ADA NAME('user.'), SEMUA RUTE DI BAWAH INI OTOMATIS BERAWALAN user.
@@ -101,7 +105,10 @@ Route::name('user.')->group(function () {
         ->name('pembayaran.proses')
         ->middleware('auth');
 
-    Route::delete('/transaksi/{id}/batal', [TransactionController::class, 'cancelTransaction'])->name('transaksi.batal');
+// Rute buat batalin transaksi (WAJIB pakai Route::delete dan middleware auth)
+    Route::delete('/transaksi/{id}/batal', [\App\Http\Controllers\TransactionController::class, 'cancelTransaction'])
+    ->middleware('auth')
+    ->name('transaksi.batal');
 
     // 3. Halaman Pembayaran Berhasil (Invoice & Update Database)
     Route::get('/pembayaran/sukses', function (\Illuminate\Http\Request $request) {
@@ -172,10 +179,46 @@ Route::get('/verification', function () { return view('user.verification'); })->
 Route::post('/verification', [AuthController::class, 'verifyOtp'])->name('verification.post');
 Route::get('/verification-success', function () { return view('user.verification-success'); })->name('verification-success');
 
-// Lupa Password
-Route::get('/reset-password', function () { return view('user.reset-password'); })->name('reset-password');
-Route::get('/reset-password-email', function () { return view('user.reset-password-email'); })->name('reset-password-email');
-Route::get('/verification-password-success', function () { return view('user.verification-password-success'); })->name('verification-password-success');
+// 1. Tampilkan form minta email
+Route::get('/lupa-password', function () {
+    return view('user.forgot-password');
+})->middleware('guest')->name('password.request');
+
+// 2. Proses kirim link ke Mailtrap
+Route::post('/lupa-password', function (Request $request) {
+    $request->validate(['email' => 'required|email']);
+    $status = Password::sendResetLink($request->only('email'));
+    
+    return $status === Password::RESET_LINK_SENT
+                ? back()->with(['status' => 'Mantap! Link reset password sudah dikirim ke email Anda. Cek Mailtrap!'])
+                : back()->withErrors(['email' => 'Waduh, email tidak ditemukan di database.']);
+})->middleware('guest')->name('password.email');
+
+// 3. Tampilkan form password baru LU (Pas link dari Mailtrap diklik)
+Route::get('/reset-password/{token}', function (Request $request, $token) {
+    // Memanggil file lu: resources/views/user/reset-password.blade.php
+    return view('user.reset-password', ['token' => $token, 'email' => $request->email]);
+})->middleware('guest')->name('password.reset');
+
+// 4. Proses simpan password baru ke database
+Route::post('/reset-password', function (Request $request) {
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:8|confirmed',
+    ]);
+
+    $status = Password::reset($request->only('email', 'password', 'password_confirmation', 'token'), function (User $user, string $password) {
+        $user->forceFill([
+            'password' => Hash::make($password)
+        ])->setRememberToken(Str::random(60));
+        $user->save();
+    });
+
+    return $status === Password::PASSWORD_RESET
+                ? redirect()->route('login')->with('success', 'Berhasil! Password Anda sudah diubah. Silakan login.')
+                : back()->withErrors(['email' => ['Gagal mereset password. Token tidak valid.']]);
+})->middleware('guest')->name('password.update');
 
 
 // ==========================================

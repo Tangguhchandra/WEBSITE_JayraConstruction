@@ -11,28 +11,39 @@ class TransactionController extends Controller
 {
     public function proses(Request $request)
     {
-        // 1. Konfigurasi Midtrans (Sama seperti sebelumnya)
+        // 1. VALIDASI DATA MASUK (Memperbaiki Bug #10)
+        $request->validate([
+            'order_id' => 'required|string',
+            'gross_amount' => 'required|numeric',
+            'phone' => 'required|string',
+            'address' => 'required|string',
+        ]);
+
+        // 2. BULATKAN ANGKA (Memperbaiki Bug #14 - Midtrans benci angka desimal)
+        $gross_amount = (int) round($request->gross_amount);
+
+        // 3. Konfigurasi Midtrans
         \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
         \Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
         \Midtrans\Config::$isSanitized = true;
         \Midtrans\Config::$is3ds = true;
 
-        // 2. SIMPAN KE DATABASE KITA SEBAGAI 'PENDING'
-        \App\Models\Transaction::create([
+        // 4. SIMPAN KE DATABASE KITA SEBAGAI 'PENDING'
+        Transaction::create([
             'user_id' => auth()->id(),
             'order_id' => $request->order_id,
             'service_name' => $request->service_name ?? 'Layanan Jayra Construction',
-            'gross_amount' => $request->gross_amount,
+            'gross_amount' => $gross_amount, // Pakai yang udah dibulatkan
             'phone' => $request->phone,         
             'address' => $request->address,
             'transaction_status' => 'pending',
         ]);
 
-        // 3. Siapkan Data Transaksi Midtrans
+        // 5. Siapkan Data Transaksi Midtrans
         $params = [
             'transaction_details' => [
                 'order_id' => $request->order_id,
-                'gross_amount' => (int) $request->gross_amount,
+                'gross_amount' => $gross_amount,
             ],
             'customer_details' => [
                 'first_name' => auth()->user()->name,
@@ -41,7 +52,7 @@ class TransactionController extends Controller
             ],
         ];
 
-        // 4. Dapatkan Snap Token dari Midtrans
+        // 6. Dapatkan Snap Token dari Midtrans
         $snapToken = \Midtrans\Snap::getSnapToken($params);
 
         return view('user.detail-pembayaran', compact('snapToken', 'request'));
@@ -50,8 +61,8 @@ class TransactionController extends Controller
     // Fungsi untuk Melanjutkan Pembayaran yang Pending
     public function lanjutkan($id)
     {
-        // 1. Cari data transaksi milik user ini yang masih pending
-        $transaction = \App\Models\Transaction::where('id', $id)
+        // 1. Cari data transaksi milik user ini yang masih pending (Ini udah aman)
+        $transaction = Transaction::where('id', $id)
                             ->where('user_id', auth()->id())
                             ->where('transaction_status', 'pending')
                             ->firstOrFail();
@@ -71,7 +82,7 @@ class TransactionController extends Controller
         $params = [
             'transaction_details' => [
                 'order_id' => $new_order_id,
-                'gross_amount' => (int) $transaction->gross_amount,
+                'gross_amount' => (int) round($transaction->gross_amount),
             ],
             'customer_details' => [
                 'first_name' => auth()->user()->name,
@@ -94,14 +105,18 @@ class TransactionController extends Controller
 
     public function cancelTransaction($id)
     {
-        $transaction = Transaction::findOrFail($id);
+        // FIX BUG #3: PROTEKSI KEPEMILIKAN!
+        // Sekarang cuma user yang bikin pesanannya yang bisa ngehapus.
+        $transaction = Transaction::where('id', $id)
+                                  ->where('user_id', auth()->id())
+                                  ->firstOrFail();
 
-        // Opsional: Pastikan hanya transaksi 'pending' yang bisa dihapus
+        // Pastikan hanya transaksi 'pending' yang bisa dihapus
         if ($transaction->transaction_status === 'pending') {
             $transaction->delete(); // Hapus dari database
             return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan dan dihapus dari riwayat.');
         }
 
-        return redirect()->back()->with('error', 'Pesanan ini tidak dapat dibatalkan.');
+        return redirect()->back()->with('error', 'Pesanan ini tidak dapat dibatalkan karena statusnya sudah diproses.');
     }
 }

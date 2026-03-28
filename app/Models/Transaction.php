@@ -19,6 +19,7 @@ class Transaction extends Model
         'address',
         'payment_type',
         'transaction_status',
+        'is_hidden'
     ];
 
     // (Opsional) Relasi ke tabel User, supaya nanti gampang panggil data pelanggannya

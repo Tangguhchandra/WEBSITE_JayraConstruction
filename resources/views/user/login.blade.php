@@ -151,7 +151,7 @@
                             <input type="checkbox" name="remember" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer transition-all">
                             <span class="text-[13px] font-medium text-slate-500 group-hover:text-primary transition-colors">Ingat Saya</span>
                         </label>
-                        <a href="{{ route('reset-password') }}" class="text-[13px] font-semibold text-primary hover:text-accent transition-colors">Lupa Password?</a>
+                        <a href="{{ route('password.request') }}" class="text-[13px] font-semibold text-primary hover:text-accent transition-colors">Lupa Password?</a>
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-4 pt-4 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.5s;">

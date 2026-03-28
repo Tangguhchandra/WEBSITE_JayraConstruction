@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -64,6 +63,12 @@
 
     <main class="w-full max-w-[700px] bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(16,55,92,0.12)] p-8 sm:p-12 relative z-10 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.2s;">
         
+        @if ($errors->any())
+            <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm mb-6 font-medium">
+                {{ $errors->first() }}
+            </div>
+        @endif
+
         <div class="w-full mx-auto" 
              x-data="{ 
                  showPass: false, 
@@ -92,32 +97,31 @@
                  }
              }">
             
-            <form action="#" method="POST" class="flex flex-col">
+            <form action="{{ route('password.update') }}" method="POST" class="flex flex-col">
                 @csrf
+                
+                <input type="hidden" name="token" value="{{ $token ?? '' }}">
+                <input type="hidden" name="email" value="{{ request()->email ?? old('email') }}">
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
                     
                     <div class="space-y-1.5 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.3s;">
                         <label class="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Password Baru</label>
                         <div class="relative group">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>
-                            </div>
                             <input :type="showPass ? 'text' : 'password'" name="password" required x-model="password"
-                                   class="w-full pl-12 pr-11 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-primary text-sm font-medium focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
+                                   class="w-full pl-4 pr-11 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-[#10375C] text-sm font-medium focus:bg-white focus:border-[#10375C]/30 outline-none transition-all"
                                    placeholder="Masukan Password Baru">
-                            <button type="button" @click="showPass = !showPass" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-primary transition-colors focus:outline-none">
-                                <svg x-show="!showPass" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                                <svg x-show="showPass" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.882 9.881L4.59 4.59m9.542 9.542l5.87 5.87M21 12a10.05 10.05 0 00-1.226-4.91m-7.954-4.69A9.992 9.992 0 0012 5c4.478 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
+                            <button type="button" @click="showPass = !showPass" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-[#10375C] outline-none">
+                                <span class="text-xs font-bold" x-text="showPass ? 'HIDE' : 'SHOW'"></span>
                             </button>
                         </div>
                         
-                        <div x-show="password.length > 0" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="pt-1">
+                        <div x-show="password.length > 0" class="pt-1">
                             <div class="flex h-1.5 w-full bg-slate-200 rounded-full overflow-hidden">
                                 <div class="h-full transition-all duration-500 ease-out" :class="strengthColor" :style="`width: ${(strengthScore / 4) * 100}%`"></div>
                             </div>
                             <div class="flex justify-between items-center mt-1.5">
-                                <p class="text-[10px] text-slate-500 font-medium">Keamanan: <span class="font-bold transition-colors" :class="{'text-red-500': strengthScore <= 1, 'text-yellow-500': strengthScore === 2 || strengthScore === 3, 'text-green-500': strengthScore === 4}" x-text="strengthLabel"></span></p>
+                                <p class="text-[10px] text-slate-500 font-medium">Keamanan: <span class="font-bold" :class="{'text-red-500': strengthScore <= 1, 'text-yellow-500': strengthScore === 2 || strengthScore === 3, 'text-green-500': strengthScore === 4}" x-text="strengthLabel"></span></p>
                             </div>
                         </div>
                     </div>
@@ -125,15 +129,11 @@
                     <div class="space-y-1.5 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.4s;">
                         <label class="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">Konfirmasi Password</label>
                         <div class="relative group">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                            </div>
                             <input :type="showConfPass ? 'text' : 'password'" name="password_confirmation" required 
-                                   class="w-full pl-12 pr-11 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-primary text-sm font-medium focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
-                                   placeholder="Konfirmasi Password Baru">
-                            <button type="button" @click="showConfPass = !showConfPass" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-primary transition-colors focus:outline-none">
-                                <svg x-show="!showConfPass" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                                <svg x-show="showConfPass" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.882 9.881L4.59 4.59m9.542 9.542l5.87 5.87M21 12a10.05 10.05 0 00-1.226-4.91m-7.954-4.69A9.992 9.992 0 0012 5c4.478 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
+                                   class="w-full pl-4 pr-11 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 text-[#10375C] text-sm font-medium focus:bg-white focus:border-[#10375C]/30 outline-none transition-all"
+                                   placeholder="Ulangi Password Baru">
+                            <button type="button" @click="showConfPass = !showConfPass" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-[#10375C] outline-none">
+                                <span class="text-xs font-bold" x-text="showConfPass ? 'HIDE' : 'SHOW'"></span>
                             </button>
                         </div>
                     </div>
@@ -141,17 +141,13 @@
                 </div>
 
                 <div class="flex flex-col-reverse sm:flex-row justify-between gap-4 pt-6 border-t border-slate-100 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.5s;">
-                    <a href="{{ url('login') }}" 
-                       class="w-full sm:w-[150px] flex items-center justify-center px-6 py-3.5 rounded-xl border-2 border-slate-200 text-slate-600 font-semibold text-sm transition-all duration-300 hover:border-primary hover:text-primary hover:bg-slate-50 group">
-                        <svg class="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                        Back
+                    <a href="{{ route('login') }}" class="w-full sm:w-[150px] flex items-center justify-center px-6 py-3.5 rounded-xl border-2 border-slate-200 text-slate-600 font-semibold text-sm hover:border-[#10375C] hover:text-[#10375C] hover:bg-slate-50 transition-all">
+                        Batal
                     </a>
                     
-                    <a href="{{ url('login') }}" 
-                       class="w-full sm:w-auto sm:flex-1 bg-primary text-white py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:bg-primaryDark hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30 flex items-center justify-center gap-2">
-                        Simpan Password
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                    </a>
+                    <button type="submit" class="w-full sm:w-auto sm:flex-1 bg-[#10375C] text-white py-3.5 rounded-xl font-semibold text-sm hover:bg-[#0b2742] hover:-translate-y-1 shadow-lg transition-all flex items-center justify-center gap-2">
+                        Simpan Password Baru
+                    </button>
                 </div>
             </form>
 

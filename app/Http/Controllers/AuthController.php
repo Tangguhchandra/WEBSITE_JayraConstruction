@@ -55,7 +55,7 @@ class AuthController extends Controller
         }
 
         // Cek OTP & Kadaluarsa
-        if ($user->otp === $request->otp_code && now()->lessThanOrEqualTo($user->otp_expires_at)) {
+        if ($user->otp == $request->otp_code && now()->lessThanOrEqualTo($user->otp_expires_at)) {
             $user->update([
                 'email_verified_at' => now(),
                 'otp' => null,
