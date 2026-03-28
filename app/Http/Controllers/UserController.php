@@ -80,4 +80,28 @@ class UserController extends Controller
         $user->delete();
         return back()->with('success', 'User berhasil dihapus!');
     }
+
+    public function updateProfile(\Illuminate\Http\Request $request)
+    {
+        // 1. Validasi inputan user
+        $request->validate([
+            'name' => 'required|string|max:255',
+            // Username harus unik, tapi abaikan kalau itu username dia sendiri saat ini
+            'username' => 'required|string|max:255|unique:users,username,' . auth()->id(),
+            'phone' => 'nullable|string|max:20',
+        ], [
+            'username.unique' => 'Username ini sudah digunakan, silakan pilih yang lain.',
+        ]);
+
+        // 2. Update data ke database
+        $user = \App\Models\User::find(auth()->id());
+        $user->update([
+            'name' => $request->name,
+            'username' => $request->username,
+            'phone' => $request->phone,
+        ]);
+
+        // 3. Kembalikan ke halaman profil dengan pesan sukses
+        return redirect()->back()->with('success', 'Profil Anda berhasil diperbarui!');
+    }
 }

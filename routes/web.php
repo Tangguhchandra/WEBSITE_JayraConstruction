@@ -90,6 +90,12 @@ Route::name('user.')->group(function () {
         return view('user.profil', compact('transactions')); 
     })->name('profil')->middleware('auth');
 
+    // Rute untuk update profil
+// Pastikan namanya persis 'user.profil.update'
+    Route::put('/profil/update', [\App\Http\Controllers\UserController::class, 'updateProfile'])
+    ->middleware('auth')
+    ->name('profil.update');
+
     // ==========================================
     // ALUR PEMBAYARAN (CHECKOUT -> QRIS -> SUKSES)
     // ==========================================
@@ -178,6 +184,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/verification', function () { return view('user.verification'); })->name('verification');
 Route::post('/verification', [AuthController::class, 'verifyOtp'])->name('verification.post');
 Route::get('/verification-success', function () { return view('user.verification-success'); })->name('verification-success');
+Route::post('/otp/resend', [AuthController::class, 'resendOtp'])->name('otp.resend');
+
 
 // 1. Tampilkan form minta email
 Route::get('/lupa-password', function () {

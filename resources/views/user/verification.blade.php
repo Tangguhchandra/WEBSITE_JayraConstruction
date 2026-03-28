@@ -76,13 +76,24 @@
     <main class="w-full max-w-[540px] bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(16,55,92,0.12)] p-8 sm:p-12 relative z-10 opacity-0-initial animate-fade-in-up" style="animation-delay: 0.2s;">
         
         <div class="w-full mx-auto" x-data="otpLogic()">
+
+            {{-- Notifikasi Sukses --}}
+            @if (session('success'))
+                <div class="bg-green-50 border border-green-100 text-green-600 px-4 py-3 rounded-xl text-sm font-medium mb-6 text-center">
+                    {{ session('success') }}
+                </div>
+            @endif
             
+            {{-- Notifikasi Error --}}
             @if ($errors->any())
                 <div class="bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm font-medium mb-6 text-center">
                     {{ $errors->first() }}
                 </div>
             @endif
 
+            {{-- ============================================== --}}
+            {{-- FORM 1: UNTUK VERIFIKASI OTP (VERIFY NOW) --}}
+            {{-- ============================================== --}}
             <form action="{{ route('verification.post') }}" method="POST" class="flex flex-col items-center">
                 @csrf
                 
@@ -111,34 +122,41 @@
                 </div>
 
                 <div class="w-full opacity-0-initial animate-fade-in-up" style="animation-delay: 0.5s;">
-                    <button type="submit" 
-                            class="w-full bg-primary text-white py-4 rounded-xl font-bold text-[15px] tracking-wide transition-all duration-300 hover:bg-primaryDark hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/30 flex items-center justify-center gap-3 group">
+                    <button type="submit" class="w-full bg-primary text-white py-4 rounded-xl font-bold text-[15px] tracking-wide transition-all duration-300 hover:bg-primaryDark hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/30 flex items-center justify-center gap-3 group">
                         Verify Now
                         <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </button>
                 </div>
-
-                <div class="mt-8 text-center text-sm opacity-0-initial animate-fade-in-up" style="animation-delay: 0.6s;">
-                    <p class="text-slate-500 font-medium">
-                        Tidak Menerima Code? 
-                        
-                        <button type="button" 
-                                x-show="canResend" 
-                                @click="resendCode()"
-                                x-transition:enter="transition ease-out duration-300" 
-                                x-transition:enter-start="opacity-0 scale-95" 
-                                x-transition:enter-end="opacity-100 scale-100"
-                                class="font-bold text-primary hover:text-accent hover:underline underline-offset-4 decoration-2 transition-colors ml-1 focus:outline-none">
-                            Kirim Ulang Kode
-                        </button>
-
-                        <span x-show="!canResend" class="font-bold text-slate-400 ml-1">
-                            Tunggu <span x-text="timer" class="text-primary w-5 inline-block text-left"></span>s
-                        </span>
-                    </p>
-                </div>
             </form>
 
+            {{-- ============================================== --}}
+            {{-- BAGIAN BAWAH: KIRIM ULANG (TERPISAH DARI FORM 1) --}}
+            {{-- ============================================== --}}
+            <div class="mt-8 text-center text-sm opacity-0-initial animate-fade-in-up" style="animation-delay: 0.6s;">
+                <div class="text-slate-500 font-medium flex items-center justify-center gap-1">
+                    Tidak Menerima Code? 
+                    
+                    {{-- Form Kirim Ulang (Pasti Jalan pakai type="submit") --}}
+                    <form action="{{ route('otp.resend') }}" method="POST" class="m-0 p-0">
+                        @csrf          
+                        <button type="submit" 
+                            x-cloak
+                            x-show="canResend" 
+                            x-transition:enter="transition ease-out duration-300" 
+                            x-transition:enter-start="opacity-0 scale-95" 
+                            x-transition:enter-end="opacity-100 scale-100"
+                            class="font-bold text-primary hover:text-accent hover:underline underline-offset-4 decoration-2 transition-colors focus:outline-none">
+                            Kirim Ulang Kode
+                        </button>
+                    </form>
+
+                    {{-- Timer --}}
+                    <span x-show="!canResend" x-cloak class="font-bold text-slate-400">
+                        Tunggu <span x-text="timer" class="text-primary w-5 inline-block text-left"></span>s
+                    </span>
+                </div>
+            </div>
+            
         </div>
     </main>
 
@@ -190,10 +208,9 @@
                 },
 
                 resendCode() {
-                    console.log('Mengirim ulang kode...');
-                    this.startTimer();
-                    this.otp = ['', '', '', '', '']; // Kosongkan form
-                    this.focusInput(0); // Kembali ke awal
+                    console.log('Mengirim ulang kode ke server...');
+                    // Ini yang bikin form beneran dikirim ke backend Laravel lu!
+                    document.getElementById('form-resend-otp').submit(); 
                 },
 
                 handleInput(index, event) {

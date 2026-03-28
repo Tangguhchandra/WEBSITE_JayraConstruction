@@ -4,7 +4,77 @@
 
 @section('content')
 
-<div class="pt-32 pb-0 bg-slate-50/50">
+<div class="pt-32 pb-0 bg-slate-50/50" x-data="{ 
+    showEditModal: false, 
+    showModal: false, 
+    selectedTrx: null 
+}">
+    {{-- ================= NOTIFIKASI ALERT ================= --}}
+    
+    {{-- Notifikasi Sukses --}}
+    @if(session('success'))
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)"
+             x-transition:enter="transition ease-out duration-500"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-300"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             class="max-w-7xl mx-auto px-6 mb-6 relative z-50">
+            <div class="bg-green-50/90 backdrop-blur-md border border-green-200 rounded-2xl p-4 flex items-center justify-between shadow-lg shadow-green-900/5">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 shadow-sm border border-green-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-green-600 uppercase tracking-widest mb-0.5">Berhasil</p>
+                        <p class="text-sm font-bold text-green-900">{{ session('success') }}</p>
+                    </div>
+                </div>
+                <button @click="show = false" class="text-green-600 hover:text-green-800 hover:bg-green-100 p-2 rounded-xl transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+        </div>
+    @endif
+
+    {{-- Notifikasi Error / Validasi Gagal --}}
+    @if(session('error') || $errors->any())
+        <div x-data="{ show: true }" x-show="show"
+             x-transition:enter="transition ease-out duration-500"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-300"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             class="max-w-7xl mx-auto px-6 mb-6 relative z-50">
+            <div class="bg-red-50/90 backdrop-blur-md border border-red-200 rounded-2xl p-4 flex items-start sm:items-center justify-between shadow-lg shadow-red-900/5">
+                <div class="flex items-start sm:items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 shadow-sm border border-red-200 shrink-0 mt-1 sm:mt-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mb-0.5">Terdapat Kesalahan</p>
+                        <div class="text-sm font-bold text-red-900">
+                            @if(session('error'))
+                                <p>{{ session('error') }}</p>
+                            @endif
+                            @if($errors->any())
+                                <ul class="list-disc list-inside mt-1 space-y-1">
+                                    @foreach($errors->all() as $error)
+                                        <li class="font-medium text-xs">{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <button @click="show = false" class="text-red-600 hover:text-red-800 hover:bg-red-100 p-2 rounded-xl transition-colors shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+        </div>
+    @endif
 
     {{-- ================= HEADER PROFIL (DATA REAL) ================= --}}
     <section class="max-w-7xl mx-auto px-6 mb-12">
@@ -29,7 +99,7 @@
             </div>
             
             <div class="relative z-10 mt-4 md:mt-0 flex-shrink-0 flex flex-col gap-3 w-full md:w-auto">
-                <button class="flex items-center justify-center gap-2 bg-white hover:bg-accent text-primary px-8 py-3.5 rounded-xl font-bold text-sm transition-all duration-300 shadow-xl group/btn">
+                <button @click="showEditModal = true" type="button" class="flex items-center justify-center gap-2 bg-white hover:bg-accent text-primary px-8 py-3.5 rounded-xl font-bold text-sm transition-all duration-300 shadow-xl group/btn w-full md:w-auto">
                     <svg class="w-5 h-5 group-hover/btn:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                     Edit Profil
                 </button>
@@ -85,24 +155,34 @@
                 </div>
             </div>
 
-            {{-- Kartu Bantuan Cepat --}}
-            <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-[2rem] p-8 border border-slate-200 text-center relative overflow-hidden group">
-                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]"></div>
-                <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center mx-auto mb-4 text-accent shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            {{-- Kartu Komunitas / Sosial Media (Desain Bersih & Elegan) --}}
+            <div class="bg-white rounded-[2rem] p-8 text-center relative overflow-hidden group shadow-[0_10px_40px_-10px_rgba(16,55,92,0.08)] border border-slate-100">
+                {{-- Background Pattern (Sangat Tipis) --}}
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.02]"></div>
+                
+                {{-- Aksen Kuning Jayra di Pojok --}}
+                <div class="absolute -right-10 -top-10 w-32 h-32 bg-accent/20 rounded-full blur-[30px] group-hover:scale-150 transition-transform duration-700 pointer-events-none"></div>
+
+                {{-- Ikon Sosmed --}}
+                <div class="relative z-10 w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-primary border border-slate-100 group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path></svg>
                 </div>
-                <h4 class="font-bold text-primary mb-2">Butuh Bantuan?</h4>
-                <p class="text-xs text-slate-500 mb-5 leading-relaxed">Tim dukungan kami siap membantu menjawab pertanyaan seputar layanan dan akun Anda.</p>
-                <a href="{{ route('user.contact') }}" class="inline-block w-full py-3 px-4 bg-white border border-slate-200 text-primary font-bold text-sm rounded-xl hover:border-primary hover:text-primary transition-colors shadow-sm">
-                    Hubungi Support
+                
+                <h4 class="font-bold text-primary mb-2 relative z-10">Tetap Terhubung!</h4>
+                <p class="text-xs text-slate-500 mb-6 leading-relaxed relative z-10">Dapatkan tips bangun rumah, tren arsitektur terkini, dan info menarik lainnya di sosial media kami.</p>
+                
+                {{-- Tombol Sosmed --}}
+                <a href="#" target="_blank" class="relative z-10 flex items-center justify-center gap-2 w-full py-3.5 px-4 bg-primary text-white font-bold text-sm rounded-xl hover:bg-primaryDark transition-all duration-300 shadow-lg hover:-translate-y-1">
+                    {{-- Ikon Instagram (Warna Kuning Accent) --}}
+                    <svg class="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    Follow Instagram Kami
                 </a>
             </div>
 
         </div>
 
         {{-- BLOK KANAN: Riwayat Layanan & Banner (8 Kolom) --}}
-        {{-- Alpine Component untuk mengatur Modal Detail --}}
-        <div class="lg:col-span-8 space-y-8" x-data="{ selectedTrx: null, showModal: false }">
+        <div class="lg:col-span-8 space-y-8">
             
             {{-- Panel Riwayat Layanan --}}
             <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-[0_10px_40px_-10px_rgba(16,55,92,0.08)] border border-slate-100 reveal delay-200 h-full flex flex-col">
@@ -186,7 +266,6 @@
                         </a>
                     </div>
                 @endif
-
             </div>
 
             {{-- MODAL DETAIL TRANSAKSI --}}
@@ -281,10 +360,71 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        </div>
+        </div> {{-- Ini penutup blok kanan (lg:col-span-8) --}}
     </section>
-</div>
+
+    {{-- ================= MODAL EDIT PROFIL ================= --}}
+    <div x-show="showEditModal" style="display: none;" class="fixed inset-0 z-[100] flex items-center justify-center px-4" x-cloak>
+        {{-- Backdrop --}}
+        <div class="absolute inset-0 bg-primary/80 backdrop-blur-sm transition-opacity" @click="showEditModal = false"
+             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
+
+        {{-- Modal Panel --}}
+        <div class="bg-white rounded-3xl w-full max-w-md relative z-10 shadow-2xl overflow-hidden"
+             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+            
+            {{-- Header Modal --}}
+            <div class="bg-slate-50 border-b border-slate-100 px-6 py-4 flex items-center justify-between">
+                <h3 class="font-bold text-primary flex items-center gap-2">
+                    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    Edit Profil Anda
+                </h3>
+                <button @click="showEditModal = false" class="text-slate-400 hover:text-red-500 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            {{-- Form Edit --}}
+            <form action="{{ route('user.profil.update') }}" method="POST" class="p-6 space-y-5">
+                @csrf
+                @method('PUT')
+                
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Nama Lengkap</label>
+                    <input type="text" name="name" value="{{ Auth::user()->name }}" required 
+                           class="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-primary text-sm focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all">
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Username</label>
+                    <input type="text" name="username" value="{{ Auth::user()->username }}" required 
+                           class="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-primary text-sm focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all">
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">No. Handphone</label>
+                    <input type="text" name="phone" value="{{ Auth::user()->phone }}" placeholder="Contoh: 08123456789"
+                           class="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-primary text-sm focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all">
+                </div>
+
+                {{-- Catatan: Email sengaja tidak dibikin edit di sini karena biasanya butuh verifikasi ulang --}}
+
+                <div class="pt-4 flex gap-3">
+                    <button type="button" @click="showEditModal = false" class="w-1/3 bg-slate-100 text-slate-600 font-bold py-3.5 rounded-xl hover:bg-slate-200 transition-colors text-sm">
+                        Batal
+                    </button>
+                    <button type="submit" class="w-2/3 bg-primary text-white font-bold py-3.5 rounded-xl hover:bg-primaryDark transition-all hover:-translate-y-1 shadow-lg text-sm flex items-center justify-center gap-2">
+                        Simpan Perubahan
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div> {{-- INI PENUTUP ATAP x-data UTAMA --}}
 
 @endsection
