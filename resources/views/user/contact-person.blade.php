@@ -100,42 +100,81 @@
         </div>
     </section>
 
-   {{-- ================= OFFICE LOCATION (FOOTER CTA) ================= --}}
-    <section class="py-24 max-w-7xl mx-auto px-6">
-        <div class="bg-white rounded-[3rem] border border-slate-200 p-8 md:p-16 flex flex-col lg:flex-row items-center gap-16 shadow-sm">
-            <div class="lg:w-1/2 space-y-8">
-                <h2 class="font-display text-4xl font-extrabold text-primary tracking-tight">Kunjungi Studio <br><span class="text-accent">Konstruksi Kami</span></h2>
-                <div class="space-y-6">
-                    <div class="flex items-start gap-5">
-                        <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-primary flex-shrink-0">
+  {{-- ================= OFFICE LOCATION (PREMIUM CTA) ================= --}}
+    <section class="py-24 max-w-7xl mx-auto px-6 relative">
+        {{-- Dekorasi Latar Belakang Blur --}}
+        <div class="absolute top-1/2 left-0 w-72 h-72 bg-accent/10 rounded-full blur-[80px] -translate-y-1/2 pointer-events-none"></div>
+
+        <div class="bg-white rounded-[3rem] border border-slate-100 p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row items-center gap-12 lg:gap-20 shadow-[0_20px_60px_-15px_rgba(16,55,92,0.08)] relative overflow-hidden group">
+            
+            {{-- Aksen Garis di Sudut --}}
+            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/5 to-transparent rounded-bl-full pointer-events-none"></div>
+
+            {{-- Kolom Kiri: Info Teks --}}
+            <div class="lg:w-1/2 space-y-10 relative z-10">
+                <div>
+                    <span class="text-accent font-bold tracking-widest uppercase text-xs mb-3 block">Kantor Pusat Kami</span>
+                    <h2 class="font-display text-4xl lg:text-5xl font-extrabold text-primary tracking-tight leading-tight">
+                        Mari Berjumpa di <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Basecamp Jayra</span>
+                    </h2>
+                </div>
+
+                <div class="space-y-8">
+                    {{-- Alamat --}}
+                    <div class="flex items-start gap-5 group/item">
+                        <div class="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-primary flex-shrink-0 group-hover/item:bg-primary group-hover/item:text-accent transition-all duration-300 shadow-sm">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-primary">Alamat Kantor</h4>
-                            <p class="text-slate-500 font-light">Jl. Raya Utama No. 123, Central Business District, Kota Anda 12345</p>
+                        <div class="pt-1">
+                            <h4 class="font-bold text-primary text-lg mb-1">Alamat Resmi</h4>
+                            {{ $companyProfile->address ?? 'Desa Pejurukan, RT02/RW01, Kec. Kalibagor, Banyumas, Jawa Tengah 53191' }}
                         </div>
                     </div>
-                    <div class="flex items-start gap-5">
-                        <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-primary flex-shrink-0">
+
+                    {{-- Jam Buka --}}
+                    <div class="flex items-start gap-5 group/item">
+                        <div class="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-primary flex-shrink-0 group-hover/item:bg-primary group-hover/item:text-accent transition-all duration-300 shadow-sm">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-primary">Jam Operasional</h4>
-                            <p class="text-slate-500 font-light">Senin - Sabtu: 09:00 - 17:00 WIB</p>
+                        <div class="pt-1">
+                            <h4 class="font-bold text-primary text-lg mb-1">Jam Operasional</h4>
+                            <p class="text-slate-500 font-light leading-relaxed">Senin - Sabtu <br> <span class="font-medium text-slate-700">08:00 - 16:30 WIB</span></p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            {{-- Bagian Map (Placeholder) --}}
-            <div class="lg:w-1/2 w-full h-[400px] bg-slate-200 rounded-[2.5rem] overflow-hidden relative shadow-inner group">
-                <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2066&auto=format&fit=crop" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-1000">
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <a href="https://maps.google.com/?q=Purwokerto,Banyumas" target="_blank" class="px-8 py-4 bg-white text-primary font-bold rounded-2xl shadow-xl hover:bg-primary hover:text-white transition-all transform active:scale-95">
-                        Buka Google Maps
+            {{-- Kolom Kanan: Peta Interaktif (Visual) --}}
+            <div class="lg:w-1/2 w-full h-[450px] bg-slate-100 rounded-[2.5rem] overflow-hidden relative shadow-[inset_0_4px_20px_rgba(0,0,0,0.05)] group/map">
+                {{-- Gambar Peta (Bisa ganti pakai gambar Google Maps screenshot daerah Banyumas kalau ada) --}}
+                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop" class="w-full h-full object-cover opacity-90 group-hover/map:scale-110 transition-transform duration-1000 grayscale-[30%]">
+                
+                {{-- Overlay Gradasi Biar Tombol Kelihatan Jelas --}}
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/20 to-primary/80"></div>
+                
+                {{-- Animasi Pin Lokasi di Tengah --}}
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+                    <div class="relative flex items-center justify-center">
+                        <div class="absolute w-12 h-12 bg-accent rounded-full animate-ping opacity-60"></div>
+                        <div class="relative w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center text-accent">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+                        </div>
+                    </div>
+                    <div class="mt-3 px-4 py-1.5 bg-white/90 backdrop-blur-sm rounded-full shadow-lg">
+                        <span class="text-xs font-bold text-primary tracking-wide">Jayra Construction</span>
+                    </div>
+                </div>
+
+                {{-- Tombol Buka Maps --}}
+                <div class="absolute bottom-8 left-0 right-0 flex justify-center px-6">
+                    {{-- Ganti URL di bawah dengan link Google Maps beneran punya kamu --}}
+                    <a href="https://maps.google.com" target="_blank" class="w-full max-w-sm flex items-center justify-center gap-3 py-4 px-8 bg-white/10 backdrop-blur-md border border-white/30 text-white font-bold rounded-2xl shadow-xl hover:bg-white hover:text-primary transition-all duration-300 transform active:scale-95 group/btn">
+                        <svg class="w-5 h-5 group-hover/btn:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                        Buka Petunjuk Arah di Maps
                     </a>
                 </div>
             </div>
+
         </div>
     </section>
 

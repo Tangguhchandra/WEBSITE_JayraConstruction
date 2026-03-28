@@ -19,7 +19,7 @@
 
             <h1 class="font-display text-4xl sm:text-5xl lg:text-[64px] font-extrabold text-primary leading-[1.1] tracking-tight mb-6">
                 Membangun <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Lebih Baik,</span> <br>
+                <span class=" bg-clip-text bg-gradient-to-r from-primary to-accent">Lebih Baik,</span> <br>
                 Lebih Kuat.
             </h1>
 
@@ -259,6 +259,23 @@
     <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[100px]"></div>
     <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-[80px]"></div>
 
+    @php
+        // Ambil data profil perusahaan dari database seperti di Footer
+        $companyProfile = \App\Models\CompanyProfile::first();
+        
+        // Atur nilai default kalau datanya kosong
+        $alamat = $companyProfile->address ?? 'Desa Pejurukan, RT02/RW01, Kec. Kalibagor, Banyumas, Jawa Tengah 53191';
+        $email  = $companyProfile->email ?? 'cv.darmingjayagrup@gmail.com';
+        $phone  = $companyProfile->phone ?? '+62 857-7236-4659';
+        
+        // Membersihkan nomor telepon untuk link WA (hapus +, spasi, atau strip)
+        $waLink = preg_replace('/[^0-9]/', '', $phone);
+        // Pastikan depannya 62 (bukan 0) untuk link wa.me
+        if (substr($waLink, 0, 1) == '0') {
+            $waLink = '62' . substr($waLink, 1);
+        }
+    @endphp
+
     <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-20 relative z-10 items-center">
         
         {{-- Info Kontak Kiri --}}
@@ -273,9 +290,9 @@
 
             <div class="space-y-6">
                 @foreach([
-                    ['icon' => 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z', 'title' => 'Kantor Pusat', 'text' => 'Desa Pejurukan, RT02/RW01, Kec. Kalibagor, Banyumas, Jawa Tengah 53191'],
-                    ['icon' => 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', 'title' => 'Alamat Email', 'text' => 'cv.darmingjayagrup@gmail.com'],
-                    ['icon' => 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z', 'title' => 'Layanan Telepon', 'text' => '+62 857-7236-4659'],
+                    ['icon' => 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z', 'title' => 'Kantor Pusat', 'text' => $alamat],
+                    ['icon' => 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', 'title' => 'Alamat Email', 'text' => $email],
+                    ['icon' => 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z', 'title' => 'Layanan Telepon', 'text' => $phone],
                 ] as $contact)
                 <div class="flex items-start gap-5 group cursor-pointer">
                     <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-primary transition-all duration-300 flex-shrink-0 mt-0.5">
@@ -290,7 +307,7 @@
             </div>
         </div>
 
-        {{-- 🔥 FIX 2: Ganti Formulir Ribet Menjadi Card WA Direct Fast Response 🔥 --}}
+        {{-- Card WA Direct Fast Response Kanan --}}
         <div class="reveal reveal-right delay-200">
             <div class="bg-white rounded-[2rem] p-8 sm:p-12 shadow-2xl flex flex-col items-center text-center relative overflow-hidden">
                 {{-- Aksen Latar Estetik --}}
@@ -308,8 +325,9 @@
                     Katakan selamat tinggal pada formulir yang merepotkan. Tim admin profesional kami siap merespon pertanyaan Anda secara instan kapan saja.
                 </p>
 
-                <a href="https://wa.me/6285772364659" target="_blank" class="w-full bg-[#25D366] text-white py-4 px-8 rounded-xl font-bold text-[15px] hover:bg-[#128C7E] hover:-translate-y-1 hover:shadow-xl hover:shadow-[#25D366]/30 transition-all duration-300 flex items-center justify-center gap-3 relative z-10">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01a1.05 1.05 0 00-.768.356c-.297.322-1.138 1.114-1.138 2.716 0 1.602 1.165 3.153 1.328 3.37.163.22 2.298 3.504 5.568 4.908.777.34 1.383.543 1.854.694.78.347 1.492.298 2.053.18.625-.13 1.758-.718 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <a href="https://wa.me/{{ $waLink }}" target="_blank" class="w-full bg-[#25D366] text-white py-4 px-8 rounded-xl font-bold text-[15px] hover:bg-[#128C7E] hover:-translate-y-1 hover:shadow-xl hover:shadow-[#25D366]/30 transition-all duration-300 flex items-center justify-center gap-3 relative z-10">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01a1.05 1.05 0 00-.768.356c-.297.322-1.138 1.114-1.138 2.716 0 1.602 1.165 3.153 1.328 3.37.163.22 2.298 3.504 5.568 4.908.777.34 1.383.543 1.854.694.78.347 1.492.298 2.053.18.625-.13 1.758-.718 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
                     Chat WA Sekarang
                 </a>
 
