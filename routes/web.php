@@ -39,7 +39,7 @@ Route::name('user.')->group(function () {
 
     // Halaman Tentang Kami
     Route::get('/about', function () { 
-        $profile = \App\Models\CompanyProfile::first();
+        $profile = \App\Models\CompanyProfile::first() ?? new \App\Models\CompanyProfile();
         $projects = \App\Models\Project::latest()->take(5)->get(); 
         return view('user.about', compact('profile', 'projects')); 
     })->name('about');
