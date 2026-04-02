@@ -134,6 +134,7 @@ class AuthController extends Controller
     }
 
     // ================= LOGIKA LOGIN & LOGOUT =================
+   // ================= LOGIKA LOGIN & LOGOUT =================
     public function login(Request $request)
     {
         $request->validate([
@@ -149,14 +150,12 @@ class AuthController extends Controller
             $user = Auth::user();
 
             // --- SATPAM VERIFIKASI ---
-            // Cek apakah akun sudah di-verifikasi (email_verified_at ada isinya)
+            // Cek apakah akun sudah di-verifikasi (kolom email_verified_at ada isinya)
             if (is_null($user->email_verified_at)) {
-                // Kalau belum, logout paksa
+                // Logout biasa SAJA, JANGAN pakai invalidate() biar ingatan sistem ga keriset
                 Auth::logout();
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
 
-                // Simpan ID-nya ke session biar dia bisa verifikasi / kirim ulang kode
+                // Simpan ID-nya ke session biar dia bisa verifikasi OTP
                 session(['verify_user_id' => $user->id]);
                 
                 // Lempar ke halaman OTP bawa pesan error
@@ -164,7 +163,7 @@ class AuthController extends Controller
             }
             // --------------------------
 
-            // Kalau lolos, jalanin sesi normal
+            // Kalau lolos (sudah diverifikasi), baru jalanin sesi normal yang aman
             $request->session()->regenerate();
 
             // --- INI LOGIKA ROLE-NYA ---

@@ -20,12 +20,13 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
+        'phone',
         'password',
-        'username',       // Tambahan
-        'phone',          // Tambahan
-        'role',           // Tambahan
-        'otp',            // Tambahan
-        'otp_expires_at', // Tambahan
+        'role',
+        'otp',                // <-- PASTIKAN INI ADA
+        'otp_expires_at',     // <-- PASTIKAN INI ADA
+        'email_verified_at',  // <-- INI BIANG KEROKNYA, PASTIKAN ADA!
     ];
 
     /**

@@ -40,7 +40,7 @@
 
         <div class="relative reveal reveal-right delay-200 flex justify-center lg:justify-end">
             <div class="relative w-full max-w-[480px] aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl animate-float border-[8px] border-white">
-                <img src="https://images.unsplash.com/photo-1541888086425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop" alt="Construction Engineer" class="w-full h-full object-cover">
+                <img src="{{ asset('images/HeroUtama.jpg') }}" alt="Construction Engineer" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent"></div>
                 
                 <div class="absolute bottom-8 left-8 bg-white/95 backdrop-blur-sm p-4 rounded-2xl shadow-lg flex items-center gap-4">
@@ -127,7 +127,6 @@
             </p>
         </div>
 
-        {{-- 🔥 FIX 1: Disesuaikan menjadi grid 2 kolom agar 4 layanan tampil rapi 2x2 🔥 --}}
         <div class="grid md:grid-cols-2 gap-8">
             @foreach([
                 [
@@ -168,7 +167,6 @@
     </div>
 </section>
 
-{{-- ================= PROJECTS ================= --}}
 {{-- ================= PROJECTS ================= --}}
 <section id="projects" class="py-24 bg-white">
     <div class="max-w-7xl mx-auto px-6">
