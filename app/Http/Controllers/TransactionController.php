@@ -11,7 +11,7 @@ class TransactionController extends Controller
 {
     public function proses(Request $request)
     {
-        // 1. VALIDASI DATA MASUK (Memperbaiki Bug #10)
+        // 1. VALIDASI DATA MASUK
         $request->validate([
             'order_id' => 'required|string',
             'gross_amount' => 'required|numeric',
@@ -19,30 +19,22 @@ class TransactionController extends Controller
             'address' => 'required|string',
         ]);
 
-        // 2. BULATKAN ANGKA (Memperbaiki Bug #14 - Midtrans benci angka desimal)
         $gross_amount = (int) round($request->gross_amount);
 
-        // 3. Konfigurasi Midtrans
+        // 👇 INI TRIKNYA BANG! Bikin Order ID selalu unik tiap diklik
+        $unique_order_id = $request->order_id . '-' . rand(100, 999);
+        // 👆 ========================================================
+
+        // 3. Konfigurasi Midtrans (Ini kunci lu udah bener kebaca tadi!)
         \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
         \Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
         \Midtrans\Config::$isSanitized = true;
         \Midtrans\Config::$is3ds = true;
 
-        // 4. SIMPAN KE DATABASE KITA SEBAGAI 'PENDING'
-        Transaction::create([
-            'user_id' => auth()->id(),
-            'order_id' => $request->order_id,
-            'service_name' => $request->service_name ?? 'Layanan Jayra Construction',
-            'gross_amount' => $gross_amount, // Pakai yang udah dibulatkan
-            'phone' => $request->phone,         
-            'address' => $request->address,
-            'transaction_status' => 'pending',
-        ]);
-
-        // 5. Siapkan Data Transaksi Midtrans
+        // 4. Siapkan Data Transaksi Midtrans
         $params = [
             'transaction_details' => [
-                'order_id' => $request->order_id,
+                'order_id' => $unique_order_id, // PAKE YANG UNIK
                 'gross_amount' => $gross_amount,
             ],
             'customer_details' => [
@@ -52,8 +44,21 @@ class TransactionController extends Controller
             ],
         ];
 
-        // 6. Dapatkan Snap Token dari Midtrans
+        // 5. Dapatkan Snap Token dari Midtrans
         $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+        // 6. SIMPAN KE DATABASE KITA
+        Transaction::updateOrCreate(
+            ['order_id' => $unique_order_id], // Simpan pakai ID yang unik juga
+            [
+                'user_id' => auth()->id(),
+                'service_name' => $request->service_name ?? 'Layanan Jayra Construction',
+                'gross_amount' => $gross_amount,
+                'phone' => $request->phone,         
+                'address' => $request->address,
+                'transaction_status' => 'pending',
+            ]
+        );
 
         return view('user.detail-pembayaran', compact('snapToken', 'request'));
     }
