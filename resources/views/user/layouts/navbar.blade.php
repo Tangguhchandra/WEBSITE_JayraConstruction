@@ -99,11 +99,11 @@
         </div>
 
         <div class="flex-1 overflow-y-auto px-8 py-10 flex flex-col gap-6">
-            <a href="{{ route('user.home') }}" class="font-display text-3xl font-extrabold {{ request()->routeIs('user.home') ? 'text-accent' : 'text-primary hover:text-accent' }} transition-colors">Home</a>
-            <a href="{{ route('user.about') }}" class="font-display text-3xl font-extrabold {{ request()->routeIs('user.about') ? 'text-accent' : 'text-primary hover:text-accent' }} transition-colors">Profile</a>
-            <a href="{{ route('user.service') }}" class="font-display text-3xl font-extrabold {{ request()->routeIs('user.service') ? 'text-accent' : 'text-primary hover:text-accent' }} transition-colors">Service</a>
-            <a href="{{ route('user.project') }}" class="font-display text-3xl font-extrabold {{ request()->routeIs('user.project') ? 'text-accent' : 'text-primary hover:text-accent' }} transition-colors">Project</a>
-            <a href="{{ route('user.contact') }}" class="font-display text-3xl font-extrabold {{ request()->routeIs('user.contact') ? 'text-accent' : 'text-primary hover:text-accent' }} transition-colors">Contact</a>
+            <a href="{{ route('user.home') }}" class="font-display text-2xl font-extrabold {{ request()->routeIs('user.home') ? 'text-accent' : 'text-primary hover:text-accent' }} transition-colors">Beranda</a>
+            <a href="{{ route('user.about') }}" class="font-display text-2xl font-extrabold {{ request()->routeIs('user.about') ? 'text-accent' : 'text-primary hover:text-accent' }} transition-colors">Tentang</a>
+            <a href="{{ route('user.service') }}" class="font-display text-2xl font-extrabold {{ request()->routeIs('user.service') ? 'text-accent' : 'text-primary hover:text-accent' }} transition-colors">Layanan</a>
+            <a href="{{ route('user.project') }}" class="font-display text-2xl font-extrabold {{ request()->routeIs('user.project') ? 'text-accent' : 'text-primary hover:text-accent' }} transition-colors">Proyek</a>
+            <a href="{{ route('user.contact') }}" class="font-display text-2xl font-extrabold {{ request()->routeIs('user.contact') ? 'text-accent' : 'text-primary hover:text-accent' }} transition-colors">Kontak</a>
             
             <hr class="my-4 border-slate-100">
 
