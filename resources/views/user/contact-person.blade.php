@@ -11,7 +11,7 @@
         <div class="text-center max-w-2xl mx-auto mb-16 reveal">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
                 <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-                <span class="text-xs font-bold text-primary uppercase tracking-widest">Our Team</span>
+                <span class="text-xs font-bold text-primary uppercase tracking-widest">Tim Kami</span>
             </div>
             <h1 class="font-display text-4xl md:text-5xl font-extrabold text-primary mb-4 tracking-tight">
                 Kontak Tim Kami
@@ -168,7 +168,7 @@
                 {{-- Tombol Buka Maps --}}
                 <div class="absolute bottom-8 left-0 right-0 flex justify-center px-6">
                     {{-- Ganti URL di bawah dengan link Google Maps beneran punya kamu --}}
-                    <a href="https://maps.google.com" target="_blank" class="w-full max-w-sm flex items-center justify-center gap-3 py-4 px-8 bg-white/10 backdrop-blur-md border border-white/30 text-white font-bold rounded-2xl shadow-xl hover:bg-white hover:text-primary transition-all duration-300 transform active:scale-95 group/btn">
+                    <a href="https://maps.app.goo.gl/npSMAsjsmxCe82Ue8" target="_blank" class="w-full max-w-sm flex items-center justify-center gap-3 py-4 px-8 bg-white/10 backdrop-blur-md border border-white/30 text-white font-bold rounded-2xl shadow-xl hover:bg-white hover:text-primary transition-all duration-300 transform active:scale-95 group/btn">
                         <svg class="w-5 h-5 group-hover/btn:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
                         Buka Petunjuk Arah di Maps
                     </a>

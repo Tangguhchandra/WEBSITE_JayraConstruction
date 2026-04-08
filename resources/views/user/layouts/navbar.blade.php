@@ -19,11 +19,11 @@
 
             {{-- Menu Tengah (Desktop) --}}
             <div class="hidden md:flex items-center gap-10">
-                <a href="{{ route('user.home') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.home') ? 'text-accent' : 'text-primary hover:text-accent' }}">Home</a>
-                <a href="{{ route('user.about') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.about') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">About</a>
-                <a href="{{ route('user.service') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.service') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">Service</a>
-                <a href="{{ route('user.project') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.project') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">Project</a>
-                <a href="{{ route('user.contact') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.contact') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">Contact</a>
+                <a href="{{ route('user.home') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.home') ? 'text-accent' : 'text-primary hover:text-accent' }}">Beranda</a>
+                <a href="{{ route('user.about') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.about') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">Tentang</a>
+                <a href="{{ route('user.service') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.service') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">Layanan</a>
+                <a href="{{ route('user.project') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.project') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">Proyek</a>
+                <a href="{{ route('user.contact') }}" class="text-base font-semibold transition-colors {{ request()->routeIs('user.contact') ? 'text-accent' : 'text-slate-500 hover:text-primary' }}">Kontak</a>
             </div>
 
             {{-- ================= TOMBOL LOGIN / PROFIL (DESKTOP) ================= --}}

@@ -14,7 +14,7 @@
         <div class="reveal reveal-left">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
                 <span class="w-2 h-2 rounded-full bg-accent"></span>
-                <span class="text-xs font-bold text-primary uppercase tracking-widest">About Us</span>
+                <span class="text-xs font-bold text-primary uppercase tracking-widest">Tentang Kami</span>
             </div>
             
             <h1 class="font-display text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-primary leading-tight mb-6 tracking-tight">
@@ -68,7 +68,7 @@
     
     <div class="max-w-6xl mx-auto px-6 relative z-10 text-center">
         
-        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-6 tracking-tight reveal">Our Project</h2>
+        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-6 tracking-tight reveal">Proyek Kami</h2>
         <p class="text-slate-300 font-light text-lg max-w-2xl mx-auto mb-16 reveal delay-100">
             Berikut adalah beberapa proyek yang telah kami kerjakan sebagai wujud komitmen dalam menghadirkan kualitas, ketepatan, dan kepuasan klien di setiap pembangunan.
         </p>
@@ -103,7 +103,7 @@
 
         <div class="mt-12 flex justify-end reveal delay-300">
             <a href="{{ route('user.project') }}" class="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-primary font-bold text-[14px] rounded-xl hover:bg-accent hover:text-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group">
-                See More Project
+                Lihat Proyek Lainnya
                 <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </a>
         </div>

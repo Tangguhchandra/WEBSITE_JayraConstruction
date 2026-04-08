@@ -14,10 +14,10 @@
         <nav class="flex items-center gap-2 text-sm font-medium text-slate-400 mb-10 reveal">
             <a href="{{ route('user.home') }}" class="hover:text-primary transition-colors flex items-center gap-1.5">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                Home
+                Beranda
             </a>
             <svg class="w-3.5 h-3.5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            <span class="text-primary font-semibold">Project</span>
+            <span class="text-primary font-semibold">Proyek</span>
         </nav>
 
         <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -25,7 +25,7 @@
             <div class="reveal">
                 <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent/10 border border-accent/20 mb-6 shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-                    <span class="text-xs font-bold text-primary uppercase tracking-widest">Our Portfolio</span>
+                    <span class="text-xs font-bold text-primary uppercase tracking-widest">Portfolio Kami</span>
                 </div>
                 
                 <h1 class="font-display text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-primary leading-tight mb-6 tracking-tight">
@@ -39,10 +39,10 @@
 
                 <div class="flex gap-4">
                     <a href="#portfolio" class="px-8 py-3.5 bg-white border border-slate-200 text-primary font-bold text-[14px] rounded-xl hover:border-primary hover:bg-slate-50 transition-all duration-300">
-                        Our Portfolio
+                        Portfolio Kami
                     </a>
                     <a href="{{ route('user.about') }}" class="px-8 py-3.5 bg-primary text-white font-bold text-[14px] rounded-xl shadow-lg hover:bg-primaryDark hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 flex items-center gap-2">
-                        More Information
+                        Informasi Lebih Lanjut
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </a>
                 </div>
@@ -54,7 +54,7 @@
                     <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300"></div>
                 </div>
                 <div class="rounded-[2rem] overflow-hidden shadow-lg border-4 border-white group cursor-pointer relative bg-slate-100">
-                    <img src="https://images.unsplash.com/photo-1541888086425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300"></div>
                 </div>
                 <div class="rounded-[2rem] overflow-hidden shadow-lg border-4 border-white group cursor-pointer relative bg-slate-100">
@@ -75,10 +75,10 @@
             <div class="max-w-2xl">
                 <div class="inline-flex items-center gap-2 mb-4">
                     <span class="w-8 h-px bg-accent"></span>
-                    <span class="text-xs font-bold text-accent uppercase tracking-widest">Our Project</span>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest">Proyek Kami</span>
                 </div>
                 <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary tracking-tight">
-                    Jelajahi Semua <span class="text-accent">Project</span> Kami Yang <span class="text-accent">Sudah Selesai</span>
+                    Jelajahi Semua <span class="text-accent">Proyek</span> Kami Yang <span class="text-accent">Sudah Selesai</span>
                 </h2>
             </div>
             <p class="text-sm font-light text-slate-500 max-w-sm border-l-2 border-slate-200 pl-4">
@@ -88,7 +88,7 @@
 
         {{-- Filter Buttons (Sementara kita hapus x-data filter karena butuh logic JS tambahan untuk database) --}}
         <div class="flex flex-wrap items-center gap-3 mb-12 reveal delay-100">
-            <span class="bg-primary text-white border-primary px-5 py-2 rounded-full border text-xs font-bold uppercase tracking-wider transition-all shadow-sm">All Portfolio</span>
+            <span class="bg-primary text-white border-primary px-5 py-2 rounded-full border text-xs font-bold uppercase tracking-wider transition-all shadow-sm">Semua Portfolio</span>
             {{-- Tombol kategori lainnya bisa ditambahkan nanti dengan logic filter backend --}}
         </div>
 

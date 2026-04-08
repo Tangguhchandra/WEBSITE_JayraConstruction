@@ -14,7 +14,7 @@
         <div class="max-w-2xl reveal">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
                 <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-                <span class="text-xs font-bold text-primary uppercase tracking-widest">Build Your Dream Home</span>
+                <span class="text-xs font-bold text-primary uppercase tracking-widest">Bangun Rumah Impianmu</span>
             </div>
 
             <h1 class="font-display text-4xl sm:text-5xl lg:text-[64px] font-extrabold text-primary leading-[1.1] tracking-tight mb-6">
@@ -29,7 +29,7 @@
 
             <div class="flex flex-col sm:flex-row gap-4">
                 <a href="#contact" class="px-8 py-4 bg-primary text-white rounded-xl font-semibold text-[15px] hover:bg-primaryDark hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 text-center flex items-center justify-center gap-2 group">
-                    Mulai Project
+                    Mulai Proyek
                     <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </a>
                 <a href="{{ route('user.about') }}" class="px-8 py-4 bg-white border-2 border-slate-200 text-primary rounded-xl font-semibold text-[15px] hover:border-primary hover:bg-slate-50 transition-all duration-300 text-center">
@@ -177,7 +177,7 @@
                 <p class="text-slate-500 font-light text-lg">Inspirasi mahakarya konstruksi dari berbagai portofolio eksklusif yang telah sukses kami selesaikan.</p>
             </div>
             <a href="{{ route('user.project') }}" class="hidden md:flex items-center gap-2 text-primary font-bold hover:text-accent transition-colors pb-1 border-b-2 border-transparent hover:border-accent mt-4 md:mt-0">
-                Lihat Semua Project <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                Lihat Semua Proyek <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </a>
         </div>
 
