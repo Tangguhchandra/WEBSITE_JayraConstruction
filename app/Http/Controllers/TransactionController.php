@@ -26,10 +26,11 @@ class TransactionController extends Controller
         // 👆 ========================================================
 
         // 3. Konfigurasi Midtrans (Ini kunci lu udah bener kebaca tadi!)
-        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        \Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
-        \Midtrans\Config::$isSanitized = true;
-        \Midtrans\Config::$is3ds = true;
+        \Midtrans\Config::$serverKey    = config('midtrans.server_key');
+		\Midtrans\Config::$clientKey    = config('midtrans.client_key');
+	\Midtrans\Config::$isProduction = config('midtrans.is_production');
+	\Midtrans\Config::$isSanitized  = true;
+	\Midtrans\Config::$is3ds        = true;
 
         // 4. Siapkan Data Transaksi Midtrans
         $params = [
